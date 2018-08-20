@@ -55,9 +55,9 @@ namespace WorldLib.Models
         {
         }
 
-        public DbSet<Discussion> Discussions { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public  DbSet<Discussion> Discussions { get; set; }
+        public  DbSet<Comment> Comments { get; set; }
+        public  DbSet<Category> Categories { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

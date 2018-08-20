@@ -1,6 +1,5 @@
 namespace WorldLib.Migrations
 {
-    using Microsoft.AspNet.Identity;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -27,60 +26,6 @@ namespace WorldLib.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-            //context.Users.AddOrUpdate(
-            //    new Models.ApplicationUser
-            //    {
-            //        Email = "adminsupport@mail.ru",
-            //        PasswordHash = new PasswordHasher().HashPassword("123qwe")
-            //    }
-            //    );
-
-            //context.Categories.AddOrUpdate(new Models.Category { Name = "Классика" }, new Models.Category { Name = "Фантастика" });
-
-            //context.Discussions.AddOrUpdate(
-            //    new Models.Discussion
-            //    {
-            //        Name = "Мир классической литературы",
-            //        Category = context.Categories.Find(1),
-            //        Description = "Какой то текст",
-            //        DateTime = DateTime.Now,
-            //        Status = Models.DiscussionStatusEnum.Publish
-            //    },
-            //      new Models.Discussion
-            //      {
-            //          Name = "В мире фантастики",
-            //          Category = context.Categories.Find(2),
-            //          Description = "Какой то текст",
-            //          DateTime = DateTime.Now,
-            //          Status = Models.DiscussionStatusEnum.Publish
-            //    }
-            //    );
-
-            //context.Comments.AddOrUpdate(
-            //    new Models.Comment
-            //    {
-            //        CreationDateTime = DateTime.Now,
-            //        Text = "Первый комментарий для теста",
-            //        Discussion = context.Discussions.Find(1),
-            //        User = context.Users.FirstOrDefault()
-            //    },
-            //     new Models.Comment
-            //     {
-            //         CreationDateTime = DateTime.Now,
-            //         Text = "Второй комментарий для теста",
-            //         Discussion = context.Discussions.Find(1),
-            //         User = context.Users.FirstOrDefault()
-            //     },
-            //      new Models.Comment
-            //      {
-            //          CreationDateTime = DateTime.Now,
-            //          Text = "Третий комментарий для теста",
-            //          Discussion = context.Discussions.Find(2),
-            //          User = context.Users.FirstOrDefault()
-            //      }
-            //    );
-            //context.SaveChanges();
         }
     }
 }

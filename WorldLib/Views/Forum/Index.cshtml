@@ -1,7 +1,33 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@using WorldLib.Models;
+@model  ForumViewModel
 
-<h2>Index</h2>
+<h2>@User.Identity.Name</h2>
+
+
+<div class="container">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">Обсуждение</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <div class="well">
+                        <ul class="nav nav-pills nav-stacked">
+                            @foreach (var discussion in Model.Discussions)
+                            {
+                                <li style="font-size:28px"><a href="~/Forum/Comments/@discussion.Id">@discussion.Name</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    @{Html.RenderPartial("CategoriesPartialView", Model.Categories.ToList());}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
 

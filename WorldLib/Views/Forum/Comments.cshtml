@@ -1,0 +1,43 @@
+﻿@using WorldLib.Models
+@model List<Comment>
+@{
+    ViewBag.Title = "Comments";
+}
+
+<div class="well">
+    @if (Model.FirstOrDefault()?.Discussion.Name != null)
+    {
+        <h2>@Model.FirstOrDefault().Discussion.Name</h2>
+    }
+    else
+    {
+        <h4>В этом обсуждении пока отсутствуют комментарии ..</h4>
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+
+        @foreach (var comment in Model)
+        {
+            <div class="alert alert-success">
+                <span class="text-info">@comment.Text</span>  <i class="label label-default">(@comment.User.Email)</i>
+            </div>
+        }
+
+        @using (Ajax.BeginForm("AddComment", new AjaxOptions { }))
+        {
+            <textarea cols="10" rows="5" name="Text"></textarea>
+            <input type="submit" value="добаить" />
+            <input type="hidden" name="DiscussionId" value="@Model.FirstOrDefault().Discussion.Id" />
+        }
+
+    </div>
+    <div class="col-md-4">
+        @{Html.RenderPartial("CategoriesPartialView", ViewBag.CategoriesList as List<Category>);}
+    </div>
+</div>
+
+
+
+

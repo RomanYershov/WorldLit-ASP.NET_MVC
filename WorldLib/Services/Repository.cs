@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using WorldLib.Models;
 
@@ -49,6 +50,20 @@ namespace WorldLib.Services
         public void Update(T model)
         {
             _context.Entry(model).State = EntityState.Modified;
+        }
+
+        public IEnumerable<T> GetWithInclude(Func<T, bool> predicate,
+    params Expression<Func<T, object>>[] includeProperties)
+        {
+            var query = Include(includeProperties);
+            return query.Where(predicate).ToList();
+        }
+
+        private IQueryable<T> Include(params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _dbSet.AsNoTracking();
+            return includeProperties
+                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
     }
 }

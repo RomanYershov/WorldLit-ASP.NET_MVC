@@ -1,0 +1,14 @@
+﻿@using WorldLib.Models
+@model List<Category>
+
+<div class="well">
+    <h3>Категории</h3>
+    <table class="table table-bordered">
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+            </tr>
+        }
+    </table>
+</div>
