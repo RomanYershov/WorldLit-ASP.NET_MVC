@@ -3,7 +3,7 @@ namespace WorldLib.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CreateTables : DbMigration
+    public partial class MyTestMigration : DbMigration
     {
         public override void Up()
         {
@@ -23,11 +23,11 @@ namespace WorldLib.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Text = c.String(),
                         CreationDateTime = c.DateTime(nullable: false),
-                        Discussion_Id = c.Int(),
+                        Discussion_Id = c.Int(nullable: false),
                         User_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Discussions", t => t.Discussion_Id)
+                .ForeignKey("dbo.Discussions", t => t.Discussion_Id, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
                 .Index(t => t.Discussion_Id)
                 .Index(t => t.User_Id);
