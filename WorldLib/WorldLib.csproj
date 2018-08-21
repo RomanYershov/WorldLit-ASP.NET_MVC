@@ -196,16 +196,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808201558167_CreateTables.cs" />
-    <Compile Include="Migrations\201808201558167_CreateTables.Designer.cs">
-      <DependentUpon>201808201558167_CreateTables.cs</DependentUpon>
+    <Compile Include="Migrations\201808211636533_CreateMigration.cs" />
+    <Compile Include="Migrations\201808211636533_CreateMigration.Designer.cs">
+      <DependentUpon>201808211636533_CreateMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808211729441_ChangeCommentTable.cs" />
+    <Compile Include="Migrations\201808211729441_ChangeCommentTable.Designer.cs">
+      <DependentUpon>201808211729441_ChangeCommentTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
+    <Compile Include="Models\CommentsByDiscussionViewModel.cs" />
     <Compile Include="Models\ForumViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IModelBuilder.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IRepository.cs" />
     <Compile Include="Services\Repository.cs" />
@@ -289,8 +296,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808201558167_CreateTables.resx">
-      <DependentUpon>201808201558167_CreateTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808211636533_CreateMigration.resx">
+      <DependentUpon>201808211636533_CreateMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808211729441_ChangeCommentTable.resx">
+      <DependentUpon>201808211729441_ChangeCommentTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

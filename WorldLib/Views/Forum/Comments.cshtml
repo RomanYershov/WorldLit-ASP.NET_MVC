@@ -1,13 +1,13 @@
 ﻿@using WorldLib.Models
-@model List<Comment>
+@model CommentsByDiscussionViewModel
 @{
     ViewBag.Title = "Comments";
 }
 
 <div class="well">
-    @if (Model.FirstOrDefault()?.Discussion.Name != null)
+    @if (Model.Discussion != null)
     {
-        <h2>@Model.FirstOrDefault().Discussion.Name</h2>
+        <h2>@Model.Discussion.Name</h2>
     }
     else
     {
@@ -18,19 +18,23 @@
 <div class="row">
     <div class="col-md-8">
 
-        @foreach (var comment in Model)
+        @foreach (var comment in Model.Comments)
         {
             <div class="alert alert-success">
-                <span class="text-info">@comment.Text</span>  <i class="label label-default">(@comment.User.Email)</i>
+                <span class="text-info">@comment.Text</span>  <i class="label label-default">(@comment.UserName)</i>
             </div>
         }
 
-        @using (Ajax.BeginForm("AddComment", new AjaxOptions { }))
+        @if (User.Identity.IsAuthenticated)
         {
-            <textarea cols="10" rows="5" name="Text"></textarea>
-            <input type="submit" value="добаить" />
-            <input type="hidden" name="DiscussionId" value="@Model.FirstOrDefault().Discussion.Id" />
+            using (Ajax.BeginForm("AddComment", new AjaxOptions { }))
+            {
+                <textarea cols="10" rows="5" name="Text"></textarea>
+                <input type="submit" value="добаить" />
+                <input type="hidden" name="DiscussionId" value="@Model.Discussion.Id" />
+            }
         }
+
 
     </div>
     <div class="col-md-4">

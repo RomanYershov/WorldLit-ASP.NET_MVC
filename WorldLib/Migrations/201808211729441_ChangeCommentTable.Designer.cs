@@ -7,13 +7,13 @@ namespace WorldLib.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CreateTables : IMigrationMetadata
+    public sealed partial class ChangeCommentTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangeCommentTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808201558167_CreateTables"; }
+            get { return "201808211729441_ChangeCommentTable"; }
         }
         
         string IMigrationMetadata.Source

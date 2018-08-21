@@ -23,26 +23,26 @@ namespace WorldLib.Controllers.Forum
             ViewBag.CategoriesList = new Repository<Category>()
                 .Get();
 
-            var commentRep = new Repository<Comment>();
-            List<Comment> commentsFromDiscussion =
-                   commentRep.GetWithInclude(c => c.Discussion.Id == id, d => d.Discussion, u => u.User).ToList();
-            return View(commentsFromDiscussion);
+            var model = new CommentsByDiscussionViewModel();
+            model.CreateModel(id);
+            return View(model);
         }
 
-        public ActionResult AddComment(CommentCreateModel model)
+        
+        public ActionResult AddComment(CommentCreateModel model)//todo 
         {
             var commentRep = new Repository<Comment>();
-            var userRep = new Repository<ApplicationUser>();
+            
             var discussionRep = new Repository<Discussion>();
 
             Comment comment = new Comment
             {
                 CreationDateTime = DateTime.Now,
-                User = userRep.Get(x => x.UserName == User.Identity.Name).FirstOrDefault(),
-                Discussion = discussionRep.Get(x => x.Id == model.DiscussionId).FirstOrDefault(),
+                UserName = User.Identity.Name,
+                DiscussionId = model.DiscussionId,
                 Text = model.Text
             };
-            //commentRep.Create(comment);
+            commentRep.Create(comment);
             commentRep.Commit();
             return RedirectToAction("Comments", new { id = model.DiscussionId });
         }
