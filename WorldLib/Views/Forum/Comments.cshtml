@@ -20,14 +20,14 @@
 
         @foreach (var comment in Model.Comments)
         {
-            <div class="alert alert-success">
+            <div id="results" class="alert alert-success">
                 <span class="text-info">@comment.Text</span>  <i class="label label-default">(@comment.UserName)</i>
             </div>
         }
 
         @if (User.Identity.IsAuthenticated)
         {
-            using (Ajax.BeginForm("AddComment", new AjaxOptions { }))
+            using (Ajax.BeginForm("AddComment", new AjaxOptions { UpdateTargetId = "results"}))
             {
                 <textarea cols="10" rows="5" name="Text"></textarea>
                 <input type="submit" value="добаить" />
