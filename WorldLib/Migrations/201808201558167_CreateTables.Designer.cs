@@ -7,13 +7,13 @@ namespace WorldLib.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MyTestMigration : IMigrationMetadata
+    public sealed partial class CreateTables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MyTestMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateTables));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808201809336_MyTestMigration"; }
+            get { return "201808201558167_CreateTables"; }
         }
         
         string IMigrationMetadata.Source

@@ -196,9 +196,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808201809336_MyTestMigration.cs" />
-    <Compile Include="Migrations\201808201809336_MyTestMigration.Designer.cs">
-      <DependentUpon>201808201809336_MyTestMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201808201558167_CreateTables.cs" />
+    <Compile Include="Migrations\201808201558167_CreateTables.Designer.cs">
+      <DependentUpon>201808201558167_CreateTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -289,8 +289,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808201809336_MyTestMigration.resx">
-      <DependentUpon>201808201809336_MyTestMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808201558167_CreateTables.resx">
+      <DependentUpon>201808201558167_CreateTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

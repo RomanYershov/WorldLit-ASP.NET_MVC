@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,12 +32,6 @@ namespace WorldLib.Models
         public DateTime DateTime { get; set; }
         public DiscussionStatusEnum Status { get; set; }
         public Category Category { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-
-        public Discussion()
-        {
-            Comments = new List<Comment>();
-        }
     }
 
     public class Category
@@ -62,21 +55,9 @@ namespace WorldLib.Models
         {
         }
 
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Discussion>()
-                .HasMany(x => x.Comments)
-                .WithRequired(x => x.Discussion);
-
-
-            base.OnModelCreating(modelBuilder);
-        }
-
-
-        public DbSet<Discussion> Discussions { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public  DbSet<Discussion> Discussions { get; set; }
+        public  DbSet<Comment> Comments { get; set; }
+        public  DbSet<Category> Categories { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
