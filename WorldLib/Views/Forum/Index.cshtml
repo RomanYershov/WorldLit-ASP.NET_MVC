@@ -1,13 +1,10 @@
 ﻿@using WorldLib.Models;
 @model  ForumViewModel
 
-<h2>@User.Identity.Name</h2>
-
-
 <div class="container">
 
-    <div class="panel panel-primary">
-        <div class="panel-heading">Обсуждение</div>
+    <div class="panel panel-primary" style="border:none;" id="panel-container">
+        <div class="panel-heading"><h4>Обсуждение</h4></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-8 text-center">
@@ -29,5 +26,9 @@
         </div>
     </div>
 </div>
+
+ <style>
+   
+ </style>
 
 

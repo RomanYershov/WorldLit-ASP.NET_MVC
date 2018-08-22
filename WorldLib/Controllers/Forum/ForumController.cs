@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WorldLib.Models;
@@ -44,7 +45,7 @@ namespace WorldLib.Controllers.Forum
             };
             commentRep.Create(comment);
             commentRep.Commit();
-            return RedirectToAction("Comments", new { id = model.DiscussionId });
+            return  RedirectToAction("Comments", new { id = model.DiscussionId });
         }
     }
 }

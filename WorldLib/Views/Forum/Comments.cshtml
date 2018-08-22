@@ -4,43 +4,73 @@
     ViewBag.Title = "Comments";
 }
 
-<div class="well">
-    @if (Model.Discussion != null)
-    {
-        <h2>@Model.Discussion.Name</h2>
-    }
-    else
-    {
-        <h4>В этом обсуждении пока отсутствуют комментарии ..</h4>
-    }
-</div>
+<div class="container">
+    <div class="panel panel-primary" style="border:none" id="panel-container">
+        <div class="panel-heading text-center" onclick="blockClick()" id="block-disc">
 
-<div class="row">
-    <div class="col-md-8">
-
-        @foreach (var comment in Model.Comments)
-        {
-            <div id="results" class="alert alert-success">
-                <span class="text-info">@comment.Text</span>  <i class="label label-default">(@comment.UserName)</i>
-            </div>
-        }
-
-        @if (User.Identity.IsAuthenticated)
-        {
-            using (Ajax.BeginForm("AddComment", new AjaxOptions { UpdateTargetId = "results"}))
+            @if (Model.Discussion != null)
             {
-                <textarea cols="10" rows="5" name="Text"></textarea>
-                <input type="submit" value="добаить" />
-                <input type="hidden" name="DiscussionId" value="@Model.Discussion.Id" />
+                <h4>@Model.Discussion.Name</h4>
+
             }
-        }
+            else
+            {
+                <h4>В этом обсуждении пока отсутствуют комментарии ..</h4>
+            }
 
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <div id="results" style="margin-bottom:1px; color:coral" class="alert-success alert ">
+                            <span class="text-success" style="color:black;">@comment.Text</span>  <i style="float:right;" class="label text-success">(@comment.UserName)</i>
+                        </div>
+                    }
 
-    </div>
-    <div class="col-md-4">
-        @{Html.RenderPartial("CategoriesPartialView", ViewBag.CategoriesList as List<Category>);}
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Ajax.BeginForm("AddComment", new AjaxOptions { UpdateTargetId = "results" }))
+                        {
+                            <textarea cols="100" rows="5" name="Text"></textarea>
+                            <input class="btn btn-block btn-info" type="submit" value="добваить" />
+                            <input type="hidden" name="DiscussionId" value="@Model.Discussion.Id" />
+                        }
+                    }
+                </div>
+                <div class="col-md-4 text-center">
+                    @{Html.RenderPartial("CategoriesPartialView", ViewBag.CategoriesList as List<Category>);}
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+
+
+
+<script>
+    var block = document.getElementById('block-disc');
+    function blockClick() {
+        window.location.href = "../../Forum/Index"
+    }
+</script>
+
+<style>
+    #block-disc {
+        cursor: pointer;
+    }
+
+        #block-disc:hover {
+            color: aliceblue;
+            box-shadow: 0px 15px 10px -15px #111;
+        }
+    /*#panel-container {
+        box-shadow: -15px 0px 5px -15px #111;
+    }*/
+</style>
 
 
 
