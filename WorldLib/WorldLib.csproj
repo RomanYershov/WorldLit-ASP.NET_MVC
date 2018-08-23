@@ -208,6 +208,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
     <Compile Include="Models\CommentsByDiscussionViewModel.cs" />
+    <Compile Include="Models\DiscussionCreateModel.cs" />
     <Compile Include="Models\ForumViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IModelBuilder.cs" />
@@ -278,6 +279,7 @@
     <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Forum\CategoriesPartialView.cshtml" />
     <Content Include="Views\Forum\Comments.cshtml" />
+    <Content Include="Views\Forum\AddDiscussion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

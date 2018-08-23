@@ -47,5 +47,23 @@ namespace WorldLib.Controllers.Forum
             commentRep.Commit();
             return  RedirectToAction("Comments", new { id = model.DiscussionId });
         }
+
+        [HttpGet]
+        public ActionResult AddDiscussion(int id)
+        {
+            var categoryRep = new Repository<Category>();
+            var category = categoryRep.Get(x => x.Id == id).FirstOrDefault();
+            return PartialView(category);
+        }
+
+        [HttpPost]
+        public ActionResult AddDiscussion(DiscussionCreateModel model)
+        {
+            var discussionRep = new Repository<Discussion>();
+            var discussion = model.Create();
+            discussionRep.Create(discussion);
+            discussionRep.Commit();
+            return RedirectToAction("Index");
+        }
     }
 }

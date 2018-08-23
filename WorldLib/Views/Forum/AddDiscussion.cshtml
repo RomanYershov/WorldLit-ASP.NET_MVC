@@ -1,0 +1,43 @@
+﻿@model WorldLib.Models.Category
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Новое обсуждение в категории @Model.Name</h4>
+    </div>
+    <div class="modal-body">
+        
+            <form action="~/Forum/AddDiscussion" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">НАЗВАНИЕ</label>
+                    <textarea type="text" name="Name" class="form-control" id="exampleInputEmail1" />
+                    <small id="emailHelp" class="form-text text-muted">добавьте новое обсуждение</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Описание</label>
+                    <textarea type="text" name="Description" class="form-control" id="exampleInputEmail1"  />
+                    <small id="emailHelp" class="form-text text-muted">добавьте новое обсуждение</small>
+                </div>
+                @*<div class="form-group">
+                    @Html.EnumDropDownListFor(x => x.Name, "Select sex", new { @class = "form-control", type = "text" })
+                </div>*@
+               <div class="form-group">
+                   <input type="hidden" name="CategoryId" value="@Model.Id" />
+               </div>
+               
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        @*using (Ajax.BeginForm("AddDiscussion", new AjaxOptions { UpdateTargetId = "results" }))
+        {
+        <textarea cols="100" rows="5" name="Text"></textarea>
+        <input class="btn btn-block btn-info" type="submit" value="добваить" />
+        <input type="hidden" name="DiscussionId" value="@Model.Id" />
+        }*@
+      
+    </div>
+</div>
+
+
+
+
