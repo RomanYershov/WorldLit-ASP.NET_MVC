@@ -32,7 +32,7 @@ namespace WorldLib.Models
         public string Description { get; set; }
         public DateTime DateTime { get; set; }
         public DiscussionStatusEnum Status { get; set; }
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
     }
 
     public class Category

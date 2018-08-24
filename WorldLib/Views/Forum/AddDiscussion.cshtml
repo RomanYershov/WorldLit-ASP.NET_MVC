@@ -1,22 +1,22 @@
 ﻿@model WorldLib.Models.Category
 
 <div class="modal-content">
-    <div class="modal-header">
+    <div class="modal-header" style="background-color:#00796B;">
         <button class="close" data-dismiss="modal" area-hidden="true">X</button>
         <h4>Новое обсуждение в категории @Model.Name</h4>
     </div>
     <div class="modal-body">
         
-            <form action="~/Forum/AddDiscussion" method="post">
+            <form class="form-inline" action="~/Forum/AddDiscussion" method="post">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">НАЗВАНИЕ</label>
-                    <textarea type="text" name="Name" class="form-control" id="exampleInputEmail1" />
+                    <label for="inputName">НАЗВАНИЕ</label>
+                    <textarea type="text" name="Name" class="form-control" id="inputName" />
                     <small id="emailHelp" class="form-text text-muted">добавьте новое обсуждение</small>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Описание</label>
-                    <textarea type="text" name="Description" class="form-control" id="exampleInputEmail1"  />
-                    <small id="emailHelp" class="form-text text-muted">добавьте новое обсуждение</small>
+                    <label for="inputDescription">Описание</label>
+                    <textarea type="text" name="Description" class="form-control" id="inputDescription"  />
+                    
                 </div>
                 @*<div class="form-group">
                     @Html.EnumDropDownListFor(x => x.Name, "Select sex", new { @class = "form-control", type = "text" })
@@ -24,17 +24,8 @@
                <div class="form-group">
                    <input type="hidden" name="CategoryId" value="@Model.Id" />
                </div>
-               
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Добавить</button>
             </form>
-
-        @*using (Ajax.BeginForm("AddDiscussion", new AjaxOptions { UpdateTargetId = "results" }))
-        {
-        <textarea cols="100" rows="5" name="Text"></textarea>
-        <input class="btn btn-block btn-info" type="submit" value="добваить" />
-        <input type="hidden" name="DiscussionId" value="@Model.Id" />
-        }*@
-      
     </div>
 </div>
 

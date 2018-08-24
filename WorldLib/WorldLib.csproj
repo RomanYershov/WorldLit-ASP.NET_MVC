@@ -204,6 +204,10 @@
     <Compile Include="Migrations\201808211729441_ChangeCommentTable.Designer.cs">
       <DependentUpon>201808211729441_ChangeCommentTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808241642318_ChangedTableDiscussion.cs" />
+    <Compile Include="Migrations\201808241642318_ChangedTableDiscussion.Designer.cs">
+      <DependentUpon>201808241642318_ChangedTableDiscussion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -303,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808211729441_ChangeCommentTable.resx">
       <DependentUpon>201808211729441_ChangeCommentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241642318_ChangedTableDiscussion.resx">
+      <DependentUpon>201808241642318_ChangedTableDiscussion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

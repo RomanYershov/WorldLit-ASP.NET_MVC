@@ -27,7 +27,6 @@
         $(function () {
             $.ajaxSetup({ cache: false });
             $(".item-category").click(function (e) {
-
                 e.preventDefault();
                 $.get(this.href, function (data) {
                     $('#dialogContent').html(data);

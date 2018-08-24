@@ -35,7 +35,7 @@ namespace WorldLib.Controllers.Forum
             var commentRep = new Repository<Comment>();
             
             var discussionRep = new Repository<Discussion>();
-
+          
             Comment comment = new Comment
             {
                 CreationDateTime = DateTime.Now,
@@ -43,6 +43,10 @@ namespace WorldLib.Controllers.Forum
                 DiscussionId = model.DiscussionId,
                 Text = model.Text
             };
+            if (Request.IsAjaxRequest())
+            {
+                return Json(comment);
+            }
             commentRep.Create(comment);
             commentRep.Commit();
             return  RedirectToAction("Comments", new { id = model.DiscussionId });
