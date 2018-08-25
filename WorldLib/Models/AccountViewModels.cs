@@ -65,6 +65,11 @@ namespace WorldLib.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Имя(NikName)")]
+        public string NikName { get; set; }
+
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }

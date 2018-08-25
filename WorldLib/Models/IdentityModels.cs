@@ -17,7 +17,7 @@ namespace WorldLib.Models
             // Здесь добавьте утверждения пользователя
             return userIdentity;
         }
-       // public string UserId { get; set; }
+        public string NikName { get; set; }
     }
 
     public enum DiscussionStatusEnum
@@ -32,7 +32,7 @@ namespace WorldLib.Models
         public string Description { get; set; }
         public DateTime DateTime { get; set; }
         public DiscussionStatusEnum Status { get; set; }
-        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 
     public class Category
@@ -46,8 +46,8 @@ namespace WorldLib.Models
         public int Id { get; set; }
         public string Text { get; set; }
         public DateTime CreationDateTime { get; set; }
-        public int DiscussionId { get; set; }
-        public string UserName { get; set; }
+        public Discussion Discussion { get; set; }
+        public ApplicationUser User { get; set; }
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -64,10 +64,10 @@ namespace WorldLib.Models
             return new ApplicationDbContext();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<ApplicationUser>().HasKey(x => x.UserId);
-            base.OnModelCreating(modelBuilder);
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    //modelBuilder.Entity<ApplicationUser>().HasKey(x => x.UserId);
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using WorldLib.Services;
 
 namespace WorldLib.Models
@@ -15,7 +16,7 @@ namespace WorldLib.Models
             return new Discussion
             {
                 Name = Name,
-                CategoryId = CategoryId,
+                Category = categryRep.Get(x => x.Id == CategoryId).SingleOrDefault(),
                 Status = 0,
                 DateTime = DateTime.Now,
                 Description = Description

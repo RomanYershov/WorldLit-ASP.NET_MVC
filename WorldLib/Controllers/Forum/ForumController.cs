@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,12 +37,14 @@ namespace WorldLib.Controllers.Forum
             var commentRep = new Repository<Comment>();
             
             var discussionRep = new Repository<Discussion>();
-          
+
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+            .GetUserManager<ApplicationUserManager>();
             Comment comment = new Comment
             {
                 CreationDateTime = DateTime.Now,
-                UserName = User.Identity.Name,
-                DiscussionId = model.DiscussionId,
+                User = userManager.FindByEmail(User.Identity.Name),
+                Discussion = model.Discussion,
                 Text = model.Text
             };
             if (Request.IsAjaxRequest())
@@ -49,7 +53,7 @@ namespace WorldLib.Controllers.Forum
             }
             commentRep.Create(comment);
             commentRep.Commit();
-            return  RedirectToAction("Comments", new { id = model.DiscussionId });
+            return  RedirectToAction("Comments", new { id = model.Discussion.Id });
         }
 
         [HttpGet]

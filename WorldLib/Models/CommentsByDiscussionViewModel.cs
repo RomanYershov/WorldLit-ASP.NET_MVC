@@ -17,7 +17,7 @@ namespace WorldLib.Models
             
                 var commentRep = new Repository<Comment>();
 
-                Comments = commentRep.Get(x => x.DiscussionId == discussionId).ToList();
+                Comments = commentRep.Get(x => x.Discussion == Discussion).ToList();
                 Discussion = discRep.Get(x => x.Id == discussionId).SingleOrDefault();
             
         

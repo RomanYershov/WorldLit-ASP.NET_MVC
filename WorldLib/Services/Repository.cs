@@ -24,6 +24,7 @@ namespace WorldLib.Services
 
         public void Create(params T[] models)
         {
+            _dbSet.Attach(models[0]);
             _dbSet.AddRange(models);
         }
 

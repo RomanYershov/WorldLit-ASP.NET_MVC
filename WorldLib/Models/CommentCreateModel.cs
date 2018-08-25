@@ -8,6 +8,6 @@ namespace WorldLib.Models
     public class CommentCreateModel
     {
         public string Text { get; set; }
-        public int DiscussionId { get; set; }
+        public Discussion Discussion { get; set; }
     }
 }
