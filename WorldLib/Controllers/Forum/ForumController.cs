@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using WorldLib.Models;
 using WorldLib.Services;
@@ -13,7 +7,7 @@ namespace WorldLib.Controllers.Forum
 {
     public class ForumController : Controller
     {
-     
+
         public ActionResult Index()
         {
             var model = ForumViewModel.GetModel();
@@ -31,46 +25,39 @@ namespace WorldLib.Controllers.Forum
             return View(model);
         }
 
-        
+        [HttpPost]
         public ActionResult AddComment(CommentCreateModel model)//todo 
         {
-            var commentRep = new Repository<Comment>();
-            
-            var discussionRep = new Repository<Discussion>();
-
-            ApplicationUserManager userManager = HttpContext.GetOwinContext()
-            .GetUserManager<ApplicationUserManager>();
-            Comment comment = new Comment
+            using (var commentRep = new Repository<Comment>())
             {
-                CreationDateTime = DateTime.Now,
-                UserId =  User.Identity.GetUserId(),                                //userManager.FindByEmail(User.Identity.Name),
-                Discussion = model.Discussion,
-                Text = model.Text
-            };
-            if (Request.IsAjaxRequest())
-            {
-                return Json(comment);
+                Comment comment = model.Create();
+                commentRep.Create(comment);
+                commentRep.Commit();
             }
-            commentRep.Create(comment);
-            commentRep.Commit();
-            return  RedirectToAction("Comments", new { id = model.Discussion.Id });
+
+            return RedirectToAction("Comments", new { id = model.DiscussionId });
         }
 
         [HttpGet]
         public ActionResult AddDiscussion(int id)
         {
-            var categoryRep = new Repository<Category>();
-            var category = categoryRep.Get(x => x.Id == id).FirstOrDefault();
+            Category category;
+            using (var categoryRep = new Repository<Category>())
+            {
+                category = categoryRep.Get(x => x.Id == id).SingleOrDefault();
+            }
             return PartialView(category);
         }
 
         [HttpPost]
         public ActionResult AddDiscussion(DiscussionCreateModel model)
         {
-            var discussionRep = new Repository<Discussion>();
-            var discussion = model.Create();
-            discussionRep.Create(discussion);
-            discussionRep.Commit();
+            using (var discussionRep = new Repository<Discussion>())
+            {
+                Discussion discussion = model.Create();
+                discussionRep.Create(discussion);
+                discussionRep.Commit();
+            }
             return RedirectToAction("Index");
         }
     }

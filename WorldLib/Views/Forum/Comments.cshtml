@@ -25,16 +25,21 @@
                     @foreach (var comment in Model.Comments)
                     {
                         <div id="results" style="margin-bottom:1px; color:coral" class="alert-success alert ">
-                            <span class="text-success">@comment.Text</span>  <i style="float:right;" class="label text-success">(@comment.User.NikName)</i>
+                            <span  class="text-success">@comment.Text</span> 
+                           <div style="padding:8px 0 5px 14px">
+                               <small style="float:right;" class=" text-muted">@comment.User.NikName</small>
+                               <small style="float:left;" class="text-muted">@string.Format("/ {0} ~ {1} /", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())</small>
+                           </div>
                         </div>
                     }
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        using (Html.BeginForm("AddComment", "Forum"))
+                        using (Ajax.BeginForm("AddComment", new AjaxOptions { LoadingElementId = "results",
+                        InsertionMode = InsertionMode.InsertAfter}))
                         {
                             @Html.TextArea("Text");
-                            @Html.Editor("Discussion",Model.Discussion);
+                            @Html.Hidden("DiscussionId", Model.Discussion.Id);
                             <input class="btn btn-block btn-info" type="submit" value="добавить" />
                             //<input type="hidden" name="Discussion" value="@Model.Discussion" />
 

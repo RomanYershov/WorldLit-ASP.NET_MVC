@@ -6,19 +6,19 @@ using WorldLib.Services;
 
 namespace WorldLib.Models
 {
-    public  class CommentsByDiscussionViewModel
+    public class CommentsByDiscussionViewModel
     {
-        public  List<Comment> Comments { get; private set; }
-        public  Discussion Discussion { get; private set; }
+        public List<Comment> Comments { get; private set; }
+        public Discussion Discussion { get; private set; }
 
-        public  void CreateModel(int discussionId)
+        public void CreateModel(int discussionId)
         {
-            var discRep = new Repository<Discussion>();
-            
+            using (var discRep = new Repository<Discussion>())
+            {
                 var commentRep = new Repository<Comment>();
-
-            Comments = commentRep.Get(x => x.DiscussionId == discussionId).ToList();
-            Discussion = discRep.Get(x => x.Id == discussionId).SingleOrDefault();
+                Comments = commentRep.Get(x => x.DiscussionId == discussionId).ToList();
+                Discussion = discRep.Get(x => x.Id == discussionId).SingleOrDefault();
+            }
         }
     }
 }

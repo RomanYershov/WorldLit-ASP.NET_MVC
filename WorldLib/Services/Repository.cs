@@ -8,13 +8,17 @@ using WorldLib.Models;
 
 namespace WorldLib.Services
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : RepositoryBase, IRepository<T> where T : class
     {
-        private ApplicationDbContext _context;
         private DbSet<T> _dbSet;
         public Repository()
         {
             _context = new ApplicationDbContext();
+            _dbSet = _context.Set<T>();
+        }
+        public Repository(RepositoryBase repository)
+        {
+            _context = repository._context;
             _dbSet = _context.Set<T>();
         }
         public void Commit()
@@ -34,10 +38,7 @@ namespace WorldLib.Services
             _dbSet.Remove(model);
         }
 
-        public void Dispose()
-        {
-            Dispose();
-        }
+
 
         public IEnumerable<T> Get()
         {
@@ -66,6 +67,27 @@ namespace WorldLib.Services
             IQueryable<T> query = _dbSet.AsNoTracking();
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        }
+
+
+        private bool disposed = false;
+
+        public virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

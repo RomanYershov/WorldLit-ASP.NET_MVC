@@ -4,7 +4,7 @@ using WorldLib.Services;
 
 namespace WorldLib.Models
 {
-    public class DiscussionCreateModel
+    public class DiscussionCreateModel : IModelBuilder<Discussion>
     {
         public string Name { get; set; }
         public int CategoryId { get; set; }
