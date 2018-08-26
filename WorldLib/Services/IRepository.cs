@@ -8,9 +8,9 @@ namespace WorldLib.Services
 {
     interface IRepository<T> : IDisposable
     {
-        List<T> Get();
-        List<T> Get(Func<T, bool> predicate);
-        void Create(params T[] models);
+        IEnumerable<T> Get();
+        IEnumerable<T> Get(Func<T, bool> predicate);
+        void Create(T models);
         void Update(T model);
         void Delete(T model);
         void Commit();

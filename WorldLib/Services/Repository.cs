@@ -22,14 +22,15 @@ namespace WorldLib.Services
             _context.SaveChanges();
         }
 
-        public void Create(params T[] models)
+        public void Create(T models)
         {
-            _dbSet.Attach(models[0]);
-            _dbSet.AddRange(models);
+            _dbSet.Attach(models);
+            _dbSet.Add(models);
         }
 
         public void Delete(T model)
         {
+            _context.Entry(model).State = EntityState.Deleted;
             _dbSet.Remove(model);
         }
 
@@ -38,12 +39,12 @@ namespace WorldLib.Services
             Dispose();
         }
 
-        public List<T> Get()
+        public IEnumerable<T> Get()
         {
             return _dbSet.AsNoTracking().ToList();
         }
 
-        public List<T> Get(Func<T, bool> predicate)
+        public IEnumerable<T> Get(Func<T, bool> predicate)
         {
             return _dbSet.AsNoTracking().Where(predicate).ToList();
         }

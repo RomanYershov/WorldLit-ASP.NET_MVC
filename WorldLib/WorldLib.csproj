@@ -212,6 +212,14 @@
     <Compile Include="Migrations\201808251638011_BackTableSchem.Designer.cs">
       <DependentUpon>201808251638011_BackTableSchem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808260748258_AddUserIdToCommentsTable.cs" />
+    <Compile Include="Migrations\201808260748258_AddUserIdToCommentsTable.Designer.cs">
+      <DependentUpon>201808260748258_AddUserIdToCommentsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808260812565_AddDiscussionIdToCommentsTable.cs" />
+    <Compile Include="Migrations\201808260812565_AddDiscussionIdToCommentsTable.Designer.cs">
+      <DependentUpon>201808260812565_AddDiscussionIdToCommentsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -320,6 +328,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808251638011_BackTableSchem.resx">
       <DependentUpon>201808251638011_BackTableSchem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808260748258_AddUserIdToCommentsTable.resx">
+      <DependentUpon>201808260748258_AddUserIdToCommentsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808260812565_AddDiscussionIdToCommentsTable.resx">
+      <DependentUpon>201808260812565_AddDiscussionIdToCommentsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

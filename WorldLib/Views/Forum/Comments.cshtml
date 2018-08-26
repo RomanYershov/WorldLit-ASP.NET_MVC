@@ -31,17 +31,19 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        using (Ajax.BeginForm("AddComment", new AjaxOptions { UpdateTargetId = "results" }))
+                        using (Html.BeginForm("AddComment", "Forum"))
                         {
-                            <textarea cols="100" rows="5" name="Text"></textarea>
-                            <input class="btn btn-block btn-info" type="submit" value="добваить" />
-                            <input type="hidden" name="DiscussionId" value="@Model.Discussion.Id" />
+                            @Html.TextArea("Text");
+                            @Html.Editor("Discussion",Model.Discussion);
+                            <input class="btn btn-block btn-info" type="submit" value="добавить" />
+                            //<input type="hidden" name="Discussion" value="@Model.Discussion" />
+
                         }
                     }
                 </div>
                 @*<div class="col-md-4 text-center">
-                    @{Html.RenderPartial("CategoriesPartialView", ViewBag.CategoriesList as List<Category>);}
-                </div>*@
+                        @{Html.RenderPartial("CategoriesPartialView", ViewBag.CategoriesList as List<Category>);}
+                    </div>*@
             </div>
         </div>
 
@@ -62,7 +64,7 @@
 
 <style>
     #block-disc {
-        background-color:#00796B;
+        background-color: #00796B;
         cursor: pointer;
         color: darkgray;
     }

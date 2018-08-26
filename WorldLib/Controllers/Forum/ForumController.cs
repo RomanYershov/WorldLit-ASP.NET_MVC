@@ -43,7 +43,7 @@ namespace WorldLib.Controllers.Forum
             Comment comment = new Comment
             {
                 CreationDateTime = DateTime.Now,
-                User = userManager.FindByEmail(User.Identity.Name),
+                UserId =  User.Identity.GetUserId(),                                //userManager.FindByEmail(User.Identity.Name),
                 Discussion = model.Discussion,
                 Text = model.Text
             };

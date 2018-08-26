@@ -8,8 +8,8 @@ namespace WorldLib.Models
 {
     public class ForumViewModel
     {
-        public List<Discussion> Discussions { get; private set; }
-        public List<Category> Categories { get; private set; }
+        public IEnumerable<Discussion> Discussions { get; private set; }
+        public IEnumerable<Category> Categories { get; private set; }
 
         public static ForumViewModel GetModel()
         {

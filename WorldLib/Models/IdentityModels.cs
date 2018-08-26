@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorldLib.Models
 {
@@ -43,11 +44,15 @@ namespace WorldLib.Models
 
     public class Comment
     {
-        public int Id { get; set; }
+        public int Id { get; set; } 
         public string Text { get; set; }
         public DateTime CreationDateTime { get; set; }
+        public int DiscussionId { get; set; }
+        [ForeignKey("DiscussionId")]
         public Discussion Discussion { get; set; }
-        public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set;}
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
