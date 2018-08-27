@@ -38,6 +38,12 @@ namespace WorldLib.Services
             _dbSet.Remove(model);
         }
 
+        public void Delete(Func<T, bool> predicate)
+        {
+            var model = _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
+            _context.Entry(model).State = EntityState.Deleted;
+            _dbSet.Remove(model);
+        }
 
 
         public IEnumerable<T> Get()
@@ -89,5 +95,10 @@ namespace WorldLib.Services
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+    }
+
+    public class RepositoryBase
+    {
+        public ApplicationDbContext _context;
     }
 }

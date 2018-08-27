@@ -28,7 +28,7 @@
                             <span  class="text-success">@comment.Text</span> 
                            <div style="padding:8px 0 5px 14px">
                                <small style="float:right;" class=" text-muted">@comment.User.NikName</small>
-                               <small style="float:left;" class="text-muted">@string.Format("/ {0} ~ {1} /", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())</small>
+                               <small style="float:left;" class="text-muted">@string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())</small>
                            </div>
                         </div>
                     }

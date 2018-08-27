@@ -190,9 +190,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Forum\AdminController.cs" />
+    <Compile Include="Controllers\Forum\CommentsController.cs" />
     <Compile Include="Controllers\Forum\ForumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Enums\AdminFunkcionalEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -236,7 +239,6 @@
     <Compile Include="Services\IRepository.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\Repository.cs" />
-    <Compile Include="Services\RepositoryBase.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +302,8 @@
     <Content Include="Views\Forum\CategoriesPartialView.cshtml" />
     <Content Include="Views\Forum\Comments.cshtml" />
     <Content Include="Views\Forum\AddDiscussion.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
