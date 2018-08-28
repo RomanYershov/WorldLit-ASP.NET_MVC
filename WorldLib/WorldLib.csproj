@@ -196,6 +196,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Enums\AdminFunkcionalEnum.cs" />
+    <Compile Include="Enums\CommentStatusEnum.cs" />
+    <Compile Include="Enums\DiscussionStatusEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -223,6 +225,10 @@
     <Compile Include="Migrations\201808260812565_AddDiscussionIdToCommentsTable.Designer.cs">
       <DependentUpon>201808260812565_AddDiscussionIdToCommentsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808281025555_AddStatusToCommentsTable.cs" />
+    <Compile Include="Migrations\201808281025555_AddStatusToCommentsTable.Designer.cs">
+      <DependentUpon>201808281025555_AddStatusToCommentsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -233,11 +239,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IModelBuilder.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ModelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DiscussionService.cs" />
     <Compile Include="Services\IRepository.cs" />
-    <Compile Include="Services\IService.cs" />
     <Compile Include="Services\Repository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -304,6 +307,7 @@
     <Content Include="Views\Forum\AddDiscussion.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808260812565_AddDiscussionIdToCommentsTable.resx">
       <DependentUpon>201808260812565_AddDiscussionIdToCommentsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808281025555_AddStatusToCommentsTable.resx">
+      <DependentUpon>201808281025555_AddStatusToCommentsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

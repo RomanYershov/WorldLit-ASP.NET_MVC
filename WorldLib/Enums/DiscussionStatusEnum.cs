@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WorldLib.Models
+namespace WorldLib.Enums
 {
-    public abstract class ModelBuilder
+    public enum DiscussionStatusEnum
     {
-        
+        Publish,
+        InArchive
     }
 }

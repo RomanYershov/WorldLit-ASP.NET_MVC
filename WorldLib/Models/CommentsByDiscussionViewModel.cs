@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WorldLib.Enums;
 using WorldLib.Services;
 
 namespace WorldLib.Models
@@ -16,7 +17,7 @@ namespace WorldLib.Models
             using (var discRep = new Repository<Discussion>())
             {
                 var commentRep = new Repository<Comment>();
-                Comments = commentRep.Get(x => x.DiscussionId == discussionId).ToList();
+                Comments = commentRep.Get(x => x.DiscussionId == discussionId && x.Status == CommentStatusEnum.Published).ToList();
                 Discussion = discRep.Get(x => x.Id == discussionId).SingleOrDefault();
             }
         }

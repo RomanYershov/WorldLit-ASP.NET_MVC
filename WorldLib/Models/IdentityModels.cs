@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations.Schema;
+using WorldLib.Enums;
 
 namespace WorldLib.Models
 {
@@ -21,11 +23,7 @@ namespace WorldLib.Models
         public string NikName { get; set; }
     }
 
-    public enum DiscussionStatusEnum
-    {
-        Publish,
-        InArchive
-    }
+
     public class Discussion
     {
         public int Id { get; set; }
@@ -42,17 +40,19 @@ namespace WorldLib.Models
         public string Name { get; set; }
     }
 
+
     public class Comment
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public string Text { get; set; }
+        public CommentStatusEnum Status { get; set; }
         public DateTime CreationDateTime { get; set; }
         public int DiscussionId { get; set; }
         [ForeignKey("DiscussionId")]
         public Discussion Discussion { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual ApplicationUser User { get; set;}
+        public virtual ApplicationUser User { get; set; }
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -61,9 +61,9 @@ namespace WorldLib.Models
         {
         }
 
-        public  DbSet<Discussion> Discussions { get; set; }
-        public  DbSet<Comment> Comments { get; set; }
-        public  DbSet<Category> Categories { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

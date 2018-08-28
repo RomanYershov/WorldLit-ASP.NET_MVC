@@ -61,6 +61,11 @@ namespace WorldLib.Services
             _context.Entry(model).State = EntityState.Modified;
         }
 
+        //public void Update(Func<T, bool> predicate)
+        //{
+        //     var model = _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
+        //    _context.Entry(model).State = EntityState.Modified;
+        //}
         public IEnumerable<T> GetWithInclude(Func<T, bool> predicate,
     params Expression<Func<T, object>>[] includeProperties)
         {
