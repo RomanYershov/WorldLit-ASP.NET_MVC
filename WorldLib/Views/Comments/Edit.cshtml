@@ -15,7 +15,11 @@
                 @Html.DropDownListFor(x => x.Status, new SelectList(Enum.GetValues(typeof(CommentStatusEnum))),
                     new {@class = "form-control"})
                 @Html.LabelFor(x => x.Text, "Текст")
-                @Html.TextArea("Text", new {@class = "form-control"})
+                @Html.TextAreaFor(x => x.Text, 7, 50,  new {@class = "form-control"})
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.UserId)
+                @Html.HiddenFor(x => x.DiscussionId)
+                @Html.HiddenFor(x => x.CreationDateTime)
             </div>
             <button type="submit" class="btn btn-primary">Обновить</button>
         </form>

@@ -17,8 +17,8 @@ namespace WorldLib.Controllers.Forum
         {
             List<Comment> comments;
             var repComment = new Repository<Comment>();
-            comments = repComment.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, p => p.Discussion, u => u.User)
-                .OrderBy(x => x.Discussion.Name).ToList();
+            comments = repComment.GetWithInclude(x => x.Status != CommentStatusEnum.Deleted, p => p.Discussion, u => u.User)
+                .OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList();
             return View(comments);
         }
 
@@ -79,12 +79,15 @@ namespace WorldLib.Controllers.Forum
 
         // POST: Commens/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit( Comment model)
         {
             try
             {
-                // TODO: Add update logic here
-
+               using(var rep = new Repository<Comment>())
+                {
+                    rep.Update(model);
+                    rep.Commit();
+                }
                 return RedirectToAction("Index");
             }
             catch
