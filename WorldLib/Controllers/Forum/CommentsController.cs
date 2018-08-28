@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WorldLib.Enums;
 using WorldLib.Models;
 using WorldLib.Services;
 
@@ -16,10 +17,26 @@ namespace WorldLib.Controllers.Forum
         {
             List<Comment> comments;
             var repComment = new Repository<Comment>();
-            comments = repComment.GetWithInclude(x => x.Id == x.Id, p => p.Discussion)
+            comments = repComment.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, p => p.Discussion, u => u.User)
                 .OrderBy(x => x.Discussion.Name).ToList();
             return View(comments);
         }
+
+        public ActionResult PublishedComment(int id)
+        {
+            using (var rep = new Repository<Comment>())
+            {
+                var comment = rep.Get(x => x.Id == id).SingleOrDefault();
+                if (comment != null)
+                {
+                    comment.Status = CommentStatusEnum.Published;
+                    rep.Update(comment);
+                }
+                rep.Commit();
+            }
+            return RedirectToAction("Index");
+        }
+
 
         // GET: Commens/Details/5
         public ActionResult Details(int id)
@@ -52,7 +69,12 @@ namespace WorldLib.Controllers.Forum
         // GET: Commens/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Comment comment;
+            using (var rep = new Repository<Comment>())
+            {
+                comment = rep.Get(x => x.Id == id).SingleOrDefault();
+            }
+            return PartialView(comment);
         }
 
         // POST: Commens/Edit/5
