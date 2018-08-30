@@ -1,4 +1,6 @@
-﻿@using WorldLib.Models
+﻿@using System.Web.UI.WebControls
+@using WebGrease.Css.Extensions
+@using WorldLib.Models
 @model CommentsByDiscussionViewModel
 @{
     ViewBag.Title = "Comments";
@@ -21,10 +23,10 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     @foreach (var comment in Model.Comments)
                     {
-                        <div id="results" style="margin-bottom:1px; color:coral" class="alert-success alert ">
+                        <div id="results" style="margin-bottom:1px;background-color:  #edf0333d" class="alert-success alert ">
                             <span  class="text-success">@comment.Text</span> 
                            <div style="padding:8px 0 5px 14px">
                                <small style="float:right;" class=" text-muted">@comment.User.NikName</small>
@@ -38,11 +40,10 @@
                         using (Ajax.BeginForm("AddComment", new AjaxOptions { LoadingElementId = "results",
                         InsertionMode = InsertionMode.InsertAfter}))
                         {
-                            @Html.TextArea("Text");
+                            @Html.TextArea("Text", new {cols=50, rows=7});
                             @Html.Hidden("DiscussionId", Model.Discussion.Id);
                             <input class="btn btn-block btn-info" type="submit" value="добавить" />
                             //<input type="hidden" name="Discussion" value="@Model.Discussion" />
-
                         }
                     }
                 </div>
