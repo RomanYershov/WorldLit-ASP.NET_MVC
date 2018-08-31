@@ -17,7 +17,7 @@ namespace WorldLib.Controllers.Forum
         {
             List<Comment> comments;
             var repComment = new Repository<Comment>();
-            comments = repComment.GetWithInclude(x => x.Status != CommentStatusEnum.Deleted, p => p.Discussion, u => u.User)
+            comments = repComment.GetWithInclude(x => x.Status != CommentStatusEnum.Deleted, d => d.Discussion, u => u.User)
                 .OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList();
             return View(comments);
         }
@@ -105,20 +105,6 @@ namespace WorldLib.Controllers.Forum
             return RedirectToAction("Index");
         }
 
-        // POST: Commens/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
     }
 }

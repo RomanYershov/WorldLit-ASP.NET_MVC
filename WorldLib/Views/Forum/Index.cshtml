@@ -17,9 +17,13 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-4 text-center">
-                    @{Html.RenderPartial("CategoriesPartialView", Model.Categories.ToList());}
-                </div>
+                @if (User.IsInRole("admin"))
+                {
+                    <div class="col-md-4 text-center">
+                        @{Html.RenderPartial("CategoriesPartialView", Model.Categories.ToList());}
+                    </div>
+                }
+                
             </div>
 
 
