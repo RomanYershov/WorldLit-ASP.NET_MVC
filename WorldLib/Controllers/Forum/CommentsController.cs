@@ -97,11 +97,29 @@ namespace WorldLib.Controllers.Forum
         }
 
         // GET: Commens/Delete/5
-        public ActionResult Delete(int id)
+        public  ActionResult Delete(int id, string email)
         {
             var commentRep = new Repository<Comment>();
             commentRep.Delete(x => x.Id == id);
             commentRep.Commit();
+            var emailModel = new EmailModel
+            {
+                To = email,
+                From = "energy26622662@gmail.com",
+                Subject = email,
+                Body = "Ваш отзыв не прошел модерацию и был удален администратором сайта.",
+                
+                
+            };
+            try
+            {
+                new EmailController().SendEmail(emailModel).Deliver();
+                
+            }
+            catch (Exception e)
+            {
+                return  new HttpStatusCodeResult(404);
+             }
             return RedirectToAction("Index");
         }
 
