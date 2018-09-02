@@ -17,7 +17,7 @@ namespace WorldLib.Models
             var categoriesRep = new Repository<Category>();
             return new ForumViewModel
             {
-                Discussions = discussionsRep.Get(),
+                Discussions = discussionsRep.GetWithInclude(x => x.Id == x.Id, x => x.Category),
                 Categories = categoriesRep.Get()
             };
         }

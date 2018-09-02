@@ -20,14 +20,14 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Id</td>
+                    <td class="item-id" style="color:darkgreen">@item.Id</td>
                    @if (item.Status == WorldLib.Enums.CommentStatusEnum.Published)
                    {
                     <td class="text-success">@item.Text</td>
                    }
                    else
                    {
-                    <td class="text-danger">@item.Text</td>
+                    <td class="text-danger">@item.Text</td> 
                    }
                     <td>@item.User.Email</td>
                     <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
@@ -53,15 +53,32 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             $.ajaxSetup({ cache: false });
-            $(".item-category").click(function (e) {
+            $(".item-category").click(function(e) {
                 e.preventDefault();
-                $.get(this.href, function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modDialog').modal('show');
-                });
+                $.get(this.href,
+                    function(data) {
+                        $('#dialogContent').html(data);
+                        $('#modDialog').modal('show');
+                    });
             });
-        })
+        });
+
+        //$('.item-id').click(function() {
+        //    $.ajax({
+        //        url: '/Comments/PublishedComment/50',
+        //        type: 'GET',
+        //        dataType: 'json',
+        //        success: function(data) {
+        //           console.log(data);
+        //        },
+        //        error: function() {
+        //            alert('error test');
+        //        }
+
+        //    });
+        //});
+
     </script>
 }

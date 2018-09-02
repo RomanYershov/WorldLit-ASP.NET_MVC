@@ -318,6 +318,7 @@
     <Content Include="Views\Comments\Index.cshtml" />
     <Content Include="Views\Comments\Edit.cshtml" />
     <Content Include="Views\Email\SendEmail.html.cshtml" />
+    <Content Include="Views\Forum\AddCommentView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

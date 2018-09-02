@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using WorldLib.Helpers;
 using WorldLib.Models;
 using WorldLib.Services;
 
@@ -28,14 +29,16 @@ namespace WorldLib.Controllers.Forum
         [HttpPost]
         public ActionResult AddComment(CommentCreateModel model)//todo 
         {
-            using (var commentRep = new Repository<Comment>())
+            if (Request.IsAjaxRequest())
             {
-                Comment comment = model.Create();
-                commentRep.Create(comment);
-                commentRep.Commit();
+                using (var commentRep = new Repository<Comment>())
+                {
+                    Comment comment = model.Create();
+                    commentRep.Create(comment);
+                    commentRep.Commit();
+                }
             }
-
-            return RedirectToAction("Comments", new { id = model.DiscussionId });
+            return Json("Комментарий будет добавлен после успешной модерации");
         }
 
         [HttpGet]

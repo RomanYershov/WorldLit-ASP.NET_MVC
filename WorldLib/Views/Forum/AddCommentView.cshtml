@@ -1,0 +1,10 @@
+﻿ @model WorldLib.Models.Comment
+
+
+<div style="margin-bottom:1px;background-color:  #edf0333d" class="alert-success alert ">
+    <span  class="text-success">@Model.Text</span> 
+    <div style="padding:8px 0 5px 14px">
+        @*<small style="float:right;" class=" text-muted">@Model.User.NikName</small>*@
+        <small style="float:left;" class="text-muted">@string.Format(" {0} ~ {1} ", Model.CreationDateTime.ToLongDateString(), Model.CreationDateTime.ToShortTimeString())</small>
+    </div>
+</div>

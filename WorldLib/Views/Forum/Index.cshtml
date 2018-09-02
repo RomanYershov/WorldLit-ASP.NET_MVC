@@ -9,12 +9,14 @@
             <div class="row">
                 <div class="col-md-8 text-center">
                     <div class="well" >
-                        <ul class="nav nav-pills nav-stacked">
+                        <table class="table table-bordered">
                             @foreach (var discussion in Model.Discussions)
                             {
-                                <li style="font-size:28px"><a style="color:#808080" href="~/Forum/Comments/@discussion.Id">@discussion.Name</a></li>
+                            <tr>
+                                <td style="font-size:28px" ><a  class="text-success" href="~/Forum/Comments/@discussion.Id">@discussion.Name<small class="text-info">  (@discussion.Category.Name)</small></a></td>
+                            </tr>
                             }
-                        </ul>
+                        </table>
                     </div>
                 </div>
                 @if (User.IsInRole("admin"))

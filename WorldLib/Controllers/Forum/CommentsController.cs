@@ -22,8 +22,22 @@ namespace WorldLib.Controllers.Forum
             return View(comments);
         }
 
-        public ActionResult PublishedComment(int id)
+        public ActionResult PublishedComment(int id) //todo 
         {
+            if (Request.IsAjaxRequest())
+            {
+                using (var rep = new Repository<Comment>())
+                {
+                    var comment = rep.Get(x => x.Id == id).SingleOrDefault();
+                    if (comment != null)
+                    {
+                        comment.Status = CommentStatusEnum.Published;
+                        rep.Update(comment);
+                    }
+                    rep.Commit();
+                }
+                return RedirectToAction("Index");
+            }
             using (var rep = new Repository<Comment>())
             {
                 var comment = rep.Get(x => x.Id == id).SingleOrDefault();
