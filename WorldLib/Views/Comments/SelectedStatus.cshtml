@@ -1,0 +1,44 @@
+﻿@model List<WorldLib.Models.Comment>
+
+
+<thead>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><strong>Текст комментария</strong></td>
+        <td><strong>Автор</strong></td>
+        <td><strong>Дата/время</strong></td>
+        <td><strong>Тема обсуждения</strong></td>
+
+        @*@Html.EnumDropDownListFor(x => x.FirstOrDefault(s => s.Status == CommentStatusEnum.Moderation).Status, new { @class = "form-control", @onchange = "SelectedValue(this)" })*@
+        @Html.DropDownList("status", new SelectList(Enum.GetValues(typeof(WorldLib.Enums.CommentStatusEnum))),
+            new {@class = "form-control" ,@onchange = "SelectedValue(this)"})
+    </tr>
+</thead>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td class="item-id" style="color:darkgreen">@item.Id</td>
+        @if (item.Status == WorldLib.Enums.CommentStatusEnum.Published)
+        {
+            <td class="text-success">@item.Text</td>
+        }
+        else
+        {
+            <td class="text-danger">@item.Text</td>
+        }
+        <td>@item.User.Email</td>
+        <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
+        <td>@item.Discussion.Name</td>
+        <td><a class="item-category" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
+        <td><a href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+        @if (item.Status == WorldLib.Enums.CommentStatusEnum.Moderation)
+        {
+            <td><a href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
+        }
+        else
+        {
+            <td><strong class="text-muted">опубликован</strong></td>
+        }
+    </tr>
+}

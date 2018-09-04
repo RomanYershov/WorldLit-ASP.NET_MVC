@@ -10,6 +10,8 @@ namespace WorldLib.Enums
         Moderation,
         [Display(Name = "Опубликован")]
         Published,
+        [Display(Name = "Все")]
+        All,
         [Display(Name = "Удален")]
         Deleted,
     }

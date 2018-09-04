@@ -17,7 +17,7 @@ namespace WorldLib.Controllers.Forum
         {
             List<Comment> comments;
             var repComment = new Repository<Comment>();
-            comments = repComment.GetWithInclude(x => x.Status != CommentStatusEnum.Deleted, d => d.Discussion, u => u.User)
+            comments = repComment.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, d => d.Discussion, u => u.User)
                 .OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList();
             return View(comments);
         }
@@ -49,6 +49,16 @@ namespace WorldLib.Controllers.Forum
                 rep.Commit();
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SelectedStatus(CommentStatusEnum status)
+        {
+            IEnumerable<Comment> comments;
+            var repComment = new Repository<Comment>();
+            comments = status == CommentStatusEnum.All
+                ? repComment.GetWithInclude(x => true, d => d.Discussion, u => u.User)
+                : repComment.GetWithInclude(x => x.Status == status, d => d.Discussion, u => u.User);
+            return PartialView(comments.OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList());
         }
 
 
@@ -122,8 +132,6 @@ namespace WorldLib.Controllers.Forum
                 From = "energy26622662@gmail.com",
                 Subject = email,
                 Body = "Ваш отзыв не прошел модерацию и был удален администратором сайта.",
-                
-                
             };
             try
             {
