@@ -36,11 +36,11 @@
                     <td>@item.User.Email</td>
                     <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
                     <td>@item.Discussion.Name</td>
-                    <td><a class="item-category" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+                    <td><a class="item-edit" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
+                    <td><a  href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
                     @if (item.Status == WorldLib.Enums.CommentStatusEnum.Moderation)
                     {
-                        <td><a href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
+                        <td><a class="item-published" href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
                     }
                     else
                     {
@@ -58,7 +58,7 @@
     <script type="text/javascript">
         $(function () {
             $.ajaxSetup({ cache: false });
-            $(".item-category").click(function (e) {
+            $(".item-edit").click(function (e) {
                 e.preventDefault();
                 $.get(this.href,
                     function (data) {
@@ -87,22 +87,33 @@
 
         //$('#status').change(function (e) { console.log(e.currentTarget.value) }) //todo
 
-        //$('.item-id').click(function() {
-        //    $.ajax({
-        //        url: '/Comments/PublishedComment/50',
-        //        type: 'GET',
-        //        dataType: 'json',
-        //        success: function(data) {
-        //           console.log(data);
-        //        },
-        //        error: function() {
-        //            alert('error test');
-        //        }
+        $('.item-published').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                success: function (data) {
+                    getComments();
+                    alert(data);
+                },
+                error: function() {
+                    alert('error test');
+                }
 
-        //    });
-        //});
+            });
+        });
 
-   
+        function getComments() {
+            $.ajax({
+                type: 'GET',
+                url: '/Comments/Index',
+                success: function (data) {
+                    console.log(data);
+                    $('#results').html('');
+                    $('#results').html(data);
+                }
+            })
+        }
         
 
     </script>

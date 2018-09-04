@@ -15,6 +15,15 @@ namespace WorldLib.Controllers.Forum
         // GET: Commens
         public ActionResult Index()
         {
+            if (Request.IsAjaxRequest())
+            {
+                List<Comment> commentsAjax;
+                var repCommentAjax = new Repository<Comment>();
+                commentsAjax = repCommentAjax.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, d => d.Discussion, u => u.User)
+                    .OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList();
+
+                return PartialView("SelectedStatus", commentsAjax);
+            }
             List<Comment> comments;
             var repComment = new Repository<Comment>();
             comments = repComment.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, d => d.Discussion, u => u.User)
@@ -35,8 +44,10 @@ namespace WorldLib.Controllers.Forum
                         rep.Update(comment);
                     }
                     rep.Commit();
+                    return Json($"Комментарий опубликован. ID: {comment.Id}", JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("Index");
+                //  return RedirectToAction("Index");
+               
             }
             using (var rep = new Repository<Comment>())
             {

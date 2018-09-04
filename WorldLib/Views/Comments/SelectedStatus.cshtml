@@ -1,6 +1,7 @@
 ﻿@model List<WorldLib.Models.Comment>
 
 
+
 <thead>
     <tr>
         <td><strong>ID</strong></td>
@@ -11,7 +12,7 @@
 
         @*@Html.EnumDropDownListFor(x => x.FirstOrDefault(s => s.Status == CommentStatusEnum.Moderation).Status, new { @class = "form-control", @onchange = "SelectedValue(this)" })*@
         @Html.DropDownList("status", new SelectList(Enum.GetValues(typeof(WorldLib.Enums.CommentStatusEnum))),
-            new {@class = "form-control" ,@onchange = "SelectedValue(this)"})
+            new { @class = "form-control", @onchange = "SelectedValue(this)" })
     </tr>
 </thead>
 
@@ -30,8 +31,8 @@
         <td>@item.User.Email</td>
         <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
         <td>@item.Discussion.Name</td>
-        <td><a class="item-category" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
-        <td><a href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+        <td><a class="item-edit" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
+        <td><a class="item-published" href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
         @if (item.Status == WorldLib.Enums.CommentStatusEnum.Moderation)
         {
             <td><a href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
@@ -42,3 +43,17 @@
         }
     </tr>
 }
+
+<script type="text/javascript">
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $(".item-edit").click(function (e) {
+            e.preventDefault();
+            $.get(this.href,
+                function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+        });
+    });
+</script>
