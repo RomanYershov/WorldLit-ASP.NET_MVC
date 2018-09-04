@@ -32,10 +32,10 @@
         <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
         <td>@item.Discussion.Name</td>
         <td><a class="item-edit" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
-        <td><a class="item-published" href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+        <td><a  href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
         @if (item.Status == WorldLib.Enums.CommentStatusEnum.Moderation)
         {
-            <td><a href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
+            <td><a class="item-published" href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
         }
         else
         {
@@ -56,4 +56,37 @@
                 });
         });
     });
+
+    $('.item-published').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.href,
+            type: 'GET',
+            success: function (data) {
+                getComments();
+                swal({
+                    title: "Опубликован",
+                    text: data,
+                    icon: "success",
+                    buttons: false,
+                    timer: 4000
+                });
+            },
+            error: function () {
+                alert('error test');
+            }
+
+        });
+    });
+
+    function getComments() {
+        $.ajax({
+            type: 'GET',
+            url: '/Comments/Index',
+            success: function (data) {
+                $('#results').html('');
+                $('#results').html(data);
+            }
+        })
+    }
 </script>

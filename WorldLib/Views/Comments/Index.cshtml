@@ -94,7 +94,13 @@
                 type: 'GET',
                 success: function (data) {
                     getComments();
-                    alert(data);
+                    swal({
+                        title: "Опубликован",
+                        text: data,
+                        icon: "success",
+                        buttons: false,
+                        timer: 4000
+                    });
                 },
                 error: function() {
                     alert('error test');
@@ -108,7 +114,6 @@
                 type: 'GET',
                 url: '/Comments/Index',
                 success: function (data) {
-                    console.log(data);
                     $('#results').html('');
                     $('#results').html(data);
                 }
