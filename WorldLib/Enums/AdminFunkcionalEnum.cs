@@ -9,12 +9,13 @@ namespace WorldLib.Enums
     public enum AdminFunkcionalEnum
     {
         [Display(Name = "Пользователи", Description = "Редактирование пользователей")]
-        Пользователи,
+        NewUser,
         [Display(Name = "Афоризмы", Description = "Редактирование ,добавление (афоризмы)")]
-        Афоризмы,
+        Afforizm,
         [Display(Name = "Форум", Description = "Редактирование ,добавление (форум)")]
-        Форум,
+        Forum,
         [Display(Name = "Комментарии", Description = "Редактирование ,добавление (комментарии)")]
-        Комментарии
+        Comments,
+
     }
 }
