@@ -242,6 +242,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
     <Compile Include="Models\CommentsByDiscussionViewModel.cs" />
+    <Compile Include="Models\CreateUserViewModel.cs" />
     <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Models\DiscussionCreateModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
@@ -328,6 +329,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Extentions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
