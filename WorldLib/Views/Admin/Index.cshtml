@@ -1,13 +1,11 @@
 ﻿@using WorldLib.Enums
-@using System.ComponentModel.DataAnnotations
-
 
 <div class="container">
     <div class="well">
         <div class="row">
             <div class="col-md-5">
 
-                <div class="alert alert-info text-center"><a href="~/Users/Index">@AdminFunkcionalEnum.Users</a></div>
+                <div class="alert alert-info text-center"><a href="~/Users/Index">@Html.DisplayName("Управление пользователями")</a></div>
                 <div class="alert alert-info text-center"><a href="~/Comments/Index">@AdminFunkcionalEnum.Comments</a></div>
 
             </div>

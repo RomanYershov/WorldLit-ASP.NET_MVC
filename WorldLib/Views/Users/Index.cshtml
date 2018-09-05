@@ -7,10 +7,12 @@
 <div class="container">
     <div class="well">
         <h2>Users</h2>
+        <hr/>
 
         <p>
-            @Html.ActionLink("Create New", "Create")
+            <a class="alert alert-warning" href="Create">Create New</a>
         </p>
+        <hr/>
         <table class="table table-bordered">
             <tr>
                 <th>
@@ -27,12 +29,12 @@
                 <th>
                     @Html.DisplayNameFor(model => model.UserName)
                 </th>
-                <th></th>
+                     
             </tr>
 
             @foreach (var item in Model)
             {
-                <tr>
+                <tr>  
                     <td>
                         @Html.DisplayFor(modelItem => item.NikName)
                     </td>

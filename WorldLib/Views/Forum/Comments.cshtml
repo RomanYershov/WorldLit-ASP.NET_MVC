@@ -41,7 +41,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" action="/Forum/AddComment" id="add-comment">
-                            <textarea name="Text" rows="4" cols="40" maxlength="400" class="form-control" id="text-comment"></textarea>
+                            <textarea name="Text" rows="4" cols="40"  class="form-control" id="text-comment"></textarea>
                             <input type="hidden" name="DiscussionId" value="@Model.Discussion.Id" />
                             <input class="btn btn-block btn-primary" type="submit" value="добавить" />
                         </form>

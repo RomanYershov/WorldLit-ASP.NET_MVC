@@ -45,7 +45,8 @@ namespace WorldLib.Controllers.Forum
             {
                 UserManager.AddToRole(user.Id, model.Role);
             }
-            return Json("Success");
+
+            return Json(result);
         }
     }
 }
