@@ -28,13 +28,15 @@
                         @foreach (var comment in Model.Comments)
                         {
 
-                            <div id="comment" class="alert-success alert ">
-                                <span class="text-muted">@comment.Text</span>
-                                <div style="padding: 20px 0 5px 14px">
-                                    <small style="float: right;" class=" text-muted">@comment.User.NikName</small>
-                                    <small style="float: left;" class="text-muted">@string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())</small>
-                                </div>
+                        <div id="comment" class="alert-success alert ">
+                            <span class="glyphicon glyphicon-leaf"></span>
+                            <span style="color: darkcyan">@comment.Text</span>
+                            <span class="glyphicon glyphicon-leaf"></span>
+                            <div style="padding: 20px 0 5px 14px">
+                                <small style="float: right;" class=" text-muted glyphicon glyphicon-user"> @comment.User.NikName</small>
+                                <small style="float: left;" class="text-muted">@string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())</small>
                             </div>
+                        </div>
 
                         }
                     </div>
@@ -75,18 +77,21 @@
                 data: form.serialize(),
                 success: function (data) {
                     $('#text-comment').val('');
-                    swal({
-                        title: "Спасибо за ваш отзыв",
-                        text: data,
-                        icon: "info",
-                        buttons: false,
-                        timer: 4500
-                    });
+                    myAlert("Спасибо за ваш отзыв", data,"info" ,4500);
                 }
             });
             e.preventDefault();
         });
 
+        var myAlert = function(title, data, icon, time) {
+            swal({
+                title: title,
+                text: data,
+                icon: icon,
+                buttons: false,
+                timer: time
+            });
+        }
 
         var block = document.getElementById('block-disc');
         function blockClick() {
@@ -112,8 +117,8 @@
             /*box-shadow: 0px 15px 10px -15px #111;*/
         }
     #comment {
-        margin-bottom: 1px;
-        background-color: #424242;
+        margin-bottom: 10px;
+        background-color: #ffffff /*#424242;*/
     }
     /*#panel-container {
         box-shadow: -15px 0px 5px -15px #111;
