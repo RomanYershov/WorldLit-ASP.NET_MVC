@@ -1,4 +1,6 @@
-﻿@using System.Web.UI.WebControls
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using Microsoft.AspNet.Identity
 @using WebGrease.Css.Extensions
 @using WorldLib.Models
 @model CommentsByDiscussionViewModel
@@ -27,23 +29,40 @@
                     <div id="results">
                         @foreach (var comment in Model.Comments)
                         {
+                            <div id="comment" class="alert-success alert ">
+                                <span class="glyphicon glyphicon-leaf"></span>
+                                <span>@comment.Text</span>
+                                <span class="glyphicon glyphicon-leaf"></span>
+                                <div style="padding: 20px 0 5px 14px">
 
-                        <div id="comment" class="alert-success alert ">
-                            <span class="glyphicon glyphicon-leaf"></span>
-                            <span style="color: darkcyan">@comment.Text</span>
-                            <span class="glyphicon glyphicon-leaf"></span>
-                            <div style="padding: 20px 0 5px 14px">
-                                <small style="float: right;" class=" text-muted glyphicon glyphicon-user"> @comment.User.NikName</small>
-                                <small style="float: left;" class="text-muted">@string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())</small>
-                            </div>
-                        </div>
+                                    @{
+                                        var count = Model.Likes.Count(x => x.CommentId == comment.Id);
+                                        var activClass = Model.Likes.Any(x => x.CommentId == comment.Id && x.UserId == User.Identity.GetUserId()) ? "isActive" : "isntActive";
+                                        var like = "";
 
-                        }
+                                    }
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        like = $"clickLike({@comment.Id})";
+                                    }
+                                    <div style="margin-left: 30px; display: inline">
+                                        <span class="glyphicon glyphicon-heart @activClass" id="l-@comment.Id"
+                                              onclick="@like">@count</span>
+
+                                        </div>
+                                        <small style="float: right;" class="text-muted glyphicon glyphicon-user"> @comment.User.NikName</small>
+                                        <small style="float: left;" class="text-muted">
+                                            @string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())
+                                        </small>
+                                    </div>
+                                </div>
+
+                            }
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <form method="post" action="/Forum/AddComment" id="add-comment">
-                            <textarea name="Text" rows="4" cols="40"  class="form-control" id="text-comment"></textarea>
+                            <textarea name="Text" rows="4" cols="40" class="form-control" id="text-comment"></textarea>
                             <input type="hidden" name="DiscussionId" value="@Model.Discussion.Id" />
                             <input class="btn btn-block btn-primary" type="submit" value="добавить" />
                         </form>
@@ -64,7 +83,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-  
+
     <script>
 
         $('#add-comment').submit(function (e) {
@@ -77,13 +96,13 @@
                 data: form.serialize(),
                 success: function (data) {
                     $('#text-comment').val('');
-                    myAlert("Спасибо за ваш отзыв", data,"info" ,4500);
+                    myAlert("Спасибо за ваш отзыв", data, "info", 4500);
                 }
             });
             e.preventDefault();
         });
 
-        var myAlert = function(title, data, icon, time) {
+        var myAlert = function (title, data, icon, time) {
             swal({
                 title: title,
                 text: data,
@@ -94,14 +113,48 @@
         }
 
         var block = document.getElementById('block-disc');
+
         function blockClick() {
             window.location.href = "../../Forum/Index";
         };
 
+        var clickLike = function (commentId) {
+            var id = '#l-' + commentId;
+            var like = $(id);
+            if (like.hasClass('isActive')) return;
+            var count = Number(like[0].innerText);
+            like[0].innerText = ++count;
+            $.ajax({
+                type: "GET",
+                url: '/Comments/Like',
+                data: { commentId: commentId },
+                success: function (data) {
+                    like.removeClass('isntActive');
+                    like.addClass('isActive');
+                }
+            });
+        }
+
+                    //var CommentViewModel = function () {
+                    //    var self = this;
+                    //    this.count = ko.observable();
+                    //    this.isLike = ko.observable(true);
+                    //    this.clickLike = function (commentId) {
+                    //        console.log(commentId);
+                    //        $.ajax({
+                    //            type: "GET",
+                    //            url: '/Comments/Like',
+                    //            data: { commentId: commentId },
+                    //            success: function (data) {
+                    //                var id = '#l-' + commentId;
+                    //                $(id).css({ 'color': '#f44336' });
+                    //            }
+                    //        });
+                    //    }
+                    //}
+                    //ko.applyBindings(new CommentViewModel());
+
     </script>
-
-
-
 }
 
 <style>
@@ -116,13 +169,28 @@
             color: white;
             /*box-shadow: 0px 15px 10px -15px #111;*/
         }
+
     #comment {
         margin-bottom: 10px;
-        background-color: #ffffff /*#424242;*/
+        background-color: #ffffff; /*#424242;*/
+        color: darkcyan;
     }
-    /*#panel-container {
-        box-shadow: -15px 0px 5px -15px #111;
-    }*/
+
+    .isActive {
+        color: #f44336;
+        transition: cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.2s;
+    }
+
+    .isntActive {
+        color: #90a4ae;
+        cursor: default;
+        transition: cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.2s;
+       
+    }
+    .isActive:hover, .isntActive:hover {
+        
+        transform: scale(1.4);
+    }
 </style>
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using WorldLib.Enums;
 using WorldLib.Models;
 using WorldLib.Services;
@@ -72,6 +73,24 @@ namespace WorldLib.Controllers.Forum
             return PartialView(comments.OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList());
         }
 
+        [AllowAnonymous]
+        public ActionResult Like(int commentId)
+        {
+            var repLike = new Repository<Like>();
+            if (repLike.Get(x => x.CommentId == commentId && x.UserId == User.Identity.GetUserId()).Any())
+            {
+                return Json("exists", JsonRequestBehavior.AllowGet);
+            }
+            var like = new Like
+            {
+                UserId = User.Identity.GetUserId(),
+                CommentId = commentId,
+                IsLike = true
+            };
+            repLike.Create(like);
+            repLike.Commit();
+            return Json(like, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Commens/Details/5
         public ActionResult Details(int id)

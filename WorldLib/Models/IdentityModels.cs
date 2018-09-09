@@ -54,6 +54,18 @@ namespace WorldLib.Models
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
     }
+
+    public class Like
+    {
+        public int Id { get; set; } 
+        public bool IsLike { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
+        public int CommentId { get; set; }
+        [ForeignKey("CommentId")]
+        public Comment Comment { get; set; }
+    }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -64,12 +76,13 @@ namespace WorldLib.Models
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Like> Likes { get; set; }  
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
 
-   
+
 
 
 
