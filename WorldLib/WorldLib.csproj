@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201809071517284_AddLikesTable.Designer.cs">
       <DependentUpon>201809071517284_AddLikesTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809101732172_ChangedLikeTable.cs" />
+    <Compile Include="Migrations\201809101732172_ChangedLikeTable.Designer.cs">
+      <DependentUpon>201809101732172_ChangedLikeTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -272,6 +276,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\config.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -281,9 +286,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
+    <Content Include="Scripts\models\comments-view-model.js" />
+    <Content Include="Scripts\models\loader.js" />
+    <Content Include="Scripts\models\testCommentsRequire.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\text.js" />
+    <Content Include="Views\Comments\comments.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -374,6 +386,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809071517284_AddLikesTable.resx">
       <DependentUpon>201809071517284_AddLikesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809101732172_ChangedLikeTable.resx">
+      <DependentUpon>201809101732172_ChangedLikeTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

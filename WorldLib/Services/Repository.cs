@@ -49,12 +49,12 @@ namespace WorldLib.Services
 
         public IEnumerable<T> Get()
         {
-            return _dbSet.AsNoTracking().ToList();
+            return _dbSet.AsNoTracking();
         }
 
         public IEnumerable<T> Get(Func<T, bool> predicate)
         {
-            return _dbSet.AsNoTracking().Where(predicate).ToList();
+            return _dbSet.AsNoTracking().Where(predicate);
         }
 
         public void Update(T model)
@@ -71,7 +71,7 @@ namespace WorldLib.Services
     params Expression<Func<T, object>>[] includeProperties)
         {
             var query = Include(includeProperties);
-            return query.Where(predicate).ToList();
+            return query.Where(predicate);
         }
 
         private IQueryable<T> Include(params Expression<Func<T, object>>[] includeProperties)

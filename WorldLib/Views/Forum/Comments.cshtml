@@ -48,8 +48,19 @@
                                     <div style="margin-left: 30px; display: inline">
                                         <span class="glyphicon glyphicon-heart @activClass" id="l-@comment.Id"
                                               onclick="@like">@count</span>
-
+                                    </div>
+                                    
+                                    <template id="comments-template">
+                                        <div class="col-lg-offset-9" >
+                                            <small class="text-muted" data-bind="text:text, click: answer"></small>
+                                            <form class="form-horizontal" data-bind="visible: isAnswer"  style="margin-bottom: 7px;">
+                                                <textarea class="form-control" data-bind="value: answerText"></textarea>
+                                                <input class="form-control btn-default"  type="submit" data-bind="visible: isReadyAnswer" value="Отправить"/>
+                                                <input class="form-control btn-default" type="button" data-bind="click: answer" value="Отмена"/>
+                                            </form>
                                         </div>
+                                    </template>
+                                    <comments></comments>
                                         <small style="float: right;" class="text-muted glyphicon glyphicon-user"> @comment.User.NikName</small>
                                         <small style="float: left;" class="text-muted">
                                             @string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())
@@ -82,7 +93,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
+    @Scripts.Render("/Scripts/models/comments-view-model.js")
 
     <script>
 
@@ -135,24 +146,9 @@
             });
         }
 
-                    //var CommentViewModel = function () {
-                    //    var self = this;
-                    //    this.count = ko.observable();
-                    //    this.isLike = ko.observable(true);
-                    //    this.clickLike = function (commentId) {
-                    //        console.log(commentId);
-                    //        $.ajax({
-                    //            type: "GET",
-                    //            url: '/Comments/Like',
-                    //            data: { commentId: commentId },
-                    //            success: function (data) {
-                    //                var id = '#l-' + commentId;
-                    //                $(id).css({ 'color': '#f44336' });
-                    //            }
-                    //        });
-                    //    }
-                    //}
-                    //ko.applyBindings(new CommentViewModel());
+        $(document).ready(function() {
+            ko.applyBindings();
+        });
 
     </script>
 }
@@ -185,12 +181,11 @@
         color: #90a4ae;
         cursor: default;
         transition: cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.2s;
-       
     }
-    .isActive:hover, .isntActive:hover {
-        
-        transform: scale(1.4);
-    }
+
+        .isActive:hover, .isntActive:hover {
+            transform: scale(1.4);
+        }
 </style>
 
 

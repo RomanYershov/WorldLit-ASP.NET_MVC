@@ -60,11 +60,7 @@ namespace WorldLib.Models
         public int Id { get; set; } 
         public bool IsLike { get; set; }
         public string UserId { get; set; }
-        [ForeignKey("UserId")]
-        public virtual ApplicationUser User { get; set; }
         public int CommentId { get; set; }
-        [ForeignKey("CommentId")]
-        public Comment Comment { get; set; }
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

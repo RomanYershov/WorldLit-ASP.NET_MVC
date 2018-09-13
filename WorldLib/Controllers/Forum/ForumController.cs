@@ -18,11 +18,21 @@ namespace WorldLib.Controllers.Forum
         [HttpGet]
         public ActionResult Comments(int id)
         {
+
+            if (Request.IsAjaxRequest())
+            {
+                var rep = new Repository<Comment>();
+                var comments = rep.Get(x => x.DiscussionId == id).ToArray();
+                string[] list = new[] { "str1", "str2", "str3"}; 
+                return Json(comments.FirstOrDefault(), JsonRequestBehavior.AllowGet);
+            }
+
             ViewBag.CategoriesList = new Repository<Category>()
                 .Get();
 
             var model = new CommentsByDiscussionViewModel();
             model.CreateModel(id);
+           
             return View(model);
         }
 

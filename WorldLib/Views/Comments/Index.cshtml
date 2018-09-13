@@ -1,6 +1,7 @@
 ﻿@using WorldLib.Enums
 @model List<WorldLib.Models.Comment>
 
+
 <div class="container">
     <div class="well">
         <div id="modDialog" class="modal fade">
@@ -37,7 +38,7 @@
                     <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
                     <td>@item.Discussion.Name</td>
                     <td><a class="item-edit" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a  href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+                    <td><a href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
                     @if (item.Status == WorldLib.Enums.CommentStatusEnum.Moderation)
                     {
                         <td><a class="item-published" href="~/Comments/PublishedComment/@item.Id"><strong class="text-success">опубликовать</strong></a></td>
@@ -83,7 +84,7 @@
             });
             //e.preventDefault();
         }
-       
+
 
         //$('#status').change(function (e) { console.log(e.currentTarget.value) }) //todo
 
@@ -102,7 +103,7 @@
                         timer: 4000
                     });
                 },
-                error: function() {
+                error: function () {
                     alert('error test');
                 }
 
@@ -119,7 +120,7 @@
                 }
             })
         }
-        
+
 
     </script>
 }
