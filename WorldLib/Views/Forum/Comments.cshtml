@@ -53,10 +53,12 @@
                                     <template id="comments-template">
                                         <div class="col-lg-offset-9" >
                                             <small class="text-muted" data-bind="text:text, click: answer"></small>
-                                            <form class="form-horizontal" data-bind="visible: isAnswer"  style="margin-bottom: 7px;">
-                                                <textarea class="form-control" data-bind="value: answerText"></textarea>
-                                                <input class="form-control btn-default"  type="submit" data-bind="visible: isReadyAnswer" value="Отправить"/>
-                                                <input class="form-control btn-default" type="button" data-bind="click: answer" value="Отмена"/>
+                                            <form class="form-horizontal" data-bind="visible: isAnswer" style="margin-bottom: 7px;">
+
+
+                                                <textarea class="form-control t-area" data-bind="value: answerText, valueUpdate:'afterkeydown', css:{'t-area-active':isReadyAnswer }"></textarea>
+                                                <input class="form-control btn-default" type="submit" data-bind="visible: isReadyAnswer" value="Отправить" />
+                                                <input class="form-control btn-default" type="button" data-bind="click: answer" value="Отмена" />
                                             </form>
                                         </div>
                                     </template>
@@ -171,7 +173,13 @@
         background-color: #ffffff; /*#424242;*/
         color: darkcyan;
     }
-
+    .t-area {
+       background-color: antiquewhite;
+        transition: all .4s;
+    }
+    .t-area-active {
+        transform: scale(1.15);
+    }
     .isActive {
         color: #f44336;
         transition: cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.2s;

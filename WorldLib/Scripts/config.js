@@ -3,6 +3,7 @@
     paths: {
         "jquery": "Scripts/jquery-1.10.2.min",
         "knockout": "Scripts/knockout-3.4.2",
-        "text": "Scripts/text"
+        "models": "Scripts/models",
+         "view" : "Scripts/view"
     }
 }

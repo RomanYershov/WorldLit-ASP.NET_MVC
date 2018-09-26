@@ -286,6 +286,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
+    <Content Include="Scripts\models\afforism-view-model.js" />
     <Content Include="Scripts\models\comments-view-model.js" />
     <Content Include="Scripts\models\loader.js" />
     <Content Include="Scripts\models\testCommentsRequire.js" />
@@ -295,6 +296,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\text.js" />
+    <Content Include="Scripts\view\afforism-view.html" />
     <Content Include="Views\Comments\comments.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -342,6 +344,7 @@
     <Content Include="Views\Comments\SelectedStatus.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Forum\Afforism.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

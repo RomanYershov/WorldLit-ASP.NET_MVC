@@ -73,5 +73,11 @@ namespace WorldLib.Controllers.Forum
             }
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Afforism()
+        {
+            return View();
+        }
     }
 }

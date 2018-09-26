@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "Afforism";
+}
+
+
+
+<div id="afforismDialog">
+    <div class="container">
+        <strong class="badge" data-bind="text: $root.total"></strong>
+        <div class="well" data-bind="foreach: $root.comments">
+            <div>
+                <div class="alert alert-info">
+                    @*<input style="float: right" type="button" class="btn btn-success btn-sm close" value="x" data-bind="click: $root.remove" />*@
+                    <div>
+                        <p data-bind="text: Text"></p>
+                    </div>
+                    <div class="well-sm">
+                        <div class="col-md-3" data-bind="text: CreateDate"></div>
+                        <div class="col-md-3" data-bind="click: $parent.formAnswer">Ответить</div>
+                        <div class="form-horizontal" data-bind="visible: $root.isAnswer">
+                            <textarea class="active"></textarea>
+                        </div>
+                        <div style="float: right"><small class="col-md-3 glyphicon glyphicon-user" data-bind="text: Author"></small></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        var CommentsModel = function () {
+            var self = this;
+            this.isAnswer = ko.observable(false);
+            this.comments = ko.observableArray();
+
+                self.total = ko.computed(function () {
+                    return 'ВСЕГО: ' + self.comments().length;
+                });
+
+
+            self.ajaxRequest = function (httpMethod, url, callback, data) {
+                $.ajax('/Comments' + (url ? '/' + url : ''),
+                    {
+                        type: httpMethod,
+                        success: callback
+                    });
+            }
+
+            self.getAll = function () {
+                self.ajaxRequest('GET', 'AllComments',
+                    function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            self.comments.push(data[i]);
+                        }
+                    });
+            }
+
+            self.remove = function (item) {
+                self.comments.remove(item);
+            }
+
+            this.formAnswer = function () {
+                var res = !self.isAnswer();
+                self.isAnswer(res);
+            }
+
+            self.getAll();
+        }
+
+
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new CommentsModel());
+        });
+
+
+                //function afforismModel(name, data) {
+                //    var self = this;
+                //    self.name = name;
+                //    self.dataObject = ko.observable(data);
+
+                //    self.formatString = ko.computed(function() {
+                //        var year = self.dataObject().year;
+                //        var desc = self.dataObject().description;
+                //        return 'year: ' + year -- - 'description: ' + desc;
+                //    });
+                //}
+
+                //var AfforismViewModel = function() {
+                //    self.data = [
+                //        { year: 2012, description: "text" },
+                //        { year: 2018, description: "text2" },
+                //    ];
+
+                //    self.afforisms = ko.observableArray([
+                //        new afforismModel("New afforism 1", self.data[0]),
+                //        new afforismModel("New afforism 2", self.data[1])
+                //    ]);
+
+                //    self.summAfforisms = ko.computed(function() {
+                //        return self.afforisms().length;
+                //    });
+
+                //    self.addItem = function() {
+                //        self.afforisms.push(new afforismModel("New afforism " + `${self.afforisms().length}` + 1,
+                //            self.data[0]));
+                //    }
+                //    self.remove = function(item) {
+                //        self.afforisms.remove(item);
+                //    }
+                //}
+
+
+                //ko.applyBindings(new AfforismViewModel());
+    </script>
+}
+
+
+
+

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -175,6 +176,34 @@ namespace WorldLib.Controllers.Forum
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult AllComments()
+        {
+            var rep = new Repository<Comment>();
+            var comments = rep.GetWithInclude(x => x.Status == CommentStatusEnum.Published, u => u.User).Select(x => new
+            {
+                CommentId = x.Id,
+                Text = x.Text,
+                DiscussionId = x.DiscussionId,
+                Discussion = x.Discussion,
+                Author = x.User.NikName,
+                CreateDate = x.CreationDateTime.ToShortDateString()
+            }).ToArray();
+
+
+            return Json(comments, JsonRequestBehavior.AllowGet);
+        }
+
+
        
+    }
+
+    public class CommentViewModel
+    {
+        public int CommentId { get; set; }
+        public string Text { get; set; }
+        public int DiscussionId { get; set; }
+        public string Avtor { get; set; }   
+
     }
 }

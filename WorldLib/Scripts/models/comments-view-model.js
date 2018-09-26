@@ -1,17 +1,6 @@
-﻿//var CommentViewModel = function () {
-//    var self = this;
-//    this.testText = 'test text';
+﻿
 
-//    self.load = function() {
-//        $.ajax({
-//            type: 'GET',
-//            url: '/Forum/comments',
-//            success: function(data) {
 
-//            }
-//        });
-//    }
-//}
 var testModel = function (params) {
     var self = this;
     this.answerText = ko.observable();
@@ -19,11 +8,13 @@ var testModel = function (params) {
     this.submitBtnText = ko.observable('Отмена');
     this.isAnswer = ko.observable(false);
     this.isReadyAnswer = ko.observable(false);
-
+    this.isValidLengthMessage = ko.observable(false);
     this.answer = function() {
-        self.isAnswer(!self.isAnswer());
+        this.isAnswer(!this.isAnswer());
+        if (!self.isAnswer()) self.answerText('');
         self.isAnswer() ? self.text('') : self.text('Ответить');
     }
+
     this.answerText.subscribe(function(newValue) {
         if (newValue.length > 0) {
             self.isReadyAnswer(true);
@@ -31,7 +22,11 @@ var testModel = function (params) {
             self.isReadyAnswer(false);
         }
     });
-
+    
+    ko.extenders.required = function(target, message) {
+    
+    }
+    this.answerText.extend({required: "hello"});
     //this.list = ko.observableArray([{ text: 'Roman' }, { text: 'Semen' }, {text: 'Anton'}]),
     //this.getComments = function() {
     //$.get('/forum/comments/', 
@@ -43,8 +38,6 @@ var testModel = function (params) {
 
 
 ko.components.register('comments', {
-
     template: { element: 'comments-template'},
     viewModel: testModel
-
         });
