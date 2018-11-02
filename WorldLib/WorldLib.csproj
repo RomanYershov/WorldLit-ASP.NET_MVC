@@ -203,6 +203,7 @@
     <Compile Include="Controllers\Forum\UsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Enums\AdminFunkcionalEnum.cs" />
     <Compile Include="Enums\CommentStatusEnum.cs" />
     <Compile Include="Enums\DiscussionStatusEnum.cs" />
@@ -246,6 +247,18 @@
     <Compile Include="Migrations\201809101732172_ChangedLikeTable.Designer.cs">
       <DependentUpon>201809101732172_ChangedLikeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811021635345_ProdTableAdded.cs" />
+    <Compile Include="Migrations\201811021635345_ProdTableAdded.Designer.cs">
+      <DependentUpon>201811021635345_ProdTableAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811021637267_IngridientsTableAdded.cs" />
+    <Compile Include="Migrations\201811021637267_IngridientsTableAdded.Designer.cs">
+      <DependentUpon>201811021637267_IngridientsTableAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811021642490_AddedFillIngridientsToProduct.cs" />
+    <Compile Include="Migrations\201811021642490_AddedFillIngridientsToProduct.Designer.cs">
+      <DependentUpon>201811021642490_AddedFillIngridientsToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -257,8 +270,11 @@
     <Compile Include="Models\ForumViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IModelBuilder.cs" />
+    <Compile Include="Models\Ingridient.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Operator.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ViewProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IRepository.cs" />
     <Compile Include="Services\Repository.cs" />
@@ -451,6 +467,7 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Forum\Afforism.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -497,6 +514,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809101732172_ChangedLikeTable.resx">
       <DependentUpon>201809101732172_ChangedLikeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811021635345_ProdTableAdded.resx">
+      <DependentUpon>201811021635345_ProdTableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811021637267_IngridientsTableAdded.resx">
+      <DependentUpon>201811021637267_IngridientsTableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811021642490_AddedFillIngridientsToProduct.resx">
+      <DependentUpon>201811021642490_AddedFillIngridientsToProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

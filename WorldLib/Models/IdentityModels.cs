@@ -57,7 +57,7 @@ namespace WorldLib.Models
 
     public class Like
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public bool IsLike { get; set; }
         public string UserId { get; set; }
         public int CommentId { get; set; }
@@ -72,7 +72,9 @@ namespace WorldLib.Models
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Like> Likes { get; set; }  
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Ingridient> Ingridients { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

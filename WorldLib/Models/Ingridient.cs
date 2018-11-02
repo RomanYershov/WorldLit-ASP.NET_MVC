@@ -6,13 +6,14 @@ using System.Web;
 
 namespace WorldLib.Models
 {
-    public class Product
+    public class Ingridient
     {
         public int Id { get; set; }
-        public double Cost { get; set; }
+        public int ProductId { get; set; }  
         public string Name { get; set; }
         public double Weight { get; set; }
-        public string Description { get; set; }
-        public virtual ISet<Ingridient> Ingridients { get; set; }
+        public double Cost { get; set; }    
+        //[ForeignKey("ProductId")]
+        //public Product Product { get; set; }
     }
 }

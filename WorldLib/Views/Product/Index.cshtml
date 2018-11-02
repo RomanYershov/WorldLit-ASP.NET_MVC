@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="well">
+        <input type="button" class="btn btn-default"  data-bind="value: btnProductVal, click: createProductForm" />
+        @*<input type="text" data-bind="visible:isCreateProductClick, text: newProductName" placeholder="product name"/>*@
+        <div data-bind="foreach: products">
+            <h4 data-bind="text: productName"></h4>
+            <div class="alert alert-dismissable">
+                <div class="form-horizontal" data-bind="foreach: ingridients">
+                    <div>
+                        <input type="text" data-bind="value:Name">
+                        <input type="text" data-bind="value: Weight"/>
+                        <input type="text" data-bind="value: Cost"/>
+                        <a href="#" data-bind="click:$parent.addIngridient">+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        function ProductModel(products) {
+            var self = this;
+            self.isCreateProductClick = ko.observable(false);
+            self.btnProductVal = ko.observable("Создать продукт");
+
+            self.ingr = [{ name: 'sugar', weight: 34 }, { name: 'tim', weight: 77 }];
+ 
+           
+            self.products = ko.observableArray([]);
+              
+          
+            self.getProducts = function() {
+                $.get('/product/GetProducts', function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        self.products.push({
+                            productName: data[i].Product.Name,
+                            ingridients: ko.observableArray(data[i].Ingridients)
+                        });
+                    }
+                });
+            };
+            self.getProducts();
+
+            //self.products.push({ productName: 'new prod 2', ingridients: ko.observableArray([{name: 'badf', weight: 754}])});
+          
+
+
+          
+            self.createProductForm = function() {
+                //self.isCreateProductClick(true);
+                //self.btnProductVal("Создать");
+            }
+
+
+        }
+      
+            ko.applyBindings(new ProductModel());
+
+      
+    </script>
+}
+
+
+
+
+
+
