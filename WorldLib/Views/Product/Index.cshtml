@@ -9,13 +9,13 @@
         <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="product name" />
         <div data-bind="foreach: products">
             <div>
-                <h4><strong  data-bind="text: Name"></strong></h4>
-                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct"></a>
+                <h4><strong  data-bind="text: name"></strong></h4>
+                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:id == 0 "></a>
             </div>
             <div class="alert alert-success">
-                <div class="form-horizontal" data-bind="foreach: Ingridients">
+                <div class="form-horizontal" data-bind="foreach: ingridients">
                     <div>
-                        <input type="text" placeholder="название" data-bind="value:Name">
+                        <input type="text" placeholder="название" data-bind="value: Name">
                         <input type="text" placeholder="вес (гр)" data-bind="value: Weight" />
                         <input type="text" placeholder="цена (ед)" data-bind="value: Cost" />
                         <a href="#" class="glyphicon glyphicon-minus" data-bind="click:$root.removeIngridient"></a>
@@ -36,23 +36,21 @@
             self.isCreateProductClick = ko.observable(false);
             self.btnProductVal = ko.observable("Создать продукт");
             self.newProductName = ko.observable("");
-            self.ingr = [{ name: 'sugar', weight: 34 }, { name: 'tim', weight: 77 }];
-
-
+            self.isNewProduct = ko.observable(false);
             self.products = ko.observableArray([]);
-
+            
 
             self.getProducts = function() {
                 $.get('/product/GetProducts',
                     function(data) {
                         for (var i = 0; i < data.length; i++) {
                             self.products.push({
-                                Id: data[i].Product.Id,
-                                Name: data[i].Product.Name,
-                                Cost: data[i].Product.Cost,
-                                Weight: data[i].Product.Weight,
-                                Description: data[i].Product.Description,
-                                Ingridients: ko.observableArray(data[i].Ingridients)
+                                id: data[i].Product.Id,
+                                name: data[i].Product.Name,
+                                cost: data[i].Product.Cost,
+                                weight: data[i].Product.Weight,
+                                description: data[i].Product.Description,
+                                ingridients: ko.observableArray(data[i].Ingridients)
                             });
                         }
                     });
@@ -69,6 +67,7 @@
                     createProduct();
                     self.isCreateProductClick(false);
                     self.newProductName("");
+                    self.isNewProduct(true);
                     self.btnProductVal("Создать продукт");
                 }
             }
@@ -76,31 +75,32 @@
             function createProduct() {
                 var newName = self.newProductName();
                 self.products.push({
-                    Name: newName,
-                    Cost: 0,
-                    Weight: 0,
-                    Description: '',
-                    Ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '' }])
+                    name: newName,
+                    cost: 0,
+                    weight: 0,
+                    description: '',
+                    id: 0,
+                    ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '' }])
                 });
             }
 
             self.addIngridient = function(product) {
-                product.Ingridients.push({ Name: '', Weight: '', Cost: '' });
+                product.ingridients.push({ Name: '', Weight: '', Cost: '' });
             }
             self.removeIngridient = function(ingridient) {
-                $.each(self.products(), function() { this.Ingridients.remove(ingridient) }); // writen each js
+                $.each(self.products(), function() { this.ingridients.remove(ingridient) }); // writen each js
             }
 
             self.saveProduct = function(product) {
                 debugger;
                 $.post('/product/saveProduct',
                     {
-                        Name: product.Name,
-                        Cost: product.Cost,
-                        Description: product.Description,
-                        Weight: product.Weight,
-                        Id: product.Id,
-                        Ingridients: product.Ingridients()
+                        name: product.name,
+                        cost: product.cost,
+                        description: product.description,
+                        weight: product.weight,
+                        id: product.id,
+                        ingridients: product.ingridients()
                     },
                     function(data) {
                         debugger;
