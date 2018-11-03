@@ -22,5 +22,12 @@ namespace WorldLib.Controllers
             var model = ViewProductModel.Load();
             return Json(model,JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult SaveProduct(SaveProductModel product)
+        {
+            product.Save();
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
     }
 }

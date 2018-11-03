@@ -274,6 +274,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Operator.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\SaveProductModel.cs" />
     <Compile Include="Models\ViewProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IRepository.cs" />
