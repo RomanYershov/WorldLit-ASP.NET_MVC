@@ -10,7 +10,7 @@
         <div data-bind="foreach: products">
             <div>
                 <h4><strong  data-bind="text: name"></strong></h4>
-                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:id == 0 "></a>
+                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:isNewProduct"></a>
             </div>
             <div class="alert alert-success">
                 <div class="form-horizontal" data-bind="foreach: ingridients">
@@ -36,7 +36,6 @@
             self.isCreateProductClick = ko.observable(false);
             self.btnProductVal = ko.observable("Создать продукт");
             self.newProductName = ko.observable("");
-            self.isNewProduct = ko.observable(false);
             self.products = ko.observableArray([]);
             
 
@@ -50,6 +49,7 @@
                                 cost: data[i].Product.Cost,
                                 weight: data[i].Product.Weight,
                                 description: data[i].Product.Description,
+                                isNewProduct: ko.observable(false),
                                 ingridients: ko.observableArray(data[i].Ingridients)
                             });
                         }
@@ -67,7 +67,6 @@
                     createProduct();
                     self.isCreateProductClick(false);
                     self.newProductName("");
-                    self.isNewProduct(true);
                     self.btnProductVal("Создать продукт");
                 }
             }
@@ -80,15 +79,26 @@
                     weight: 0,
                     description: '',
                     id: 0,
+                    isNewProduct: ko.observable(true),
                     ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '' }])
                 });
             }
 
             self.addIngridient = function(product) {
                 product.ingridients.push({ Name: '', Weight: '', Cost: '' });
+                product.isNewProduct(true);
             }
-            self.removeIngridient = function(ingridient) {
-                $.each(self.products(), function() { this.ingridients.remove(ingridient) }); // writen each js
+            self.removeIngridient = function (ingridient) {
+                
+                $.each(self.products(), function () {
+                    var isMyProduct = this.ingridients().includes(ingridient);
+                    if (isMyProduct) {
+                        this.ingridients.remove(ingridient);
+                        this.isNewProduct(true);
+                    }
+                    return !isMyProduct;
+                   
+                }); // writen each js
             }
 
             self.saveProduct = function(product) {
