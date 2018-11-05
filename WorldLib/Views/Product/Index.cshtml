@@ -11,6 +11,7 @@
             <div>
                 <h4><strong data-bind="text: name"></strong></h4>
                 <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:isNewOrUpdatedProduct"></a>
+                <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $root.removeProduct"></a>
             </div>
             <div class="alert alert-success">
                 <div class="form-horizontal" data-bind="foreach: ingridients">
@@ -38,7 +39,9 @@
             self.newProductName = ko.observable("");
             self.products = ko.observableArray([]);
             self.proceses = {
-                create: 1, update: 2, remove: 3
+                create: 1,
+                update: 2,
+                remove: 3
             }
 
             self.getProducts = function () {
@@ -61,6 +64,15 @@
             self.setProcessFlag = function (ingridients) {
                 $.each(ingridients, function () { this.ProcessFlag = ko.observable(this.ProcessFlag) });
                 return ingridients;
+            }
+
+            self.removeProduct = function (product) {
+                self.products.remove(product);
+                $.post("/product/RemoveProduct", 
+                    { id: product.id },
+                    function (data) {
+
+                    });
             }
             //self.products.push({ productName: 'new prod 2', ingridients: ko.observableArray([{name: 'badf', weight: 754}])});
 
@@ -85,7 +97,7 @@
                     description: '',
                     id: 0,
                     isNewOrUpdatedProduct: ko.observable(true),
-                    ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '' }])
+                    ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '', ProcessFlag: ko.observable(0) }])
                 });
             }
 
@@ -104,15 +116,16 @@
 
             self.removedIngr = [];
             self.removeIngridient = function (ingridient) {
-                $.each(self.products(), function () {
-                    var isMyProduct = this.ingridients().includes(ingridient);
-                    if (isMyProduct) {
-                        ingridient.ProcessFlag(self.proceses.remove);
-                        // this.ingridients.remove(ingridient);
-                        this.isNewOrUpdatedProduct(true);
-                    }
-                    return !isMyProduct;
-                }); // writen each js
+                $.each(self.products(),
+                    function () {
+                        var isMyProduct = this.ingridients().includes(ingridient);
+                        if (isMyProduct) {
+                            ingridient.ProcessFlag(self.proceses.remove);
+                            // this.ingridients.remove(ingridient);
+                            this.isNewOrUpdatedProduct(true);
+                        }
+                        return !isMyProduct;
+                    }); // writen each js
             }
 
             self.saveProduct = function (product) {

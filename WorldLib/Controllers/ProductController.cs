@@ -29,5 +29,14 @@ namespace WorldLib.Controllers
             product.Save();
             return Json("", JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult RemoveProduct(int id)
+        {
+            var rep = new Repository<Product>();
+            rep.Delete(x => x.Id == id);
+            rep.Commit();
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
     }
 }
