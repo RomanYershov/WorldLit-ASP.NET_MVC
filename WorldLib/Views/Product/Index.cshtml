@@ -9,12 +9,12 @@
         <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="product name" />
         <div data-bind="foreach: products">
             <div>
-                <h4><strong  data-bind="text: name"></strong></h4>
-                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:isNewProduct"></a>
+                <h4><strong data-bind="text: name"></strong></h4>
+                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:isNewOrUpdatedProduct"></a>
             </div>
             <div class="alert alert-success">
                 <div class="form-horizontal" data-bind="foreach: ingridients">
-                    <div>
+                    <div data-bind="visible: ProcessFlag() != 3">
                         <input type="text" placeholder="название" data-bind="value: Name">
                         <input type="text" placeholder="вес (гр)" data-bind="value: Weight" />
                         <input type="text" placeholder="цена (ед)" data-bind="value: Cost" />
@@ -37,11 +37,13 @@
             self.btnProductVal = ko.observable("Создать продукт");
             self.newProductName = ko.observable("");
             self.products = ko.observableArray([]);
-            
+            self.proceses = {
+                create: 1, update: 2, remove: 3
+            }
 
-            self.getProducts = function() {
+            self.getProducts = function () {
                 $.get('/product/GetProducts',
-                    function(data) {
+                    function (data) {
                         for (var i = 0; i < data.length; i++) {
                             self.products.push({
                                 id: data[i].Product.Id,
@@ -49,18 +51,21 @@
                                 cost: data[i].Product.Cost,
                                 weight: data[i].Product.Weight,
                                 description: data[i].Product.Description,
-                                isNewProduct: ko.observable(false),
-                                ingridients: ko.observableArray(data[i].Ingridients)
+                                isNewOrUpdatedProduct: ko.observable(false),
+                                ingridients: ko.observableArray(self.setProcessFlag(data[i].Ingridients))
                             });
                         }
                     });
             };
             self.getProducts();
-
+            self.setProcessFlag = function (ingridients) {
+                $.each(ingridients, function () { this.ProcessFlag = ko.observable(this.ProcessFlag) });
+                return ingridients;
+            }
             //self.products.push({ productName: 'new prod 2', ingridients: ko.observableArray([{name: 'badf', weight: 754}])});
 
 
-            self.createProductForm = function() {
+            self.createProductForm = function () {
                 self.isCreateProductClick(true);
                 self.btnProductVal("Создать");
                 if (self.isCreateProductClick() && self.newProductName().length > 0) {
@@ -79,46 +84,60 @@
                     weight: 0,
                     description: '',
                     id: 0,
-                    isNewProduct: ko.observable(true),
+                    isNewOrUpdatedProduct: ko.observable(true),
                     ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '' }])
                 });
             }
 
-            self.addIngridient = function(product) {
-                product.ingridients.push({ Name: '', Weight: '', Cost: '' });
-                product.isNewProduct(true);
+            self.addIngridient = function (product) {
+                debugger;
+                product.ingridients.push({
+                    ProductId: product.id,
+                    Name: '',
+                    Weight: '',
+                    Cost: '',
+                    ProcessFlag: ko.observable(self.proceses.create)
+                });
+                product.isNewOrUpdatedProduct(true);
             }
+
+
+            self.removedIngr = [];
             self.removeIngridient = function (ingridient) {
-                
                 $.each(self.products(), function () {
                     var isMyProduct = this.ingridients().includes(ingridient);
                     if (isMyProduct) {
-                        this.ingridients.remove(ingridient);
-                        this.isNewProduct(true);
+                        ingridient.ProcessFlag(self.proceses.remove);
+                        // this.ingridients.remove(ingridient);
+                        this.isNewOrUpdatedProduct(true);
                     }
                     return !isMyProduct;
-                   
                 }); // writen each js
             }
 
-            self.saveProduct = function(product) {
+            self.saveProduct = function (product) {
                 debugger;
                 $.post('/product/saveProduct',
-                    {
-                        name: product.name,
-                        cost: product.cost,
-                        description: product.description,
-                        weight: product.weight,
-                        id: product.id,
-                        ingridients: product.ingridients()
-                    },
-                    function(data) {
+                    self.getData(product),
+                    function (data) {
                         debugger;
                     });
                 debugger;
             }
 
-            self.save = function(product) {
+            self.getData = function (product) {
+                product.isNewOrUpdatedProduct(false);
+                return {
+                    name: product.name,
+                    cost: product.cost,
+                    description: product.description,
+                    weight: product.weight,
+                    id: product.id,
+                    ingridients: product.ingridients()
+                }
+            }
+
+            self.save = function (product) {
                 self.lastSavedJson(JSON.stringify(ko.toJS(product), null, 2));
             };
 

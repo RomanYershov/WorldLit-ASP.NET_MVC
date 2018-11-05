@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.Ajax.Utilities;
+using WorldLib.Enums;
 using WorldLib.Services;
 
 namespace WorldLib.Models
@@ -17,11 +18,59 @@ namespace WorldLib.Models
         public List<Ingridient> Ingridients { get; set; }
 
 
-        public  void Save()
+        public  void  Save()
         {
-            var repProd = new Repository<Product>();
             var repIngr = new Repository<Ingridient>();
+            var repProd = new Repository<Product>();
+            //if (this.Id != 0)
+            //{
+            //    var newIngridients = Ingridients?.Where(x => x.Id == 0) ?? null;
+            //    if (newIngridients == null)
+            //    {
+            //        var ingr = repIngr.Get(x => x.ProductId == this.Id);
+            //        foreach (var item in ingr)
+            //        {
+            //                repIngr.Delete(item);
+            //        }
+            //        repIngr.Commit();
+            //        return;
+            //    };
+            //    foreach (var ingridient in newIngridients)
+            //    {
+            //        repIngr.Create(new Ingridient
+            //        {
+            //            Cost = ingridient.Cost,
+            //            Weight = ingridient.Weight,
+            //            Name = ingridient.Name,
+            //            ProductId = this.Id
+            //        });
+            //    }
+            //    repIngr.Commit();
+            //    return;
+            //}
 
+            if (this.Id == 0)
+            {
+                SaveNewProduct(repProd, repIngr);
+                return;
+            }
+
+            var forCreateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Create).ToList();
+            var forUpdateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Update).ToList();
+            var forRemoveIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Delete).ToList();
+
+           
+            if(forCreateIngr.Any())
+                AddIngridient(repIngr, forCreateIngr);
+            if(forUpdateIngr.Any())
+                UpdateIngridients(repIngr,forUpdateIngr);
+            if(forRemoveIngr.Any())
+                RemoveIngridient(repIngr,forRemoveIngr);
+
+        }
+
+        private void SaveNewProduct(Repository<Product> repProd, Repository<Ingridient> repIngr)
+        {
             Product product = new Product
             {
                 Name = this.Name,
@@ -31,7 +80,7 @@ namespace WorldLib.Models
             };
             repProd.Create(product);
             repProd.Commit();
-            foreach (var ingridient in Ingridients)     
+            foreach (var ingridient in Ingridients)
             {
                 repIngr.Create(new Ingridient
                 {
@@ -43,6 +92,36 @@ namespace WorldLib.Models
             }
             repIngr.Commit();
         }
+
+        private void UpdateIngridients(Repository<Ingridient> ingrRep, IEnumerable<Ingridient> ingridients)
+        {
+            foreach (var item in ingridients)
+            {
+                item.ProcessFlag = CrudFlagEnum.None;
+                ingrRep.Update(item);
+            }
+            ingrRep.Commit();
+        }
+
+        private void RemoveIngridient(Repository<Ingridient> ingrRep, IEnumerable<Ingridient> ingridients)
+        {
+            foreach (var item in ingridients)
+            {
+                ingrRep.Delete(item);
+            }
+            ingrRep.Commit();
+        }
+
+        private void AddIngridient(Repository<Ingridient> ingrRep, IEnumerable<Ingridient> ingridients)
+        {
+            foreach (var item in ingridients)
+            {
+                item.ProcessFlag = CrudFlagEnum.None;
+                ingrRep.Create(item);
+            }
+            ingrRep.Commit();
+        }
+
     }   
 
 }

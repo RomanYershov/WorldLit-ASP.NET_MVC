@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using WorldLib.Enums;
 
 namespace WorldLib.Models
 {
@@ -12,7 +13,8 @@ namespace WorldLib.Models
         public int ProductId { get; set; }  
         public string Name { get; set; }
         public double Weight { get; set; }
-        public double Cost { get; set; }    
+        public double Cost { get; set; }
+        public CrudFlagEnum ProcessFlag { get; set; }
         //[ForeignKey("ProductId")]
         //public Product Product { get; set; }
     }

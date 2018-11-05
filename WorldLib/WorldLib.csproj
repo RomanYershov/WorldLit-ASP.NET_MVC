@@ -206,6 +206,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Enums\AdminFunkcionalEnum.cs" />
     <Compile Include="Enums\CommentStatusEnum.cs" />
+    <Compile Include="Enums\CrudFlagEnum.cs" />
     <Compile Include="Enums\DiscussionStatusEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -258,6 +259,10 @@
     <Compile Include="Migrations\201811021642490_AddedFillIngridientsToProduct.cs" />
     <Compile Include="Migrations\201811021642490_AddedFillIngridientsToProduct.Designer.cs">
       <DependentUpon>201811021642490_AddedFillIngridientsToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811041828051_AddedCrudFlagToIngrTable.cs" />
+    <Compile Include="Migrations\201811041828051_AddedCrudFlagToIngrTable.Designer.cs">
+      <DependentUpon>201811041828051_AddedCrudFlagToIngrTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -524,6 +529,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811021642490_AddedFillIngridientsToProduct.resx">
       <DependentUpon>201811021642490_AddedFillIngridientsToProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811041828051_AddedCrudFlagToIngrTable.resx">
+      <DependentUpon>201811041828051_AddedCrudFlagToIngrTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
