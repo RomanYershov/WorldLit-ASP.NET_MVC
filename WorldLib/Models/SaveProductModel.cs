@@ -22,32 +22,6 @@ namespace WorldLib.Models
         {
             var repIngr = new Repository<Ingridient>();
             var repProd = new Repository<Product>();
-            //if (this.Id != 0)
-            //{
-            //    var newIngridients = Ingridients?.Where(x => x.Id == 0) ?? null;
-            //    if (newIngridients == null)
-            //    {
-            //        var ingr = repIngr.Get(x => x.ProductId == this.Id);
-            //        foreach (var item in ingr)
-            //        {
-            //                repIngr.Delete(item);
-            //        }
-            //        repIngr.Commit();
-            //        return;
-            //    };
-            //    foreach (var ingridient in newIngridients)
-            //    {
-            //        repIngr.Create(new Ingridient
-            //        {
-            //            Cost = ingridient.Cost,
-            //            Weight = ingridient.Weight,
-            //            Name = ingridient.Name,
-            //            ProductId = this.Id
-            //        });
-            //    }
-            //    repIngr.Commit();
-            //    return;
-            //}
 
             if (this.Id == 0)
             {
@@ -57,7 +31,7 @@ namespace WorldLib.Models
 
             var forCreateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Create).ToList();
             var forUpdateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Update).ToList();
-            var forRemoveIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Delete).ToList();
+            var forRemoveIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Delete && x.Id != 0).ToList();
 
            
             if(forCreateIngr.Any())

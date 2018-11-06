@@ -5,162 +5,39 @@
 
 <div class="container">
     <div class="well">
-        <input type="button" class="btn btn-default" data-bind="value: btnProductVal, click: createProductForm" />
-        <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="product name" />
-        <div data-bind="foreach: products">
-            <div>
-                <h4><strong data-bind="text: name"></strong></h4>
-                <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $root.saveProduct, visible:isNewOrUpdatedProduct"></a>
-                <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $root.removeProduct"></a>
-            </div>
-            <div class="alert alert-success">
-                <div class="form-horizontal" data-bind="foreach: ingridients">
-                    <div data-bind="visible: ProcessFlag() != 3">
-                        <input type="text" placeholder="название" data-bind="value: Name">
-                        <input type="text" placeholder="вес (гр)" data-bind="value: Weight" />
-                        <input type="text" placeholder="цена (ед)" data-bind="value: Cost" />
-                        <a href="#" class="glyphicon glyphicon-minus" data-bind="click:$root.removeIngridient"></a>
-                    </div>
+        <template id="product-template">
+            <input type="button" class="btn btn-default" data-bind="value: btnProductVal, click: createProductForm" />
+            <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название" />
+            <div data-bind="foreach: products">
+                <div>
+                    <h4><strong data-bind="text: name"></strong></h4>
+                    <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
+                    <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $parent.removeProduct"></a>
                 </div>
-                <a href="#" class="glyphicon" data-bind="click:$root.addIngridient">+</a>
-            </div><hr />
-        </div>
-
+                <div class="alert alert-success">
+                    <div class="form-horizontal" data-bind="foreach: ingridients">
+                        <div data-bind="visible: ProcessFlag() != 3">
+                            <input type="text" placeholder="название" data-bind="value: Name">
+                            <input type="text" placeholder="вес (гр)" data-bind="value: Weight"/>
+                            <input type="text" placeholder="цена (ед)" data-bind="value: Cost"/>
+                            <a href="#" class="glyphicon glyphicon-minus" data-bind="click:$component.removeIngridient"></a>
+                        </div>
+                    </div>
+                    <a href="#" class="glyphicon" data-bind="click:$component.addIngridient">+</a>
+                </div><hr />
+            </div>
+        </template>
+        <products></products>
     </div>
 </div>
 
 
 @section scripts{
+    @Scripts.Render("/Scripts/models/product-view-model.js")
     <script>
-        function ProductModel(products) {
-            var self = this;
-            self.isCreateProductClick = ko.observable(false);
-            self.btnProductVal = ko.observable("Создать продукт");
-            self.newProductName = ko.observable("");
-            self.products = ko.observableArray([]);
-            self.proceses = {
-                create: 1,
-                update: 2,
-                remove: 3
-            }
-
-            self.getProducts = function () {
-                $.get('/product/GetProducts',
-                    function (data) {
-                        for (var i = 0; i < data.length; i++) {
-                            self.products.push({
-                                id: data[i].Product.Id,
-                                name: data[i].Product.Name,
-                                cost: data[i].Product.Cost,
-                                weight: data[i].Product.Weight,
-                                description: data[i].Product.Description,
-                                isNewOrUpdatedProduct: ko.observable(false),
-                                ingridients: ko.observableArray(self.setProcessFlag(data[i].Ingridients))
-                            });
-                        }
-                    });
-            };
-            self.getProducts();
-            self.setProcessFlag = function (ingridients) {
-                $.each(ingridients, function () { this.ProcessFlag = ko.observable(this.ProcessFlag) });
-                return ingridients;
-            }
-
-            self.removeProduct = function (product) {
-                self.products.remove(product);
-                $.post("/product/RemoveProduct", 
-                    { id: product.id },
-                    function (data) {
-
-                    });
-            }
-            //self.products.push({ productName: 'new prod 2', ingridients: ko.observableArray([{name: 'badf', weight: 754}])});
-
-
-            self.createProductForm = function () {
-                self.isCreateProductClick(true);
-                self.btnProductVal("Создать");
-                if (self.isCreateProductClick() && self.newProductName().length > 0) {
-                    createProduct();
-                    self.isCreateProductClick(false);
-                    self.newProductName("");
-                    self.btnProductVal("Создать продукт");
-                }
-            }
-
-            function createProduct() {
-                var newName = self.newProductName();
-                self.products.push({
-                    name: newName,
-                    cost: 0,
-                    weight: 0,
-                    description: '',
-                    id: 0,
-                    isNewOrUpdatedProduct: ko.observable(true),
-                    ingridients: ko.observableArray([{ Name: '', Weight: '', Cost: '', ProcessFlag: ko.observable(0) }])
-                });
-            }
-
-            self.addIngridient = function (product) {
-                debugger;
-                product.ingridients.push({
-                    ProductId: product.id,
-                    Name: '',
-                    Weight: '',
-                    Cost: '',
-                    ProcessFlag: ko.observable(self.proceses.create)
-                });
-                product.isNewOrUpdatedProduct(true);
-            }
-
-
-            self.removedIngr = [];
-            self.removeIngridient = function (ingridient) {
-                $.each(self.products(),
-                    function () {
-                        var isMyProduct = this.ingridients().includes(ingridient);
-                        if (isMyProduct) {
-                            ingridient.ProcessFlag(self.proceses.remove);
-                            // this.ingridients.remove(ingridient);
-                            this.isNewOrUpdatedProduct(true);
-                        }
-                        return !isMyProduct;
-                    }); // writen each js
-            }
-
-            self.saveProduct = function (product) {
-                debugger;
-                $.post('/product/saveProduct',
-                    self.getData(product),
-                    function (data) {
-                        debugger;
-                    });
-                debugger;
-            }
-
-            self.getData = function (product) {
-                product.isNewOrUpdatedProduct(false);
-                return {
-                    name: product.name,
-                    cost: product.cost,
-                    description: product.description,
-                    weight: product.weight,
-                    id: product.id,
-                    ingridients: product.ingridients()
-                }
-            }
-
-            self.save = function (product) {
-                self.lastSavedJson(JSON.stringify(ko.toJS(product), null, 2));
-            };
-
-            self.lastSavedJson = ko.observable("");
-        }
-
-
-        ko.applyBindings(new ProductModel());
-
-
+        $(document).ready(function () {
+            ko.applyBindings();
+        });
     </script>
 }
 

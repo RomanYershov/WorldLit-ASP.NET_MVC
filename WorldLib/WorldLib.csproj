@@ -406,6 +406,7 @@
     <Content Include="Scripts\models\afforism-view-model.js" />
     <Content Include="Scripts\models\comments-view-model.js" />
     <Content Include="Scripts\models\loader.js" />
+    <Content Include="Scripts\models\product-view-model.js" />
     <Content Include="Scripts\models\testCommentsRequire.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\r.js" />
