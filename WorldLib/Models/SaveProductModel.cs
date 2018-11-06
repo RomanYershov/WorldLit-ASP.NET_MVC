@@ -56,6 +56,7 @@ namespace WorldLib.Models
             repProd.Commit();
             foreach (var ingridient in Ingridients)
             {
+                if(ingridient.ProcessFlag == CrudFlagEnum.Delete) continue;
                 repIngr.Create(new Ingridient
                 {
                     Cost = ingridient.Cost,

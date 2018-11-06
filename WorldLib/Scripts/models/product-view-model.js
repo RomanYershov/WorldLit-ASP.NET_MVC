@@ -1,6 +1,10 @@
 ﻿
-function ProductModel(products) {
+function ProductModel(params) {
+    
+  
     var self = this;
+  
+   
     self.isCreateProductClick = ko.observable(false);
     self.btnProductVal = ko.observable("Создать продукт");
     self.newProductName = ko.observable("");

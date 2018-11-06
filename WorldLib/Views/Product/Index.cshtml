@@ -6,8 +6,8 @@
 <div class="container">
     <div class="well">
         <template id="product-template">
-            <input type="button" class="btn btn-default" data-bind="value: btnProductVal, click: createProductForm" />
-            <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название" />
+            <input type="button" class="btn btn-default" data-bind="value: btnProductVal, click: createProductForm"/>
+            <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
             <div data-bind="foreach: products">
                 <div>
                     <h4><strong data-bind="text: name"></strong></h4>
@@ -24,10 +24,10 @@
                         </div>
                     </div>
                     <a href="#" class="glyphicon" data-bind="click:$component.addIngridient">+</a>
-                </div><hr />
+                </div><hr/>
             </div>
         </template>
-        <products></products>
+        <products params="" data-bind="visible: true"></products>
     </div>
 </div>
 
@@ -35,7 +35,8 @@
 @section scripts{
     @Scripts.Render("/Scripts/models/product-view-model.js")
     <script>
-        $(document).ready(function () {
+   
+        $(document).ready(function() {
             ko.applyBindings();
         });
     </script>
