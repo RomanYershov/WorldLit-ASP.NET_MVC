@@ -12,18 +12,23 @@
                 <div>
                     <h4><strong data-bind="text: name"></strong></h4>
                     <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
+                   <!--ko ifnot:isEdit-->
+                    <a href="#" class="glyphicon glyphicon-edit" data-bind="click: $parent.editProduct"></a>
+                    <!--/ko-->
+                    <!--ko if:isEdit-->
                     <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $parent.removeProduct"></a>
+                    <!--/ko-->
                 </div>
-                <div class="alert alert-success">
+                <div data-bind="css:{'alert-danger':isEdit}" class="alert alert-success">
                     <div class="form-horizontal" data-bind="foreach: ingridients">
                         <div data-bind="visible: ProcessFlag() != 3">
-                            <input type="text" placeholder="название" data-bind="value: Name">
-                            <input type="text" placeholder="вес (гр)" data-bind="value: Weight"/>
-                            <input type="text" placeholder="цена (ед)" data-bind="value: Cost"/>
-                            <a href="#" class="glyphicon glyphicon-minus" data-bind="click:$component.removeIngridient"></a>
+                            <input type="text" placeholder="название"  data-bind="enable:$parent.isEdit, value: Name">
+                            <input type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight"/>
+                            <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost"/>
+                            <a href="#" class="glyphicon glyphicon-minus" data-bind="visible:$parent.isEdit, click:$component.removeIngridient"></a>
                         </div>
                     </div>
-                    <a href="#" class="glyphicon" data-bind="click:$component.addIngridient">+</a>
+                    <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
                 </div><hr/>
             </div>
         </template>
