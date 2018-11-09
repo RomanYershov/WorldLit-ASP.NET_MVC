@@ -89,6 +89,7 @@ namespace WorldLib.Models
             foreach (var item in ingridients)
             {
                 item.ProcessFlag = CrudFlagEnum.None;
+                item.ProductId = this.Id;
                 ingrRep.Create(item);
             }
             ingrRep.Commit();

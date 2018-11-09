@@ -24,7 +24,7 @@ function ProductModel(params) {
         that.Name = ko.observable('');
         that.Cost = ko.observable(0);
         that.Weight = ko.observable('');
-        that.ProductId = ko.observable(0);
+        that.ProductId = ko.observable(parent.id);
         that.ProcessFlag = ko.observable(self.proceses.create);
         
         parent.cost(this.Cost());
@@ -142,7 +142,7 @@ function ProductModel(params) {
         debugger;
         $.post('/product/saveProduct',
             self.getData(product),
-            function (data) {
+            function (data) { // simple response realisovat
                 product.isNewOrUpdatedProduct(false);
                 product.isEdit(false);
                 product.id = data.Id;
