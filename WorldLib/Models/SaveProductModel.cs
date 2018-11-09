@@ -54,26 +54,22 @@ namespace WorldLib.Models
             };
             repProd.Create(product);
             repProd.Commit();
+            this.Id = product.Id;
             foreach (var ingridient in Ingridients)
             {
                 if(ingridient.ProcessFlag == CrudFlagEnum.Delete) continue;
-                repIngr.Create(new Ingridient
-                {
-                    Cost = ingridient.Cost,
-                    Weight = ingridient.Weight,
-                    Name = ingridient.Name,
-                    ProductId = product.Id
-                });
+                ingridient.ProductId = product.Id;
+                repIngr.Create(ingridient);
             }
             repIngr.Commit();
         }
 
         private void UpdateIngridients(Repository<Ingridient> ingrRep, IEnumerable<Ingridient> ingridients)
         {
-            foreach (var item in ingridients)
+            foreach (var ingridient in ingridients)
             {
-                item.ProcessFlag = CrudFlagEnum.None;
-                ingrRep.Update(item);
+                ingridient.ProcessFlag = CrudFlagEnum.None;
+                ingrRep.Update(ingridient);
             }
             ingrRep.Commit();
         }
@@ -83,6 +79,7 @@ namespace WorldLib.Models
             foreach (var item in ingridients)
             {
                 ingrRep.Delete(item);
+                Ingridients.Remove(item);
             }
             ingrRep.Commit();
         }

@@ -21,6 +21,7 @@ function ProductModel(params) {
             Name: ko.observable(''),    
             Cost: ko.observable(''),
             Weight: ko.observable(''),
+            ProductId: ko.observable(0),
             ProcessFlag: ko.observable(self.proceses.none)}
     }
     var Product = function (name)  {
@@ -34,7 +35,7 @@ function ProductModel(params) {
             isEdit: ko.observable(true),
             ingridients: ko.observableArray([new Ingridient()])}
     }
-  
+    self.updateProduct = ko.observable();
     self.getProducts = function () {
         $.get('/product/GetProducts',
             function (data) {
@@ -73,10 +74,12 @@ function ProductModel(params) {
     }
   
     self.editProduct = function (product) {
+        debugger;
         product.isEdit(true);
         product.isNewOrUpdatedProduct(true);
         $.each(product.ingridients(), function () {
-                this.ProcessFlag(self.proceses.update);
+            if (this.ProcessFlag() !== self.proceses.remove)
+            this.ProcessFlag(self.proceses.update);
         });
     }
 
@@ -125,10 +128,14 @@ function ProductModel(params) {
     }
 
     self.saveProduct = function (product) {
+        debugger;
         $.post('/product/saveProduct',
             self.getData(product),
             function (data) {
-                //debugger;
+                debugger;
+                product.id = data.Id;
+                product.ingridients(self.setBindings( data.Ingridients));
+                debugger;
             });
     }
 

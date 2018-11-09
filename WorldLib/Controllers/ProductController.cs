@@ -27,7 +27,7 @@ namespace WorldLib.Controllers
         public ActionResult SaveProduct(SaveProductModel product)
         {
             product.Save();
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json(product, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
