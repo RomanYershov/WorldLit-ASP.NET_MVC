@@ -1,10 +1,10 @@
 ﻿
 function ProductModel(params) {
-    
-  
+
+
     var self = this;
-  
-   
+
+
     self.isCreateProductClick = ko.observable(false);
     self.btnProductVal = ko.observable("Создать продукт");
     self.newProductName = ko.observable("");
@@ -15,27 +15,44 @@ function ProductModel(params) {
         update: 2,
         remove: 3
     }
-    var Ingridient = function () {
-        return {
-            Id: '',
-            Name: ko.observable(''),    
-            Cost: ko.observable(''),
-            Weight: ko.observable(''),
-            ProductId: ko.observable(0),
-            ProcessFlag: ko.observable(self.proceses.none)}
+    var Ingridient = function (parent) {
+        //parent.calcSum();
+        var that = this;
+        debugger;
+        that.Id = '';
+        that.ParentId = parent.id;
+        that.Name = ko.observable('');
+        that.Cost = ko.observable(0);
+        that.Weight = ko.observable('');
+        that.ProductId = ko.observable(0);
+        that.ProcessFlag = ko.observable(self.proceses.create);
+        
+        parent.cost(this.Cost());
+        that.Cost.subscribe(function (newVal) {
+            parent.calcSum();
+        });
     }
-    var Product = function (name)  {
-        return {
-            name: name,
-            cost: 0,
-            weight: 0,
-            description: '',
-            id: 0,
-            isNewOrUpdatedProduct: ko.observable(true),
-            isEdit: ko.observable(true),
-            ingridients: ko.observableArray([new Ingridient()])}
+    var Product = function (name) {
+        var that = this;
+        that.name = name;
+        that.cost = ko.observable(0);
+        that.weight = 0;
+        that.description = '';
+        that.id = 0;
+        that.isNewOrUpdatedProduct = ko.observable(true);
+        that.isEdit = ko.observable(true);
+        that.ingridients = ko.observableArray([new Ingridient(this)]);
+
+        that.calcSum = function () {
+            var res = 0;
+            $.each(that.ingridients(), function () {
+                if (this.ProcessFlag() !== self.proceses.remove)
+                    res += parseInt(this.Cost());
+                that.cost(res);
+            });
+        }
     }
-    self.updateProduct = ko.observable();
+
     self.getProducts = function () {
         $.get('/product/GetProducts',
             function (data) {
@@ -43,11 +60,11 @@ function ProductModel(params) {
                     self.products.push({
                         id: data[i].Product.Id,
                         name: data[i].Product.Name,
-                        cost: data[i].Product.Cost,
+                        cost: ko.observable(data[i].Product.Cost),
                         weight: data[i].Product.Weight,
                         description: data[i].Product.Description,
                         isNewOrUpdatedProduct: ko.observable(false),
-                        isEdit : ko.observable(false),
+                        isEdit: ko.observable(false),
                         ingridients: ko.observableArray(self.setBindings(data[i].Ingridients))
                     });
                 }
@@ -72,14 +89,14 @@ function ProductModel(params) {
 
             });
     }
-  
+
     self.editProduct = function (product) {
         debugger;
         product.isEdit(true);
         product.isNewOrUpdatedProduct(true);
         $.each(product.ingridients(), function () {
             if (this.ProcessFlag() !== self.proceses.remove)
-            this.ProcessFlag(self.proceses.update);
+                this.ProcessFlag(self.proceses.update);
         });
     }
 
@@ -94,22 +111,16 @@ function ProductModel(params) {
         }
     }
 
- 
+
     function createProduct() {
         var newName = self.newProductName();
         self.products.push(new Product(newName));
     }
 
- 
+
 
     self.addIngridient = function (product) {
-        product.ingridients.push({
-            ProductId: product.id,
-            Name: '',
-            Weight: '',
-            Cost: '',
-            ProcessFlag: ko.observable(self.proceses.create)
-        });
+        product.ingridients.push(new Ingridient(product));
         product.isNewOrUpdatedProduct(true);
     }
 
@@ -132,16 +143,16 @@ function ProductModel(params) {
         $.post('/product/saveProduct',
             self.getData(product),
             function (data) {
-                debugger;
+                product.isNewOrUpdatedProduct(false);
+                product.isEdit(false);
                 product.id = data.Id;
-                product.ingridients(self.setBindings( data.Ingridients));
+                product.ingridients(self.setBindings(data.Ingridients));
                 debugger;
             });
     }
 
     self.getData = function (product) {
-        product.isNewOrUpdatedProduct(false);
-        product.isEdit(false);
+      
         return {
             name: product.name,
             cost: product.cost,

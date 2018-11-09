@@ -24,11 +24,12 @@
                         <div data-bind="visible: ProcessFlag() != 3">
                             <input type="text" placeholder="название"  data-bind="enable:$parent.isEdit, value: Name">
                             <input type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight"/>
-                            <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost"/>
+                            <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown'"/>
                             <a href="#" class="glyphicon glyphicon-minus" data-bind="visible:$parent.isEdit, click:$component.removeIngridient"></a>
                         </div>
                     </div>
                     <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
+                    <span data-bind="text:cost"></span>
                 </div><hr/>
             </div>
         </template>
