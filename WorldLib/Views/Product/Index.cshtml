@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<style>
+    .error{ border: 2px solid red;}
+</style>
 <div class="container">
     <div class="well">
         <template id="product-template">
@@ -23,14 +25,20 @@
                     <div class="form-horizontal" data-bind="foreach: ingridients">
                         <div data-bind="visible: ProcessFlag() != 3">
                             <input type="text" placeholder="название"  data-bind="enable:$parent.isEdit, value: Name">
-                            <input type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight"/>
-                            <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown'"/>
+                            <input type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight ,valueUpdate: 'afterkeydown' , css:{error:Weight.hasError}"/>
+                            <span data-bind="visible: Weight.hasError, text: Weight.validationMessage"></span>
+                            <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown', css:{error:Cost.hasError}"/>
+                            <span data-bind="visible: Cost.hasError, text: Cost.validationMessage"></span>
                             <a href="#" class="glyphicon glyphicon-minus" data-bind="visible:$parent.isEdit, click:$component.removeIngridient"></a>
                         </div>
                     </div>
                     <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
-                    <span data-bind="text:cost"></span>
-                </div><hr/>
+                    <span data-bind="text:'Стоимость:'+cost()"></span>
+                </div>
+                <!--ko if:isEdit-->
+                <input type="button" data-bind="click:$parent.calcSum" value="расчитать"/>
+                <!--/ko-->
+                <hr/>
             </div>
         </template>
         <products params="" data-bind="visible: true"></products>

@@ -1,8 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Microsoft.Ajax.Utilities;
+
 using WorldLib.Enums;
 using WorldLib.Services;
 
@@ -15,6 +14,7 @@ namespace WorldLib.Models
         public string Name { get; set; }
         public double Weight { get; set; }
         public string Description { get; set; }
+        public bool IsNewOrUpdatedProduct { get; set; } 
         public List<Ingridient> Ingridients { get; set; }
 
 
@@ -25,9 +25,11 @@ namespace WorldLib.Models
 
             if (this.Id == 0)
             {
-                SaveNewProduct(repProd, repIngr);
+                SaveNewProduct(repProd);
                 return;
             }
+            if (IsNewOrUpdatedProduct)
+                UpdateProduct(repProd);
 
             var forCreateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Create).ToList();
             var forUpdateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Update).ToList();
@@ -43,7 +45,7 @@ namespace WorldLib.Models
 
         }
 
-        private void SaveNewProduct(Repository<Product> repProd, Repository<Ingridient> repIngr)
+        private void SaveNewProduct(Repository<Product> repProd)
         {
             Product product = new Product
             {
@@ -57,11 +59,12 @@ namespace WorldLib.Models
             this.Id = product.Id;
             foreach (var ingridient in Ingridients)
             {
-                if(ingridient.ProcessFlag == CrudFlagEnum.Delete) continue;
+                if (ingridient.ProcessFlag == CrudFlagEnum.Delete) continue;
                 ingridient.ProductId = product.Id;
-                repIngr.Create(ingridient);
             }
-            repIngr.Commit();
+            product.Ingridients = new HashSet<Ingridient>(Ingridients);
+            repProd.Update(product);
+            repProd.Commit();
         }
 
         private void UpdateIngridients(Repository<Ingridient> ingrRep, IEnumerable<Ingridient> ingridients)
@@ -93,6 +96,19 @@ namespace WorldLib.Models
                 ingrRep.Create(item);
             }
             ingrRep.Commit();
+        }
+
+        private void UpdateProduct(Repository<Product> repProduct)
+        {
+            var product = repProduct.Get(x => x.Id == Id).SingleOrDefault();
+            if (product != null)
+            {
+                product.Name = Name;
+                product.Cost = Cost;
+                product.Weight = Weight;
+                repProduct.Update(product);
+                repProduct.Commit();
+            }
         }
 
     }   
