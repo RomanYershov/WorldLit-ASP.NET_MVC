@@ -4,11 +4,16 @@ function ProductModel(params) {
 
     var self = this;
 
-
-    self.isCreateProductClick = ko.observable(false);
-    self.btnProductVal = ko.observable("Создать продукт");
+    ko.extenders.changeText = function (target, messages) {
+        target.text = ko.observable(messages[0]);
+        target.subscribe(function (newValue) {
+            newValue ? target.text(messages[1]) : target.text(messages[0]);
+        });
+    }
+    self.isCreateProductClick = ko.observable(false).extend({changeText: ["Создать продукт", "Создать"]});
     self.newProductName = ko.observable("");
     self.products = ko.observableArray([]);
+
     self.proceses = {
         none: 0,
         create: 1,
@@ -19,7 +24,6 @@ function ProductModel(params) {
     var Ingridient = function (parent) {
         //parent.calcSum();
         var that = this;
-        debugger;
         that.Id = '';
         that.ParentId = parent.id;
         that.Name = ko.observable('');
@@ -27,7 +31,6 @@ function ProductModel(params) {
         that.Weight = ko.observable().extend({ required: "" });
         that.ProductId = ko.observable(parent.id);
         that.ProcessFlag = ko.observable(self.proceses.create);
-
         parent.cost(this.Cost() == null? 0 : this.Cost());
         //that.Cost.subscribe(function (newVal) {
         //    parent.calcSum();
@@ -48,7 +51,6 @@ function ProductModel(params) {
     ko.extenders.required = function (target, overrideMessage) {
         target.hasError = ko.observable();
         target.validationMessage = ko.observable();
-
         function validate(newValue) {
             if (isNaN(newValue)) target(null);
             target.hasError(target() ? false : true);
@@ -58,13 +60,7 @@ function ProductModel(params) {
         target.subscribe(validate);
         return target;
     }
-    ko.extenders.changeText = function(target, messages) {
-        debugger;
-        target.text = ko.observable(messages[0]);
-        target.subscribe(function(newValue) {
-            newValue ? target.text(messages[1]) : target.text(messages[0]);
-        });
-    }
+ 
 
 
     self.calcSum = function (product) {
@@ -83,7 +79,6 @@ function ProductModel(params) {
     self.getProducts = function () {
         $.get('/product/GetProducts',
             function (data) {
-                debugger;
                 for (var i = 0; i < data.length; i++) {
                     self.products.push({
                         id: data[i].Product.Id,
@@ -138,12 +133,12 @@ function ProductModel(params) {
 
     self.createProductForm = function () {
         self.isCreateProductClick(true);
-        self.btnProductVal("Создать");
+       // self.btnProductVal("Создать");
         if (self.isCreateProductClick() && self.newProductName().length > 0) {
             createProduct();
             self.isCreateProductClick(false);
             self.newProductName("");
-            self.btnProductVal("Создать продукт");
+           // self.btnProductVal("Создать продукт");
         }
     }
 

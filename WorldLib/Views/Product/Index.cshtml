@@ -20,12 +20,13 @@
 <div class="container">
     <div class="well">
         <template id="product-template">
-            <input type="button" class="btn btn-default" data-bind="value: btnProductVal, click: createProductForm"/>
-            <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
+            <input type="button"  class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm"/>
+            <input type="text"  data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
+           
             <div data-bind="foreach: products">
-                <div class="">
+                <h4><strong data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }, text:name"></strong></h4>
+                <div class="collapse" data-bind="attr: { id: 'Yes' + $index() }">
                     <div>
-                        <h4><strong data-bind="text: name"></strong></h4>
                         <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
                         <!--ko ifnot:isEdit-->
                         <a href="#" class="glyphicon glyphicon-edit" data-bind="click: $parent.editProduct"></a>
@@ -65,9 +66,9 @@
                         </div>
                     </div>
                     <!--ko if:isEdit-->
-                    <input type="button" data-bind="click:$parent.calcSum" value="расчитать" />
+                    <input type="button" data-bind="click:$parent.calcSum" value="расчитать"/>
                     <!--/ko-->
-                    <hr />
+                    <hr/>
                 </div>
             </div>
         </template>
