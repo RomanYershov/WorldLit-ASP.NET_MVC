@@ -15,6 +15,7 @@ function ProductModel(params) {
         update: 2,
         remove: 3
     }
+
     var Ingridient = function (parent) {
         //parent.calcSum();
         var that = this;
@@ -27,64 +28,58 @@ function ProductModel(params) {
         that.ProductId = ko.observable(parent.id);
         that.ProcessFlag = ko.observable(self.proceses.create);
 
-        parent.cost(this.Cost());
+        parent.cost(this.Cost() == null? 0 : this.Cost());
         //that.Cost.subscribe(function (newVal) {
         //    parent.calcSum();
         //});
-
-    }
-    ko.extenders.required = function (target, overrideMessage) {
-        target.hasError = ko.observable();
-        target.validationMessage = ko.observable();
-
-        function validate(newValue) {
-            debugger;
-            if (isNaN(newValue)) target(null);
-            target.hasError(target() ? false : true);
-            target.validationMessage(target() ? "" : overrideMessage);
-        }
-
-        validate(target());
-        target.subscribe(validate);
-        return target;
     }
     var Product = function (name) {
         var that = this;
         that.name = name;
         that.cost = ko.observable(0);
         that.weight = 0;
-        that.description = '';
+        that.description = ko.observable("");
         that.id = 0;
         that.isNewOrUpdatedProduct = ko.observable(true);
         that.isEdit = ko.observable(true);
+        that.isDescription = ko.observable(false).extend({ changeText: ["заметки","скрыть"] });
         that.ingridients = ko.observableArray([new Ingridient(this)]);
-        //that.showCost = ko.pureComputed({
-        //    read: function () { return "Cost: " + that.cost() },
-        //    write: function (value) {
-        //        debugger;
-        //        that.cost(value);
-        //    }, owner: this
-        //});
-        that.calcSum = function () {
-            var res = 0;
-            $.each(that.ingridients(), function () {
-                if (this.ProcessFlag() !== self.proceses.remove)
-                    res += parseInt(this.Cost());
-                that.cost(res);
-            });
-        }
     }
+    ko.extenders.required = function (target, overrideMessage) {
+        target.hasError = ko.observable();
+        target.validationMessage = ko.observable();
+
+        function validate(newValue) {
+            if (isNaN(newValue)) target(null);
+            target.hasError(target() ? false : true);
+            target.validationMessage(target() ? "" : overrideMessage);
+        }
+        validate(target());
+        target.subscribe(validate);
+        return target;
+    }
+    ko.extenders.changeText = function(target, messages) {
+        debugger;
+        target.text = ko.observable(messages[0]);
+        target.subscribe(function(newValue) {
+            newValue ? target.text(messages[1]) : target.text(messages[0]);
+        });
+    }
+
 
     self.calcSum = function (product) {
-        var result = 0;
+       var result = 0;
         $.each(product.ingridients(), function () {
             if (this.ProcessFlag() !== self.proceses.remove)
-                result += parseInt(this.Cost());
+                result += parseFloat(!!this.Cost() ? this.Cost() : 0);
         });
-        product.cost(result);
+        product.cost(parseFloat(result));
+        debugger;
         return result;
     }
-
+    self.showDescription = function (product) {
+        product.isDescription(!product.isDescription());
+    }
     self.getProducts = function () {
         $.get('/product/GetProducts',
             function (data) {
@@ -94,17 +89,11 @@ function ProductModel(params) {
                         id: data[i].Product.Id,
                         name: data[i].Product.Name,
                         cost: ko.observable(data[i].Product.Cost),
-                        //showCost: ko.pureComputed({
-                        //    read: function () { return "Cost: " + data[i].Product.Cost },
-                        //    write: function (value) {
-                        //        debugger;
-                        //        this.cost(value);
-                        //    }, owner: this
-                        //}),
                         weight: data[i].Product.Weight,
-                        description: data[i].Product.Description,
+                        description: ko.observable(data[i].Product.Description),
                         isNewOrUpdatedProduct: ko.observable(false),
                         isEdit: ko.observable(false),
+                        isDescription: ko.observable(false).extend({ changeText: ["заметки", "скрыть"] }),
                         ingridients: ko.observableArray(self.setBindings(data[i].Ingridients))
                     });
                 }

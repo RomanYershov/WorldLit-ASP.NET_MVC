@@ -3,7 +3,19 @@
     ViewBag.Title = "Index";
 }
 <style>
-    .error{ border: 2px solid red;}
+    .error{ border: 2px solid yellow;}
+  
+    textarea{  
+        /* box-sizing: padding-box; */
+        overflow:hidden;
+        /* demo only: */
+        padding:10px;
+        width:250px;
+        font-size:14px;
+        display:block;
+        border-radius:10px;
+        border:6px solid #556677;
+    }
 </style>
 <div class="container">
     <div class="well">
@@ -11,34 +23,52 @@
             <input type="button" class="btn btn-default" data-bind="value: btnProductVal, click: createProductForm"/>
             <input type="text" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
             <div data-bind="foreach: products">
-                <div>
-                    <h4><strong data-bind="text: name"></strong></h4>
-                    <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
-                   <!--ko ifnot:isEdit-->
-                    <a href="#" class="glyphicon glyphicon-edit" data-bind="click: $parent.editProduct"></a>
-                    <!--/ko-->
-                    <!--ko if:isEdit-->
-                    <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $parent.removeProduct"></a>
-                    <!--/ko-->
-                </div>
-                <div data-bind="css:{'alert-danger':isEdit}" class="alert alert-success">
-                    <div class="form-horizontal" data-bind="foreach: ingridients">
-                        <div data-bind="visible: ProcessFlag() != 3">
-                            <input type="text" placeholder="название"  data-bind="enable:$parent.isEdit, value: Name">
-                            <input type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight ,valueUpdate: 'afterkeydown' , css:{error:Weight.hasError}"/>
-                            <span data-bind="visible: Weight.hasError, text: Weight.validationMessage"></span>
-                            <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown', css:{error:Cost.hasError}"/>
-                            <span data-bind="visible: Cost.hasError, text: Cost.validationMessage"></span>
-                            <a href="#" class="glyphicon glyphicon-minus" data-bind="visible:$parent.isEdit, click:$component.removeIngridient"></a>
+                <div class="">
+                    <div>
+                        <h4><strong data-bind="text: name"></strong></h4>
+                        <a href="#" class="glyphicon glyphicon-floppy-disk" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
+                        <!--ko ifnot:isEdit-->
+                        <a href="#" class="glyphicon glyphicon-edit" data-bind="click: $parent.editProduct"></a>
+                        <!--/ko-->
+                        <!--ko if:isEdit-->
+                        <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $parent.removeProduct"></a>
+                        <!--/ko-->
+                    </div>
+                    <div data-bind="css:{ 'alert-info':isNewOrUpdatedProduct}" class="alert alert-success">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-horizontal" data-bind="foreach: ingridients">
+                                    <div class="row">
+                                        <div data-bind="visible: ProcessFlag() != 3">
+                                            <div class="col-md-3">
+                                                <input type="text" placeholder="название" data-bind="enable:$parent.isEdit, value: Name">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight ,valueUpdate: 'afterkeydown' , css:{error:Weight.hasError}"/>
+                                                <span data-bind="visible: Weight.hasError, text: Weight.validationMessage"></span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown', css:{error:Cost.hasError}"/>
+                                                <span data-bind="visible: Cost.hasError, text: Cost.validationMessage"></span>
+                                                <a href="#" class="glyphicon glyphicon-minus" data-bind="visible:$parent.isEdit, click:$component.removeIngridient"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
+                                <span data-bind="text:'Стоимость:'+cost()"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <a class="col-md-12" href="#" data-bind="click:$parent.showDescription, text:isDescription.text"></a>
+                                <textarea cols="100" rows="5" class="form-control"  data-bind="visible: isDescription, enable:isEdit ,value: description"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
-                    <span data-bind="text:'Стоимость:'+cost()"></span>
+                    <!--ko if:isEdit-->
+                    <input type="button" data-bind="click:$parent.calcSum" value="расчитать" />
+                    <!--/ko-->
+                    <hr />
                 </div>
-                <!--ko if:isEdit-->
-                <input type="button" data-bind="click:$parent.calcSum" value="расчитать"/>
-                <!--/ko-->
-                <hr/>
             </div>
         </template>
         <products params="" data-bind="visible: true"></products>
@@ -53,6 +83,7 @@
         $(document).ready(function() {
             ko.applyBindings();
         });
+       
     </script>
 }
 

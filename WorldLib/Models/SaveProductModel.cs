@@ -10,9 +10,9 @@ namespace WorldLib.Models
     public class SaveProductModel
     {
         public int Id { get; set; }
-        public double Cost { get; set; }
+        public float Cost { get; set; }
         public string Name { get; set; }
-        public double Weight { get; set; }
+        public float Weight { get; set; }
         public string Description { get; set; }
         public bool IsNewOrUpdatedProduct { get; set; } 
         public List<Ingridient> Ingridients { get; set; }
@@ -106,6 +106,7 @@ namespace WorldLib.Models
                 product.Name = Name;
                 product.Cost = Cost;
                 product.Weight = Weight;
+                product.Description = Description;
                 repProduct.Update(product);
                 repProduct.Commit();
             }
