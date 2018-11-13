@@ -17,6 +17,7 @@
                         id: data[i].Id
                     });
                 }
+                self.getAllRecipes();
             });
     }
 
