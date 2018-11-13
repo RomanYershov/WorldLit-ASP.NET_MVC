@@ -18,10 +18,7 @@ namespace WorldLib.Models
             var categories = rep.GetWithInclude(x => x.Id != 0, x => x.Recipes);
             foreach (var foodCategory in categories)    
             {
-                foreach (var recipe  in foodCategory.Recipes)
-                {
-                    
-                }
+               
                 model.Add(new RecipeViewModel
                 {
                     Id = foodCategory.Id,

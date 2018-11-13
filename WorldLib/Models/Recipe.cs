@@ -11,9 +11,8 @@ namespace WorldLib.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
-        public int FoodCategoryId { get; set; } 
-        [ForeignKey("FoodCategoryId")]
-        public FoodCategory Category { get; set; }
+        public int FoodCategoryId { get; set; }
+       
         public string Description { get; set; }
         public ISet<RecipeComment> RecipeComments { get; set; }
 

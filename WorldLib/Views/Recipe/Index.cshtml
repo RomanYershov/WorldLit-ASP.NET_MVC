@@ -3,11 +3,29 @@
     ViewBag.Title = "Recipes";
 }
 
-<h2>Index</h2>
+<div class="well">
+    <recipes></recipes>
+</div>
+
+<template id="recipe-template">
+    <div class="row">
+        <div class="col-md-4">
+            <h3><a href="#" data-bind="text: 'Все', click: getAllRecipes"></a></h3>
+            <div data-bind="foreach: foodCategories">
+                <h3><a href="#" data-bind="text: name, click:$parent.getRecipesByCategoryId"></a></h3>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div data-bind="foreach: recipes">
+                <span data-bind="text:name"></span>
+            </div>
+        </div>
+    </div>
+</template>
 
 
-<div id="recipe-template"></div>
-<recipes></recipes>
+
+
 
 
 
