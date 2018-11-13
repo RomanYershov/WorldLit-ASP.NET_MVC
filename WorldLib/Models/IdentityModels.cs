@@ -75,6 +75,9 @@ namespace WorldLib.Models
         public DbSet<Like> Likes { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Ingridient> Ingridients { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<FoodCategory> FoodCategories { get; set; }
+        public DbSet<RecipeComment> RecipeComments { get; set; }    
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
