@@ -8,6 +8,7 @@ using WorldLib.Services;
 
 namespace WorldLib.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         // GET: Product

@@ -264,6 +264,10 @@
     <Compile Include="Migrations\201811041828051_AddedCrudFlagToIngrTable.Designer.cs">
       <DependentUpon>201811041828051_AddedCrudFlagToIngrTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811131420333_AddUserIdToProductTable.cs" />
+    <Compile Include="Migrations\201811131420333_AddUserIdToProductTable.Designer.cs">
+      <DependentUpon>201811131420333_AddUserIdToProductTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -533,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811041828051_AddedCrudFlagToIngrTable.resx">
       <DependentUpon>201811041828051_AddedCrudFlagToIngrTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811131420333_AddUserIdToProductTable.resx">
+      <DependentUpon>201811131420333_AddUserIdToProductTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 using WorldLib.Services;
 
 namespace WorldLib.Models
@@ -16,7 +17,7 @@ namespace WorldLib.Models
             List<ViewProductModel> productModels = new List<ViewProductModel>();
             var prodRep = new Repository<Product>();
             var ingrRep = new Repository<Ingridient>();
-            var products = prodRep.Get();
+            var products = prodRep.Get(x => x.UserId == HttpContext.Current.User.Identity.GetUserId());
             foreach (var product in products)
             {
                 var ingridients = ingrRep.Get(x => x.ProductId == product.Id).ToList();

@@ -1,7 +1,8 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Web;
+using Microsoft.AspNet.Identity;
 using WorldLib.Enums;
 using WorldLib.Services;
 
@@ -52,7 +53,8 @@ namespace WorldLib.Models
                 Name = this.Name,
                 Cost = this.Cost,
                 Description = this.Description,
-                Weight = this.Weight
+                Weight = this.Weight,
+                UserId = HttpContext.Current.User.Identity.GetUserId()
             };
             repProd.Create(product);
             repProd.Commit();
