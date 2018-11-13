@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RecipeController.cs" />
     <Compile Include="Enums\AdminFunkcionalEnum.cs" />
     <Compile Include="Enums\CommentStatusEnum.cs" />
     <Compile Include="Enums\CrudFlagEnum.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Recipe.cs" />
+    <Compile Include="Models\RecipeViewModel.cs" />
     <Compile Include="Models\SaveProductModel.cs" />
     <Compile Include="Models\ViewProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -415,6 +417,7 @@
     <Content Include="Scripts\models\comments-view-model.js" />
     <Content Include="Scripts\models\loader.js" />
     <Content Include="Scripts\models\product-view-model.js" />
+    <Content Include="Scripts\models\recipe-view-model.js" />
     <Content Include="Scripts\models\testCommentsRequire.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\r.js" />
@@ -483,6 +486,7 @@
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Forum\Afforism.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Recipe\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

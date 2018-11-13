@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Recipes";
+}
+
+<h2>Index</h2>
+
+
+<div id="recipe-template"></div>
+<recipes></recipes>
+
+
+
+
+@section scripts
+{
+    @Scripts.Render("/Scripts/models/recipe-view-model.js")
+    <script>
+        $(document).ready(function() {
+            ko.applyBindings();
+        });
+    </script>
+}
+
