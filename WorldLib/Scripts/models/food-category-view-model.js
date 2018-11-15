@@ -28,7 +28,8 @@
                 id: data.recipes[i].Id,
                 name: data.recipes[i].Name,
                 text: data.recipes[i].Description,
-                image: data.recipes[i].ImageUrl
+                image: data.recipes[i].ImageUrl,
+                isClickRecipe: ko.observable(false)
             });
         }
     }
@@ -40,13 +41,39 @@
                     id: value.recipes[i].Id,
                     name: value.recipes[i].Name,
                     text: value.recipes[i].Description,
-                    image: value.recipes[i].ImageUrl
+                    image: value.recipes[i].ImageUrl,
+                    isClickRecipe: ko.observable(false)
                 });
             }
         });
 
     }
     self.getRecipes();
+
+   
+    self.search = ko.observable();
+    self.search.subscribe(function (value) {
+        self.recipes([]);
+        var newValue = value;
+        $.each(self.foodCategories(), function (index, value) {
+            for (var i = 0; i < value.recipes.length; i++) {
+                var nameToUpperCase = value.recipes[i].Name.toUpperCase();
+                if (nameToUpperCase.indexOf(newValue.toUpperCase()) != -1) {
+                    self.recipes.push({
+                        id: value.recipes[i].Id,
+                        name: value.recipes[i].Name,
+                        text: value.recipes[i].Description,
+                        image: value.recipes[i].ImageUrl,
+                        isClickRecipe: ko.observable(false)
+                    });
+                }
+            }
+        });
+    });
+ 
+    self.removeBlock = function (data) {
+        data.isClickRecipe(false);
+    }
 }
 
 ko.components.register('category',
