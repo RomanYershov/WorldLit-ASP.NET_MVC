@@ -16,16 +16,23 @@
         border-radius:10px;
         border:6px solid #556677;
     }
+    .cost-info {
+        padding: 7px;
+        font-size: 22px;
+    }
 </style>
 <div class="container">
     <div class="well">
         <template id="product-template">
-            <input type="button"  class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm"/>
-            <input type="text" class="input-lg"  data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
+            <div class="alert alert-info" style="background: #556677">
+                <input style="background: #fff8e1 " type="button"  class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm"/>
+                <input type="text" class="input-lg"  data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
+                <div class="" style="float: right"> @Html.ActionLink("Рецепты", "Index", "Recipe")</div>
+            </div>
            
             <div data-bind="foreach: products">
-                <h4><strong data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }, text:name"></strong></h4>
-                <div class="collapse" data-bind="attr: { id: 'Yes' + $index() }">
+                <h4><strong class="" style="color: #424242" data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }, text:name"></strong></h4>
+                <div class="collapse in" data-bind="attr: { id: 'Yes' + $index() }">
                     <div>
                         <a href="#" class="glyphicon glyphicon-floppy-disk" data-toggle="tooltip" title="сохранить" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
                         <!--ko ifnot:isEdit-->
@@ -35,7 +42,7 @@
                         <a href="#" style="float: right" class="glyphicon glyphicon-remove" data-bind="click: $parent.removeProduct"></a>
                         <!--/ko-->
                     </div>
-                    <div data-bind="css:{ 'alert-info':isNewOrUpdatedProduct}" class="alert alert-success">
+                    <div data-bind="css:{ 'alert-danger':isNewOrUpdatedProduct}" class="alert alert-success">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-horizontal" data-bind="foreach: ingridients">
@@ -56,12 +63,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
-                                <span data-bind="text:'Стоимость:'+cost()"></span>
+                                <div class="cost-info">
+                                    <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
+                                    <span data-bind="text:'Стоимость:'+cost()"></span>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <a class="col-md-12" href="#" data-bind="click:$parent.showDescription, text:isDescription.text"></a>
-                                <textarea cols="100" rows="5" class="form-control"  data-bind="visible: isDescription, enable:isEdit ,value: description"></textarea>
+                                <textarea cols="100" rows="8" class="form-control"  data-bind="visible: isDescription, enable:isEdit ,value: description"></textarea>
                             </div>
                         </div>
                     </div>

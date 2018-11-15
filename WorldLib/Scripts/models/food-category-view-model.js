@@ -64,7 +64,7 @@
                         name: value.recipes[i].Name,
                         text: value.recipes[i].Description,
                         image: value.recipes[i].ImageUrl,
-                        isClickRecipe: ko.observable(false)
+                        isClickRecipe: ko.observable(false) 
                     });
                 }
             }

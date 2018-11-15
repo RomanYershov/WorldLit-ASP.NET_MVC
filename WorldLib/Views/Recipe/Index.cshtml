@@ -25,21 +25,47 @@
         z-index: 1;
         display: none;
     }
+    .row.content {
+        height: 450px
+    }
+    @@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+    .row.content {height:auto;} 
+    }
+    .sidenav {
+        padding-top: 5px;
+        background-color: #e0f2f1;
+        height: 100%;
+    }
 </style>
 
 
 
-<div class="well">
-    <category></category>
-</div>
+
+    <div class="well">
+        <category></category>
+    </div>
+
 
 
 <template id="category-template">
-    <div class="row ">
+    <div class="row content">
         <div class="col-md-2 sidenav">
-            <h3><a href="#" data-bind="text: 'Все', click: getAllRecipes"></a></h3>
-            <div data-bind="foreach: foodCategories">
-                <h3><a href="#" data-bind="text: name, click:$parent.getRecipesByCategoryId"></a></h3>
+            <ul class="list-group">
+                <li class="list-group-item" data-bind="click: getAllRecipes"><h5 data-bind="text: 'Все'"></h5></li>
+            </ul>
+
+            <div >
+                <ul class="list-group" data-bind="foreach: foodCategories">
+                    <li class="list-group-item" data-bind="click:$parent.getRecipesByCategoryId">
+                        
+                            <h5 data-bind="text:name"></h5>
+                    </li>
+                </ul>
+                
             </div>
         </div>
 
@@ -61,9 +87,9 @@
             </div>
 
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 sidenav">
             <input class="form-control" data-bind="value:$component.search,valueUpdate : 'afterkeydown'" id="myInput" type="text" placeholder="Search..">
-            @Html.ActionLink("Калькулятор продуктов", "Index", "Product")
+            <div class="alert alert-info">@Html.ActionLink("Калькулятор продуктов", "Index", "Product")</div>
         </div>
     </div>
 </template>
