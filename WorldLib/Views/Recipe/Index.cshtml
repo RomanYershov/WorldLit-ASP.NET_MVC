@@ -15,6 +15,10 @@
             box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         }
 
+    .card {
+    }
+
+
     .recipe-content {
         width: 550px;
         height: auto;
@@ -25,53 +29,60 @@
         z-index: 1;
         display: none;
     }
+
     .row.content {
         height: 450px
     }
+
     @@media screen and (max-width: 767px) {
-    .sidenav {
-        height: auto;
-        padding: 15px;
+        .sidenav {
+            height: auto;
+            padding: 15px;
+        }
+
+        .row.content {
+            height: auto;
+        }
     }
-    .row.content {height:auto;} 
-    }
+
     .sidenav {
         padding-top: 5px;
-        background-color: #e0f2f1;
-        height: 100%;
+        height: 900px;
     }
-   
+
     .modalDialog {
         position: fixed;
         font-family: Arial, Helvetica, sans-serif;
         top: 0;
         right: 0;
         bottom: 0;
-        display: none;
+        /*display: none;*/
         left: 0;
         background: rgba(0, 0, 0, 0.8);
         z-index: 99999;
-        opacity:1;
-        /*-webkit-transition: opacity 400ms ease-in;
+        overflow: scroll;
+        opacity: 0;
+        -webkit-transition: opacity 400ms ease-in;
         -moz-transition: opacity 400ms ease-in;
         transition: opacity 400ms ease-in;
-        pointer-events: none;*/
+        pointer-events: none;
     }
-    /*.modalDialog:target {
+        /*.modalDialog:target {
         opacity:1;
         pointer-events: auto;
     }*/
-    .modalDialog > div {
-        width: 700px;
-        position: relative;
-        margin: 10% auto;
-        padding: 20px 20px 13px 20px;
-        border-radius: 4px;
-        background: #fff;
-        background: -moz-linear-gradient(#fff, #999);
-        background: -webkit-linear-gradient(#fff, #999);
-        background: -o-linear-gradient(#fff, #999);
-    }
+        .modalDialog > div {
+            width: 700px;
+            position: relative;
+            margin: 10% auto;
+            padding: 20px 20px 13px 20px;
+            border-radius: 4px;
+            background: #fff;
+            background: -moz-linear-gradient(#fff, #999);
+            background: -webkit-linear-gradient(#fff, #999);
+            background: -o-linear-gradient(#fff, #999);
+        }
+
     .close {
         background: #606061;
         color: #FFFFFF;
@@ -90,75 +101,71 @@
         -webkit-box-shadow: 1px 1px 3px #000;
         box-shadow: 1px 1px 3px #000;
     }
-    .close:hover {
-        background: #00d9ff;
-    }
+
+        .close:hover {
+            background: #00d9ff;
+        }
 </style>
 
 
 
 
-    <div class="well">
-        <category></category>
-    </div>
+<div class="" style="height: auto">
+    <category></category>
+</div>
 
 
 
 <template id="category-template">
     <div class="row content">
-        <div class="col-md-2 sidenav">
-            <ul class="list-group">
-                <li class="list-group-item" data-bind="click: getAllRecipes"><h5 data-bind="text: 'Все'"></h5></li>
-            </ul>
 
-            <div >
-                <ul class="list-group" data-bind="foreach: foodCategories">
-                    <li class="list-group-item" data-bind="click:$parent.getRecipesByCategoryId">
-                        
-                            <h5 data-bind="text:name"></h5>
-                    </li>
+        <div class="col-md-2" style="background: rgba(51,51,51,0.7);">
+            <div class="sidenav">
+                <ul class="list-group">
+                    <li class="list-group-item" data-bind="click: getAllRecipes"><h5 data-bind="text: 'Все'"></h5></li>
                 </ul>
-                
+                <div>
+                    <ul class="list-group" data-bind="foreach: foodCategories">
+                        <li class="list-group-item" data-bind="click:$parent.getRecipesByCategoryId">
+                            <h5 data-bind="text:name"></h5>
+                        </li>
+                    </ul>
+
+                </div>
             </div>
         </div>
+
 
 
         <div class="col-md-8">
             <div data-bind="foreach: recipes">
                 <recipe params="recipe: {name:name, text: text, image: image, id:id, isClickRecipe: isClickRecipe}"></recipe>
-                @*<div class="alert-success recipe-content" data-bind="style: {display: isClickRecipe()? 'block': 'none' }">
-                    <div style="float: right" class="glyphicon glyphicon-remove-sign" data-bind="click:$parent.removeBlock"></div>
-                    <div class="thumbnail">
-                        <img width="100%" class="img-thumbnail" data-bind="attr:{src:image}" alt="Card image cap">
-                    </div>
-                    <h3 data-bind="text:name"></h3>
-                    <div class="">
-                        <p data-bind="text:text"></p>
-                    </div>
-                </div>*@
-               
-                <div class="modalDialog" data-bind="style:{display:isClickRecipe()? 'block' : 'none'}">
-                    <div ><a data-bind="click:$parent.removeBlock" title="Close" class="close">X</a>
-                        <div class="thumbnail">
-                            <img width="100%"  data-bind="attr:{src:image}" alt="Card image cap">
-                        </div>
+
+
+                <div class="modalDialog" data-bind="style:{opacity:isClickRecipe()? 1 : 0, 'pointer-events': isClickRecipe()? 'auto':'none'}">
+                    <div>
+                        <a data-bind="click:$parent.removeBlock" title="Close" class="close">X</a>
+
+                        <img width="100%" data-bind="attr:{src:image}" alt="Card image cap">
+
                         <h2 data-bind="text:name"></h2>
                         <p data-bind="text:text"></p>
                         <p></p>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="col-md-2 sidenav">
-            <input class="form-control" data-bind="value:$component.search,valueUpdate : 'afterkeydown'" id="myInput" type="text" placeholder="Search..">
-            <div class="alert alert-info">@Html.ActionLink("Калькулятор продуктов", "Index", "Product")</div>
+        <div class="col-md-2" style="background: rgba(51,51,51,0.7);">
+            <div class="sidenav">
+                <input class="form-control" data-bind="value:$component.search,valueUpdate : 'afterkeydown'" id="myInput" type="text" placeholder="Search..">
+                <div class="alert alert-info">@Html.ActionLink("Калькулятор продуктов", "Index", "Product")</div>
+            </div>
         </div>
     </div>
 </template>
 
 <template id="recipe-template">
-    <div class="col-lg-3">
+    <div class="col-lg-3 card">
         <div class="card-demo" data-bind="click: getRecipContent">
             <div class="thumbnail">
                 <img width="100%" data-bind="attr:{src:image}" alt="Card image cap">
@@ -177,7 +184,6 @@
 
 
 
-
 @section scripts
 {
     @Scripts.Render("/Scripts/models/food-category-view-model.js")
@@ -186,12 +192,6 @@
         $(document).ready(function () {
             ko.applyBindings();
         });
-
-        var removeBlock = function (el) {
-            debugger;
-            $('.ls').css({ 'display': 'none' });
-        };
-
     </script>
 }
 

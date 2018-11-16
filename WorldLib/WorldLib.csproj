@@ -307,6 +307,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\01076738.jpg" />
+    <Content Include="Content\Images\background11.png" />
+    <Content Include="Content\Images\bright-ecology-environment-1006115.jpg" />
     <Content Include="Content\dx.android5.light.css" />
     <Content Include="Content\dx.carmine.compact.css" />
     <Content Include="Content\dx.carmine.css" />
@@ -343,6 +346,7 @@
     <Content Include="Content\dx.win8.white.css" />
     <Content Include="Content\Images\DSC09076.jpg" />
     <Content Include="Content\Images\Luda.jpg" />
+    <Content Include="Content\Images\texture2.png" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.css" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.html" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.js" />
