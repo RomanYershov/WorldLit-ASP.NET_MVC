@@ -72,6 +72,7 @@
     });
  
     self.removeBlock = function (data) {
+        debugger;
         data.isClickRecipe(false);
     }
 }
