@@ -78,7 +78,7 @@ namespace WorldLib.Services
         {
             IQueryable<T> query = _dbSet.AsNoTracking();
             return includeProperties
-                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty), queryable => includeProperties.Aggregate(query, (a, b) => a.Include(b)));
         }
 
 

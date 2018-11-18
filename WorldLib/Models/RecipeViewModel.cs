@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WorldLib.Services;
+using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace WorldLib.Models
 {
@@ -15,10 +17,9 @@ namespace WorldLib.Models
         {
             var model = new List<RecipeViewModel>();
             var rep = new Repository<FoodCategory>();
-            var categories = rep.GetWithInclude(x => x.Id != 0, x => x.Recipes);
+            var categories = rep.GetWithInclude(x => x.Id != 0, x => x.Recipes, x => x.Recipes.Select(r => r.RecipeComments));
             foreach (var foodCategory in categories)    
             {
-               
                 model.Add(new RecipeViewModel
                 {
                     Id = foodCategory.Id,

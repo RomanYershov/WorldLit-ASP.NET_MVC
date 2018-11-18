@@ -15,7 +15,8 @@
             box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         }
 
-    .card {
+    .comments {
+        border-bottom: 1px solid black;
     }
 
 
@@ -139,20 +140,45 @@
 
         <div class="col-md-8">
             <div data-bind="foreach: recipes">
-                <recipe params="recipe: {name:name, text: text, image: image, id:id, isClickRecipe: isClickRecipe}"></recipe>
+                <recipe params="recipe: {name:name, text: text, image: image, id:id, isClickRecipe: isClickRecipe, recipeComments: recipeComments}"></recipe>
 
 
                 <div class="modalDialog" data-bind="style:{opacity:isClickRecipe()? 1 : 0, 'pointer-events': isClickRecipe()? 'auto':'none'}">
                     <div>
                         <a data-bind="click:$parent.removeBlock" title="Close" class="close">X</a>
-
                         <img width="100%" data-bind="attr:{src:image}" alt="Card image cap">
-
                         <h2 data-bind="text:name"></h2>
                         <p data-bind="text:text"></p>
-                        <p></p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="well-sm"><textarea class="form-control" data-bind=""></textarea></div>
+                        }
+
+
+                        <div data-bind="foreach: recipeComments">
+                            <div id="comment" class="alert-success alert">
+                                <span class="glyphicon glyphicon-leaf"></span>
+                                <span data-bind="text:Text"></span>
+                                <span class="glyphicon glyphicon-leaf"></span>
+                                <div style="padding: 20px 0 5px 14px">
+
+
+
+
+
+
+                                    <small style="float: right;" class="text-muted glyphicon glyphicon-user" data-bind="User.NikName"></small>
+                                    @*<small style="float: left;" class="text-muted">
+                                        @string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())
+                                    </small>*@
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="col-md-2" style="background: rgba(51,51,51,0.7);">
@@ -170,7 +196,7 @@
             <div class="thumbnail">
                 <img width="100%" data-bind="attr:{src:image}" alt="Card image cap">
             </div>
-            <div class="caption" style="background: bisque;padding: 5px">
+            <div class="caption" style="background: orange;padding: 5px">
                 <h5 class="" data-bind="text:name"></h5>
                 <p class=""><small class="text-muted">demo</small></p>
             </div>

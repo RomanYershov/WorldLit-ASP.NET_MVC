@@ -33,12 +33,12 @@ namespace WorldLib.Models
             Recipes = new HashSet<Recipe>();
         }
     }
-
+        
     public class RecipeComment
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public Recipe Recipe { get; set; }
+        public int RecipeId { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }

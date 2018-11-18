@@ -281,6 +281,10 @@
     <Compile Include="Migrations\201811131749069_ChangeRecipeTable2.Designer.cs">
       <DependentUpon>201811131749069_ChangeRecipeTable2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811180805387_ChandeRecipeCommentTable.cs" />
+    <Compile Include="Migrations\201811180805387_ChandeRecipeCommentTable.Designer.cs">
+      <DependentUpon>201811180805387_ChandeRecipeCommentTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -572,6 +576,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811131749069_ChangeRecipeTable2.resx">
       <DependentUpon>201811131749069_ChangeRecipeTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811180805387_ChandeRecipeCommentTable.resx">
+      <DependentUpon>201811180805387_ChandeRecipeCommentTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
