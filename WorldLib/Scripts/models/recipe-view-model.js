@@ -1,5 +1,5 @@
 ﻿function RecipeModel(params) {
-    debugger;
+    
     var self = this;
     
    

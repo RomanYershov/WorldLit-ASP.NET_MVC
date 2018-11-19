@@ -285,6 +285,10 @@
     <Compile Include="Migrations\201811180805387_ChandeRecipeCommentTable.Designer.cs">
       <DependentUpon>201811180805387_ChandeRecipeCommentTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811191259442_AddedCreateDateAndStatusFieldsToRecipeCommentsTbl.cs" />
+    <Compile Include="Migrations\201811191259442_AddedCreateDateAndStatusFieldsToRecipeCommentsTbl.Designer.cs">
+      <DependentUpon>201811191259442_AddedCreateDateAndStatusFieldsToRecipeCommentsTbl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -436,6 +440,7 @@
     <Content Include="Scripts\models\food-category-view-model.js" />
     <Content Include="Scripts\models\loader.js" />
     <Content Include="Scripts\models\product-view-model.js" />
+    <Content Include="Scripts\models\recipe-comment-view-model.js" />
     <Content Include="Scripts\models\recipe-view-model.js" />
     <Content Include="Scripts\models\testCommentsRequire.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -579,6 +584,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811180805387_ChandeRecipeCommentTable.resx">
       <DependentUpon>201811180805387_ChandeRecipeCommentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811191259442_AddedCreateDateAndStatusFieldsToRecipeCommentsTbl.resx">
+      <DependentUpon>201811191259442_AddedCreateDateAndStatusFieldsToRecipeCommentsTbl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

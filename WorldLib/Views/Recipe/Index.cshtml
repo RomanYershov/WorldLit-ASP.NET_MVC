@@ -1,5 +1,7 @@
 ﻿
 @{
+    /**/
+
     ViewBag.Title = "Recipes";
 }
 
@@ -59,7 +61,6 @@
         top: 0;
         right: 0;
         bottom: 0;
-        /*display: none;*/
         left: 0;
         background: rgba(0, 0, 0, 0.8);
         z-index: 99999;
@@ -80,14 +81,14 @@
             margin: 10% auto;
             padding: 20px 20px 13px 20px;
             border-radius: 4px;
-            background: #fff;
-            background: -moz-linear-gradient(#fff, #999);
-            background: -webkit-linear-gradient(#fff, #999);
-            background: -o-linear-gradient(#fff, #999);
+            background: #fff689;
+            /*background: -moz-linear-gradient(#fff, orange);
+            background: -webkit-linear-gradient(#fff, orange);
+            background: -o-linear-gradient(#fff, orange);*/
         }
 
     .close {
-        background: #606061;
+        background: red;
         color: #FFFFFF;
         line-height: 25px;
         position: absolute;
@@ -121,7 +122,6 @@
 
 <template id="category-template">
     <div class="row content">
-
         <div class="col-md-2" style="background: rgba(51,51,51,0.7);">
             <div class="sidenav">
                 <ul class="list-group">
@@ -137,9 +137,6 @@
                 </div>
             </div>
         </div>
-
-
-
         <div class="col-md-8">
             <div data-bind="foreach: recipes">
                 <recipe params="recipe: {name:name, text: text, image: image, id:id, isClickRecipe: isClickRecipe, recipeComments: recipeComments}"></recipe>
@@ -155,29 +152,9 @@
                         {
                             <div class="well-sm"><textarea class="form-control" data-bind=""></textarea></div>
                         }
-
-
                         <div data-bind="foreach: recipeComments">
-                            <div id="comment" class="alert-success alert">
-                                <span class="glyphicon glyphicon-leaf"></span>
-                                <span data-bind="text:Text"></span>
-                                <span class="glyphicon glyphicon-leaf"></span>
-                                <div style="padding: 20px 0 5px 14px">
-
-
-
-
-
-
-                                    <small style="float: right;" class="text-muted glyphicon glyphicon-user" data-bind="text:User.NikName"></small>
-                                    @*<small style="float: left;" class="text-muted">
-                                        @string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())
-                                    </small>*@
-                                </div>
-                            </div>
+                            <recipe-comment params="comment:{text:Text, author: User.NikName, createDateTime: CreateDateTime, status: Status}"></recipe-comment>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -191,6 +168,8 @@
         </div>
     </div>
 </template>
+
+
 
 <template id="recipe-template">
     <div class="col-lg-3 card">
@@ -206,6 +185,18 @@
     </div>
 </template>
 
+<template id="recipe-comment-template">
+    <div class="alert-success alert comment">
+        <span class="glyphicon glyphicon-leaf"></span>
+        <span data-bind="text: text"></span>
+        <span class="glyphicon glyphicon-leaf"></span>
+        <div style="padding: 20px 0 5px 14px">
+            <small style="float: right;" class="text-muted glyphicon glyphicon-user" data-bind="text:author"></small>
+            <small style="float: left;" class="text-muted" data-bind="text: createDateTime"> </small>
+        </div>
+    </div>
+</template>
+
 
 
 
@@ -216,6 +207,7 @@
 {
     @Scripts.Render("/Scripts/models/food-category-view-model.js")
     @Scripts.Render("/Scripts/models/recipe-view-model.js")
+    @Scripts.Render("/Scripts/models/recipe-comment-view-model.js")
     <script>
         $(document).ready(function () {
             ko.applyBindings();
