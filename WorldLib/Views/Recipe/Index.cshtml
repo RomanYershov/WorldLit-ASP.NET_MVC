@@ -15,8 +15,10 @@
             box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         }
 
-    .comments {
-        border-bottom: 1px solid black;
+    .comment {
+        margin-bottom: 10px;
+        background-color: #ffffff; /*#424242;*/
+        color: darkcyan;
     }
 
 
@@ -167,7 +169,7 @@
 
 
 
-                                    <small style="float: right;" class="text-muted glyphicon glyphicon-user" data-bind="User.NikName"></small>
+                                    <small style="float: right;" class="text-muted glyphicon glyphicon-user" data-bind="text:User.NikName"></small>
                                     @*<small style="float: left;" class="text-muted">
                                         @string.Format(" {0} ~ {1} ", comment.CreationDateTime.ToLongDateString(), comment.CreationDateTime.ToShortTimeString())
                                     </small>*@
