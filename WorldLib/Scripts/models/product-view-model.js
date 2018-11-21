@@ -10,7 +10,13 @@ function ProductModel(params) {
             newValue ? target.text(messages[1]) : target.text(messages[0]);
         });
     }
-    self.isCreateProductClick = ko.observable(false).extend({changeText: ["Создать продукт", "Создать"]});
+    ko.extenders.weightInpHolder = function (target, options) {
+        target.placeholder = ko.observable(options[1]);
+        target.subscribe(function (newValue) {
+            target.placeholder(newValue === "number" ? options[0] : options[1]);
+        });
+    }
+    self.isCreateProductClick = ko.observable(false).extend({ changeText: ["Создать продукт", "Создать"] });
     self.newProductName = ko.observable("");
     self.products = ko.observableArray([]);
 
@@ -31,7 +37,15 @@ function ProductModel(params) {
         that.Weight = ko.observable().extend({ required: "" });
         that.ProductId = ko.observable(parent.id);
         that.ProcessFlag = ko.observable(self.proceses.create);
-        parent.cost(this.Cost() == null? 0 : this.Cost());
+
+        that.InputType = ko.observable("text").extend({ weightInpHolder: ["кол-во", "вес(гр)"] });
+        that.InputType.subscribe(function() {
+            that.Weight('');
+        });
+        
+        
+        parent.cost(this.Cost() == null ? 0 : this.Cost());
+       
         //that.Cost.subscribe(function (newVal) {
         //    parent.calcSum();
         //});
@@ -45,7 +59,7 @@ function ProductModel(params) {
         that.id = 0;
         that.isNewOrUpdatedProduct = ko.observable(true);
         that.isEdit = ko.observable(true);
-        that.isDescription = ko.observable(false).extend({ changeText: ["заметки","скрыть"] });
+        that.isDescription = ko.observable(false).extend({ changeText: ["заметки", "скрыть"] });
         that.ingridients = ko.observableArray([new Ingridient(this)]);
     }
     ko.extenders.required = function (target, overrideMessage) {
@@ -60,11 +74,16 @@ function ProductModel(params) {
         target.subscribe(validate);
         return target;
     }
- 
+
+    var WeightType = function (name, value) {
+        this.typeName = name;
+        this.typeValue = value;
+    }
+    self.weightOptions = ko.observableArray([new WeightType("гр", "text"), new WeightType("ед", "number")]);
 
 
     self.calcSum = function (product) {
-       var result = 0;
+        var result = 0;
         $.each(product.ingridients(), function () {
             if (this.ProcessFlag() !== self.proceses.remove)
                 result += parseFloat(!!this.Cost() ? this.Cost() : 0);
@@ -97,10 +116,15 @@ function ProductModel(params) {
     self.getProducts();
     self.setBindings = function (ingridients) {
         $.each(ingridients, function () {
-            this.Name = ko.observable(this.Name);
-            this.Cost = ko.observable(this.Cost).extend({ required: "" });
-            this.Weight = ko.observable(this.Weight).extend({ required: "" });
-            this.ProcessFlag = ko.observable(this.ProcessFlag);
+            var that = this;
+            that.Name = ko.observable(this.Name);
+            that.Cost = ko.observable(this.Cost).extend({ required: "" });
+            that.Weight = ko.observable(this.Weight).extend({ required: "" });
+            that.ProcessFlag = ko.observable(this.ProcessFlag);
+            that.InputType = ko.observable("text").extend({ weightInpHolder: ["кол-во", "вес(гр)"] });
+            that.InputType.subscribe(function () {
+                that.Weight('');
+            });
         });
         return ingridients;
     }
@@ -133,12 +157,12 @@ function ProductModel(params) {
 
     self.createProductForm = function () {
         self.isCreateProductClick(true);
-       // self.btnProductVal("Создать");
+        // self.btnProductVal("Создать");
         if (self.isCreateProductClick() && self.newProductName().length > 0) {
             createProduct();
             self.isCreateProductClick(false);
             self.newProductName("");
-           // self.btnProductVal("Создать продукт");
+            // self.btnProductVal("Создать продукт");
         }
     }
 

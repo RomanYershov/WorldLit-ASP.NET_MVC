@@ -3,19 +3,22 @@
     ViewBag.Title = "Calculate";
 }
 <style>
-    .error{ border: 2px solid yellow;}
-  
-    textarea{  
-        /* box-sizing: padding-box; */
-        overflow:hidden;
-        /* demo only: */
-        padding:10px;
-        width:250px;
-        font-size:14px;
-        display:block;
-        border-radius:10px;
-        border:6px solid #556677;
+    .error {
+        border: 2px solid yellow;
     }
+
+    textarea {
+        /* box-sizing: padding-box; */
+        overflow: hidden;
+        /* demo only: */
+        padding: 10px;
+        width: 250px;
+        font-size: 14px;
+        display: block;
+        border-radius: 10px;
+        border: 6px solid #556677;
+    }
+
     .cost-info {
         padding: 7px;
         font-size: 22px;
@@ -25,16 +28,16 @@
     <div class="well">
         <template id="product-template">
             <div class="alert alert-info" style="background: #556677">
-                <input style="background: #fff8e1 " type="button"  class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm"/>
-                <input type="text" class="input-lg"  data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название"/>
+                <input style="background: #fff8e1 " type="button" class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm" />
+                <input type="text" class="input-lg" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название" />
                 <div class="" style="float: right"> @Html.ActionLink("Рецепты", "Index", "Recipe")</div>
             </div>
-           
+
             <div data-bind="foreach: products">
                 <div style="padding: 7px; background: #424242;border-bottom:1px solid #556677" data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }">
                     <h4><strong class="" style="color: aliceblue" data-toggle="collapse" data-bind="text:name"></strong></h4>
                 </div>
-                <div class="collapse" data-bind="attr: { id: 'Yes' + $index() }">
+                <div class="collapse in" data-bind="attr: { id: 'Yes' + $index() }">
                     <div>
                         <a href="#" class="glyphicon glyphicon-floppy-disk" data-toggle="tooltip" title="сохранить" data-bind="click: $parent.saveProduct, visible:isNewOrUpdatedProduct"></a>
                         <!--ko ifnot:isEdit-->
@@ -54,11 +57,12 @@
                                                 <input class="input-sm" data-toggle="tooltip" title="ингридиент" type="text" placeholder="название" data-bind="enable:$parent.isEdit, value: Name">
                                             </div>
                                             <div class="col-md-3">
-                                                <input class="input-sm" type="text" placeholder="вес (гр)" data-bind="enable:$parent.isEdit, value: Weight ,valueUpdate: 'afterkeydown' , css:{error:Weight.hasError}"/>
-                                                <span data-bind="visible: Weight.hasError, text: Weight.validationMessage"></span>
+                                                <input class="input-sm" data-bind="attr:{type: InputType, placeholder: InputType.placeholder},enable:$parent.isEdit, value: Weight ,valueUpdate: 'afterkeydown' , css:{error:Weight.hasError, 'col-md-6': $parent.isEdit, 'col-md-12':!$parent.isEdit}" />
+                                                <select class="col-md-6" data-bind="visible:$parent.isEdit, options:$parents[1].weightOptions, optionsText: 'typeName', optionsValue:'typeValue', value:InputType"></select>
+                                                @*<span data-bind="visible: Weight.hasError, text: Weight.validationMessage"></span>*@
                                             </div>
                                             <div class="col-md-4">
-                                                <input class="input-sm" type="text" data-toggle="popover" title="цена(ед)" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown', css:{error:Cost.hasError}"/>
+                                                <input class="input-sm" type="text" data-toggle="popover" title="цена(ед)" placeholder="цена (ед)" data-bind="enable:$parent.isEdit, value: Cost , valueUpdate : 'afterkeydown', css:{error:Cost.hasError}" />
                                                 <span data-bind="visible: Cost.hasError, text: Cost.validationMessage"></span>
                                                 <a href="#" class="glyphicon glyphicon-minus" data-toggle="tooltip" data-placement="right" title="удалить" data-bind="visible:$parent.isEdit, click:$component.removeIngridient"></a>
                                             </div>
@@ -72,14 +76,14 @@
                             </div>
                             <div class="col-md-4">
                                 <a class="col-md-12" href="#" data-bind="click:$parent.showDescription, text:isDescription.text"></a>
-                                <textarea cols="100" rows="8" class="form-control"  data-bind="visible: isDescription, enable:isEdit ,value: description"></textarea>
+                                <textarea cols="100" rows="8" class="form-control" data-bind="visible: isDescription, enable:isEdit ,value: description"></textarea>
                             </div>
                         </div>
                     </div>
                     <!--ko if:isEdit-->
-                    <input type="button" data-bind="click:$parent.calcSum" value="расчитать"/>
+                    <input type="button" data-bind="click:$parent.calcSum" value="расчитать" />
                     <!--/ko-->
-                    <hr/>
+                    <hr />
                 </div>
             </div>
         </template>
@@ -91,11 +95,11 @@
 @section scripts{
     @Scripts.Render("/Scripts/models/product-view-model.js")
     <script>
-   
-        $(document).ready(function() {
+
+        $(document).ready(function () {
             ko.applyBindings();
         });
-       
+
     </script>
 }
 
