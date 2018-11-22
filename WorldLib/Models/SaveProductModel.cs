@@ -15,11 +15,12 @@ namespace WorldLib.Models
         public string Name { get; set; }
         public float Weight { get; set; }
         public string Description { get; set; }
-        public bool IsNewOrUpdatedProduct { get; set; } 
+        public int Total { get; set; }   
+        public bool IsNewOrUpdatedProduct { get; set; }
         public List<Ingridient> Ingridients { get; set; }
 
 
-        public  void  Save()
+        public void Save()
         {
             var repIngr = new Repository<Ingridient>();
             var repProd = new Repository<Product>();
@@ -36,13 +37,13 @@ namespace WorldLib.Models
             var forUpdateIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Update).ToList();
             var forRemoveIngr = Ingridients.Where(x => x.ProcessFlag == CrudFlagEnum.Delete && x.Id != 0).ToList();
 
-           
-            if(forCreateIngr.Any())
+
+            if (forCreateIngr.Any())
                 AddIngridient(repIngr, forCreateIngr);
-            if(forUpdateIngr.Any())
-                UpdateIngridients(repIngr,forUpdateIngr);
-            if(forRemoveIngr.Any())
-                RemoveIngridient(repIngr,forRemoveIngr);
+            if (forUpdateIngr.Any())
+                UpdateIngridients(repIngr, forUpdateIngr);
+            if (forRemoveIngr.Any())
+                RemoveIngridient(repIngr, forRemoveIngr);
 
         }
 
@@ -54,6 +55,7 @@ namespace WorldLib.Models
                 Cost = this.Cost,
                 Description = this.Description,
                 Weight = this.Weight,
+                Total = this.Total,
                 UserId = HttpContext.Current.User.Identity.GetUserId()
             };
             repProd.Create(product);
@@ -109,11 +111,12 @@ namespace WorldLib.Models
                 product.Cost = Cost;
                 product.Weight = Weight;
                 product.Description = Description;
+                product.Total = Total;
                 repProduct.Update(product);
                 repProduct.Commit();
             }
         }
 
-    }   
+    }
 
 }

@@ -13,6 +13,7 @@ namespace WorldLib.Models
         public string Name { get; set; }
         public double Weight { get; set; } 
         public string Description { get; set; }
+        public int Total { get; set; }  
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }

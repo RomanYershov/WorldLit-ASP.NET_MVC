@@ -1,7 +1,5 @@
 ﻿
 function ProductModel(params) {
-
-
     var self = this;
 
     ko.extenders.changeText = function (target, messages) {
@@ -37,15 +35,12 @@ function ProductModel(params) {
         that.Weight = ko.observable().extend({ required: "" });
         that.ProductId = ko.observable(parent.id);
         that.ProcessFlag = ko.observable(self.proceses.create);
-
-        that.InputType = ko.observable("text").extend({ weightInpHolder: ["кол-во", "вес(гр)"] });
-        that.InputType.subscribe(function() {
+        that.InputType = ko.observable("text").extend({ weightInpHolder: ["кол-во(шт)", "вес(гр)"] });
+        that.InputType.subscribe(function () {
             that.Weight('');
         });
-        
-        
         parent.cost(this.Cost() == null ? 0 : this.Cost());
-       
+
         //that.Cost.subscribe(function (newVal) {
         //    parent.calcSum();
         //});
@@ -53,10 +48,11 @@ function ProductModel(params) {
     var Product = function (name) {
         var that = this;
         that.name = name;
-        that.cost = ko.observable(0);
+        that.cost = ko.observable(0).extend({ totalSumText: "Стоимость: " });
         that.weight = 0;
         that.description = ko.observable("");
         that.id = 0;
+        that.total = ko.observable().extend({ required:"Введите кол-во изделий(порций)"});
         that.isNewOrUpdatedProduct = ko.observable(true);
         that.isEdit = ko.observable(true);
         that.isDescription = ko.observable(false).extend({ changeText: ["заметки", "скрыть"] });
@@ -66,7 +62,7 @@ function ProductModel(params) {
         target.hasError = ko.observable();
         target.validationMessage = ko.observable();
         function validate(newValue) {
-            if (isNaN(newValue)) target(null);
+            if (isNaN(newValue) || newValue == 0) target(null);
             target.hasError(target() ? false : true);
             target.validationMessage(target() ? "" : overrideMessage);
         }
@@ -79,10 +75,25 @@ function ProductModel(params) {
         this.typeName = name;
         this.typeValue = value;
     }
-    self.weightOptions = ko.observableArray([new WeightType("гр", "text"), new WeightType("ед", "number")]);
+    self.weightOptions = ko.observableArray([
+        new WeightType("гр", "text"),
+        new WeightType("ед", "number")
+    ]);
 
+    self.validationProduct = function(product) {
+        var count = 0;
+        if (product.total.hasError()) ++count;
+        for (var i = 0; i < product.ingridients().length; i++) {
+            if (product.ingridients()[i].Cost.hasError()) ++count;
+            if (product.ingridients()[i].Weight.hasError()) ++count;
+        }
+        return count;
+    }
 
     self.calcSum = function (product) {
+        if (self.validationProduct(product) > 0) {
+            return false;
+        };
         var result = 0;
         $.each(product.ingridients(), function () {
             if (this.ProcessFlag() !== self.proceses.remove)
@@ -95,6 +106,12 @@ function ProductModel(params) {
     self.showDescription = function (product) {
         product.isDescription(!product.isDescription());
     }
+    ko.extenders.totalSumText = function(target, text) {
+        target.showText = ko.observable(text + target());
+        target.subscribe(function(newValue) {
+            target.showText(text + newValue);
+        });
+    }
     self.getProducts = function () {
         $.get('/product/GetProducts',
             function (data) {
@@ -102,8 +119,9 @@ function ProductModel(params) {
                     self.products.push({
                         id: data[i].Product.Id,
                         name: data[i].Product.Name,
-                        cost: ko.observable(data[i].Product.Cost),
+                        cost: ko.observable(data[i].Product.Cost).extend({ totalSumText: "Стоимость: "}),
                         weight: data[i].Product.Weight,
+                        total: ko.observable(data[i].Product.Total).extend({ required: "Введите кол-во изделий(порций)" }),
                         description: ko.observable(data[i].Product.Description),
                         isNewOrUpdatedProduct: ko.observable(false),
                         isEdit: ko.observable(false),
@@ -121,7 +139,7 @@ function ProductModel(params) {
             that.Cost = ko.observable(this.Cost).extend({ required: "" });
             that.Weight = ko.observable(this.Weight).extend({ required: "" });
             that.ProcessFlag = ko.observable(this.ProcessFlag);
-            that.InputType = ko.observable("text").extend({ weightInpHolder: ["кол-во", "вес(гр)"] });
+            that.InputType = ko.observable(this.InputType).extend({ weightInpHolder: ["кол-во(шт)", "вес(гр)"] });
             that.InputType.subscribe(function () {
                 that.Weight('');
             });
@@ -169,7 +187,7 @@ function ProductModel(params) {
 
     function createProduct() {
         var newName = self.newProductName();
-        self.products.push(new Product(newName));
+        self.products.unshift(new Product(newName));
     }
 
 
@@ -196,22 +214,24 @@ function ProductModel(params) {
     self.saveProduct = function (product) {
         debugger;
         $.post('/product/saveProduct',
-            self.getData(product),
+            self.setData(product),
             function (data) { // simple response realisovat
                 product.isNewOrUpdatedProduct(false);
                 product.isEdit(false);
                 product.id = data.Id;
+                product.total = data.Total;
                 product.ingridients(self.setBindings(data.Ingridients));
             });
     }
 
-    self.getData = function (product) {
+    self.setData = function (product) {
         return {
             name: product.name,
             cost: product.cost,
             description: product.description,
             weight: product.weight,
             id: product.id,
+            total: product.total,
             isNewOrUpdatedProduct: product.isNewOrUpdatedProduct(),
             ingridients: product.ingridients()
         }

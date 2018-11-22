@@ -15,6 +15,7 @@ namespace WorldLib.Models
         public double Weight { get; set; }
         public double Cost { get; set; }
         public CrudFlagEnum ProcessFlag { get; set; }
+        public string InputType { get; set; }      
         //[ForeignKey("ProductId")]
         //public Product Product { get; set; }
     }

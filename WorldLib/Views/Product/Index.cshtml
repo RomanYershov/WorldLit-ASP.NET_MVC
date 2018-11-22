@@ -69,9 +69,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="cost-info">
-                                    <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
-                                    <span data-bind="text:'Стоимость:'+cost()"></span>
+                                <div class="">
+                                    <input class="form-control" type="number" placeholder="кол-во изделий(порций)" data-bind="visible:isEdit, value: total, css:{error:total.hasError}"/>
+                                    <p class="control-label" data-bind="visible: total.hasError, text: total.validationMessage"></p>
+                                    <div class="cost-info col-sm-4">
+                                        <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
+                                        <span class="" data-bind="visible: !total.hasError(), text:cost.showText"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
