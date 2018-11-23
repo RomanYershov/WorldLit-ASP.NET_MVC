@@ -21,18 +21,7 @@ function ProductModel(params) {
             target.placeholder(newValue === "number" ? options[0] : options[1]);
         });
     }
-    ko.extenders.required = function (target, overrideMessage) {
-        target.hasError = ko.observable();
-        target.validationMessage = ko.observable();
-        function validate(newValue) {
-            if (isNaN(newValue) || newValue == 0) target(null);
-            target.hasError(target() ? false : true);
-            target.validationMessage(target() ? "" : overrideMessage);
-        }
-        validate(target());
-        target.subscribe(validate);
-        return target;
-    }
+
     ko.extenders.totalSumText = function (target, text) {
         target.showText = ko.observable(text + target());
         target.subscribe(function (newValue) {
@@ -76,10 +65,22 @@ function ProductModel(params) {
         that.total = ko.observable().extend({ required: "Введите кол-во изделий(порций)" });
         that.isNewOrUpdatedProduct = ko.observable(true);
         that.isEdit = ko.observable(true);
+        self.isValidProduct = ko.observable(false);
         that.isDescription = ko.observable(false).extend({ changeText: ["заметки", "скрыть"] });
         that.ingridients = ko.observableArray([new Ingridient(this)]);
     }
-
+    ko.extenders.required = function (target, overrideMessage) {
+        target.hasError = ko.observable();
+        target.validationMessage = ko.observable();
+        function validate(newValue) {
+            if (isNaN(newValue) || newValue == 0) target(null);
+            target.hasError(target() ? false : true);
+            target.validationMessage(target() ? "" : overrideMessage);
+        }
+        validate(target());
+        target.subscribe(validate);
+        return target;
+    }
 
     var WeightType = function (name, value) {
         this.typeName = name;
@@ -92,6 +93,7 @@ function ProductModel(params) {
 
     self.validationProduct = function (product) {
         var count = 0;
+        debugger;
         if (product.total.hasError())++count;
         for (var i = 0; i < product.ingridients().length; i++) {
             if (product.ingridients()[i].Cost.hasError())++count;
@@ -100,43 +102,53 @@ function ProductModel(params) {
         return count;
     }
 
+    
     self.calcSum = function (product) {
         if (self.validationProduct(product) > 0) {
+            product.isValidProduct(false);
             return false;
         };
+        product.isValidProduct(true);
         var result = 0;
         $.each(product.ingridients(), function () {
-            if (this.ProcessFlag() !== self.proceses.remove)
-                result += parseFloat(!!this.Cost() ? this.Cost() : 0);
+            if (this.ProcessFlag() !== self.proceses.remove) {
+                debugger;
+                if (this.InputType() === "text") {
+                    var nWeightProc = parseInt(this.Weight()) / 10;
+                    var nCostProc = parseInt(this.Cost()) / 100;
+                    result += nWeightProc * nCostProc;
+                }
+            }
         });
-        product.cost(parseFloat(result));
+        result /= product.total();
+        product.cost(Math.round(result));
         debugger;
-        return result;
+        return true;
     }
     self.showDescription = function (product) {
         product.isDescription(!product.isDescription());
     }
 
-    ko.extenders.dateTimeFormat = function (target, date) {
-        target.showDate = ko.computed({
-            read: function () {
-                target.subscribe(function (newValue) {
-                    return newValue.toLocaleDateString() + '/' + newValue.toLocaleTimeString();
-                });
-                return date.toLocaleDateString() + '/' + date.toLocaleTimeString();
-            },
-            write: function (value) {
-                target(value);
-            },
-            owner: this
-        });
-        //target.subscribe(function (newValue) {
-        //    debugger;
-        //    target.showDate = ko.computed(function () {
-        //        return newValue.toLocaleDateString() + '/' + newValue.toLocaleTimeString();
-        //    });
-        //});
-    }
+    //ko.extenders.dateTimeFormat = function (target, date) {
+    //    target.showDate = ko.computed({
+    //        read: function () {
+    //            target.subscribe(function (newValue) {
+    //                return newValue.toLocaleDateString() + '/' + newValue.toLocaleTimeString();
+    //            });
+    //            return date.toLocaleDateString() + '/' + date.toLocaleTimeString();
+    //        },
+    //        write: function (value) {
+    //            target(value);
+    //        },
+    //        owner: this
+    //    });
+    //    //target.subscribe(function (newValue) {
+    //    //    debugger;
+    //    //    target.showDate = ko.computed(function () {
+    //    //        return newValue.toLocaleDateString() + '/' + newValue.toLocaleTimeString();
+    //    //    });
+    //    //});
+    //}
 
     self.getProducts = function () {
         $.get('/product/GetProducts',
@@ -153,6 +165,7 @@ function ProductModel(params) {
                             + '/' + new Date(parseInt(data[i].Product.LastChangeDate.match(/[0-9]+/))).toLocaleTimeString()),
                         isNewOrUpdatedProduct: ko.observable(false),
                         isEdit: ko.observable(false),
+                        isValidProduct :ko.observable(false),
                         isDescription: ko.observable(false).extend({ changeText: ["заметки", "скрыть"] }),
                         ingridients: ko.observableArray(self.setBindings(data[i].Ingridients))
                     });
@@ -241,10 +254,11 @@ function ProductModel(params) {
         $.post('/product/saveProduct',
             self.setData(product),
             function (data) { // simple response realisovat
+                debugger;
                 product.isNewOrUpdatedProduct(false);
                 product.isEdit(false);
                 product.id = data.Id;
-                product.total = data.Total;
+                //product.total = ko.observable(data.Total).extend({ required: "Введите кол-во изделий(порций)" });
                 product.lastChangeDate(new Date(parseInt(data.LastChangeDate.match(/[0-9]+/))).toLocaleDateString()
                     + '/' + new Date(parseInt(data.LastChangeDate.match(/[0-9]+/))).toLocaleTimeString());
                 product.ingridients(self.setBindings(data.Ingridients));

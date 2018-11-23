@@ -27,14 +27,14 @@
 <div class="container">
     <div class="well">
         <template id="product-template">
-            <div class="alert alert-info" style="background: #556677">
+            <div class="alert alert-info" style="background:  #455A64">
                 <input style="background: #fff8e1 " type="button" class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm" />
                 <input type="text" class="input-lg" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название" />
                 <div class="" style="float: right"> @Html.ActionLink("Рецепты", "Index", "Recipe")</div>
             </div>
 
             <div data-bind="foreach: products">
-                <div style="padding: 7px; background: #424242;border-bottom:1px solid #556677" data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }">
+                <div style="padding: 7px;border-bottom:1px solid #455A64" data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }, style:{background: isNewOrUpdatedProduct()? '#FF5252' : '#454545' }">
                     <strong  style="color: aliceblue; font-size: 18px;" data-toggle="collapse" data-bind="text:name"></strong>
                  <strong style="float: right; color: aliceblue; font-size: 12px;" data-bind="text: lastChangeDate"></strong>
                 </div>
@@ -75,7 +75,7 @@
                                     <p class="control-label" data-bind="visible: total.hasError, text: total.validationMessage"></p>
                                     <div class="cost-info col-sm-4">
                                         <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
-                                        <span class="" data-bind="visible: !total.hasError(), text:cost.showText"></span>
+                                        <span class="" data-bind="visible: isValidProduct, text:cost.showText"></span>
                                     </div>
                                 </div>
                             </div>
