@@ -297,6 +297,10 @@
     <Compile Include="Migrations\201811221710171_ChangeFillInputTypeIngrTbl.Designer.cs">
       <DependentUpon>201811221710171_ChangeFillInputTypeIngrTbl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811230625012_LastChangeDateToProductTbl.cs" />
+    <Compile Include="Migrations\201811230625012_LastChangeDateToProductTbl.Designer.cs">
+      <DependentUpon>201811230625012_LastChangeDateToProductTbl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommentCreateModel.cs" />
@@ -601,6 +605,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811221710171_ChangeFillInputTypeIngrTbl.resx">
       <DependentUpon>201811221710171_ChangeFillInputTypeIngrTbl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811230625012_LastChangeDateToProductTbl.resx">
+      <DependentUpon>201811230625012_LastChangeDateToProductTbl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

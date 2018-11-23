@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,7 +16,8 @@ namespace WorldLib.Models
         public string Name { get; set; }
         public float Weight { get; set; }
         public string Description { get; set; }
-        public int Total { get; set; }   
+        public int Total { get; set; }
+        public DateTime LastChangeDate => DateTime.Now;    
         public bool IsNewOrUpdatedProduct { get; set; }
         public List<Ingridient> Ingridients { get; set; }
 
@@ -56,6 +58,7 @@ namespace WorldLib.Models
                 Description = this.Description,
                 Weight = this.Weight,
                 Total = this.Total,
+                LastChangeDate = this.LastChangeDate,
                 UserId = HttpContext.Current.User.Identity.GetUserId()
             };
             repProd.Create(product);
@@ -112,6 +115,7 @@ namespace WorldLib.Models
                 product.Weight = Weight;
                 product.Description = Description;
                 product.Total = Total;
+                product.LastChangeDate = LastChangeDate;
                 repProduct.Update(product);
                 repProduct.Commit();
             }
