@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WorldLib.Models.FoodCategory>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<h2>Categories</h2>
+
+<category></category>
+
+<template id="category-template">
+    <div class="well">
+        <p>
+            <a href="#" class="btn btn-success glyphicon glyphicon-plus" value="" data-bind="click:showCategoryForm"> </a>
+        </p>
+        <form style="padding-bottom: 15px;" class="form-inline" data-bind="visible:isAddCategory, submit: addCategory">
+            <div style="color: black;" class="label control-label">New category Name: </div>
+            <input type="text" class="form-control"/>
+            <input type="submit" class="btn btn-sm btn-success" value="Add"/>
+        </form>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+
+            <!--ko foreach: foodCategories-->
+            <tr>
+                <td data-bind="text:name"></td>
+                <td>
+                    <a>Edit</a> |
+                    <a>Delete</a>
+                </td>
+            </tr>
+            <!--/ko-->
+
+        </table>
+
+    </div>
+</template>
+
+
+
+@section scripts
+{
+    @Scripts.Render("/Scripts/models/food-category-view-model.js")
+    <script>
+        $(document).ready(function () {
+            ko.applyBindings();
+        });
+    </script>
+}

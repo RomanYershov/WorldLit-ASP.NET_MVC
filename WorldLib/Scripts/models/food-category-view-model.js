@@ -4,8 +4,24 @@
     self.recipes = ko.observableArray([]);
     self.foodCategories = ko.observableArray([]);
 
+    self.isAddCategory = ko.observable(false);
+    self.showCategoryForm = function() {
+        self.isAddCategory(true);
+    };
 
-
+    self.addCategory = function (formElement) {
+        var newCategoryName = formElement[0].value;
+        $.post("/Admin/CreateCategory", { name: newCategoryName },
+            function(result) {
+                if (result != null) {
+                    self.foodCategories.unshift({
+                        recipes: result.Recipes,
+                        name: result.Name,
+                        id: result.Id
+                    });
+                }
+            });
+    }
 
     self.getRecipes = function () {
         $.get("/recipe/getRecipes",

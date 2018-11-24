@@ -1,15 +1,17 @@
 ﻿@using WorldLib.Enums
 
 <div class="container">
-    <div class="well">
+    <div class="well-lg">
         <div class="row">
-            <div class="col-md-5">
-
+            <div class="col-md-4">
                 <div class="alert alert-info text-center"><a href="~/Users/Index">@Html.DisplayName("Управление пользователями")</a></div>
-                <div class="alert alert-info text-center"><a href="~/Comments/Index">@AdminFunkcionalEnum.Comments</a></div>
-
             </div>
-            <div class="col-md-7"></div>
+            <div class="col-md-4">
+                <div class="alert alert-info text-center"><a href="~/Comments/Index">@AdminFunkcionalEnum.Comments</a></div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-info text-center"><a href="~/Admin/Categories">Категории</a></div>
+            </div>
         </div>
     </div>
 </div>
