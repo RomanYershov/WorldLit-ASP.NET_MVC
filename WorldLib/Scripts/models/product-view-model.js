@@ -64,8 +64,8 @@ function ProductModel(params) {
         that.lastChangeDate = ko.observable(new Date().toLocaleDateString() + '/' + new Date().toLocaleTimeString());
         that.total = ko.observable().extend({ required: "Введите кол-во изделий(порций)" });
         that.isNewOrUpdatedProduct = ko.observable(true);
-        that.isEdit = ko.observable(true);
-        self.isValidProduct = ko.observable(false);
+        that.isEdit = ko.observable(true); 
+       // self.isValidProduct = ko.observable(false);
         that.isDescription = ko.observable(false).extend({ changeText: ["заметки", "скрыть"] });
         that.ingridients = ko.observableArray([new Ingridient(this)]);
     }
@@ -105,24 +105,27 @@ function ProductModel(params) {
     
     self.calcSum = function (product) {
         if (self.validationProduct(product) > 0) {
-            product.isValidProduct(false);
+          //  product.isValidProduct(false);
             return false;
         };
-        product.isValidProduct(true);
+       // product.isValidProduct(true);
         var result = 0;
         $.each(product.ingridients(), function () {
             if (this.ProcessFlag() !== self.proceses.remove) {
-                debugger;
                 if (this.InputType() === "text") {
                     var nWeightProc = parseInt(this.Weight()) / 10;
                     var nCostProc = parseInt(this.Cost()) / 100;
                     result += nWeightProc * nCostProc;
                 }
+                if (this.InputType() === "number") {
+                    debugger;
+                    var nOneCost = parseInt(this.Cost()) / 10;
+                    result += nOneCost  * parseInt(this.Weight());
+                }
             }
         });
         result /= product.total();
         product.cost(Math.round(result));
-        debugger;
         return true;
     }
     self.showDescription = function (product) {
@@ -165,7 +168,6 @@ function ProductModel(params) {
                             + '/' + new Date(parseInt(data[i].Product.LastChangeDate.match(/[0-9]+/))).toLocaleTimeString()),
                         isNewOrUpdatedProduct: ko.observable(false),
                         isEdit: ko.observable(false),
-                        isValidProduct :ko.observable(false),
                         isDescription: ko.observable(false).extend({ changeText: ["заметки", "скрыть"] }),
                         ingridients: ko.observableArray(self.setBindings(data[i].Ingridients))
                     });

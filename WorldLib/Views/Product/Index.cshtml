@@ -9,7 +9,7 @@
 
     textarea {
         /* box-sizing: padding-box; */
-        overflow: hidden;
+        overflow: auto;
         /* demo only: */
         padding: 10px;
         width: 250px;
@@ -75,13 +75,13 @@
                                     <p class="control-label" data-bind="visible: total.hasError, text: total.validationMessage"></p>
                                     <div class="cost-info col-sm-4">
                                         <a href="#" class="glyphicon" data-bind="visible:isEdit , click:$component.addIngridient">+</a>
-                                        <span class="" data-bind="visible: isValidProduct, text:cost.showText"></span>
+                                        <span class="" data-bind="visible: !total.hasError(), text:cost.showText"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <a class="col-md-12" href="#" data-bind="click:$parent.showDescription, text:isDescription.text"></a>
-                                <textarea cols="100" rows="8" class="form-control" data-bind="visible: isDescription, enable:isEdit ,value: description"></textarea>
+                                <textarea cols="100"  rows="8" class="form-control" data-bind="visible: isDescription, enable: isEdit ,value: description"></textarea>
                             </div>
                         </div>
                     </div>
