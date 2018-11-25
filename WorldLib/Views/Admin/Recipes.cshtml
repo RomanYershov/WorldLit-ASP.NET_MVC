@@ -1,0 +1,69 @@
+﻿
+
+@{
+    ViewBag.Title = "Recipes";
+}
+
+<h2>Recipes</h2>
+
+<recipe></recipe>
+
+<template id="recipe-edit-template">
+    <div class="well">
+        <p>
+            <a href="#" class="btn btn-success glyphicon glyphicon-plus" value="" data-bind=""></a>
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Text
+                </th>
+                <th>
+                    Category
+                </th>
+            </tr>
+
+
+            <!--ko foreach: recipes-->
+            <tr>
+                <td data-bind="text:name"></td>
+                <td><img width="40" height="40" data-bind="attr: {src: image }" /></td>
+            <td>
+                <div class="glyphicon glyphicon-book" style="padding: 7px;border-bottom:1px solid #455A64" data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }"></div>
+                <div class="collapse" data-bind="attr: { id: 'Yes' + $index() }, text: text"></div>
+            </td>
+            <td data-bind="text: categoryName"></td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { }) |
+                @Html.ActionLink("Details", "Details", new { }) |
+                @Html.ActionLink("Delete", "Delete", new { })
+            </td>
+            </tr>
+            <!--/ko-->
+
+
+        </table>
+    </div>
+</template>
+@*<template id="recipe-template">
+   
+</template>*@
+
+
+
+@section scripts
+{
+    @*@Scripts.Render("/Scripts/models/food-category-view-model.js")*@
+    @Scripts.Render("/Scripts/models/recipe-edit-model.js")
+    <script>
+        $(document).ready(function () {
+            ko.applyBindings();
+        });
+    </script>
+}

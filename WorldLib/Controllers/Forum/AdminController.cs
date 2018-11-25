@@ -18,11 +18,7 @@ namespace WorldLib.Controllers.Forum
 
         public ActionResult Categories()
         {
-            var rep = new Repository<FoodCategory>();
-            var m = rep.Get();
-            //var model = FoodCategoryViewModel.Load();
-            //return View(m.Select(x => new {Id = x.Id, Name = x.Name}));
-            return View(m);
+            return View();
         }
         [HttpPost]
         public ActionResult CreateCategory(string name)
@@ -55,6 +51,11 @@ namespace WorldLib.Controllers.Forum
             return Json(category, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult Recipes()
+        {
+            return View();
+        }
 
     }
 }

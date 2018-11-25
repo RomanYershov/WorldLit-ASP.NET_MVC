@@ -454,6 +454,7 @@
     <Content Include="Scripts\models\loader.js" />
     <Content Include="Scripts\models\product-view-model.js" />
     <Content Include="Scripts\models\recipe-comment-view-model.js" />
+    <Content Include="Scripts\models\recipe-edit-model.js" />
     <Content Include="Scripts\models\recipe-view-model.js" />
     <Content Include="Scripts\models\testCommentsRequire.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -525,6 +526,7 @@
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Recipe\Index.cshtml" />
     <Content Include="Views\Admin\Categories.cshtml" />
+    <Content Include="Views\Admin\Recipes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

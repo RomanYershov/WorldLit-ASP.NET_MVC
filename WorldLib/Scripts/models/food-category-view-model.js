@@ -12,7 +12,9 @@
         target.subscribe(validate);
         return target;
     }
+    var Recipe = function() {
 
+    }
     var Category = function (id, name, recipes) {
         this.id = id;
         this.name = ko.observable(name);
@@ -53,8 +55,7 @@
     };
 
 
-    self.editCategory = function (category) {
-        debugger;
+    self.editCategory = function (category) { 
         if (category.isEdit()) {
             $.post("/Admin/editCategory",
                 { id: category.id, name: category.name },
