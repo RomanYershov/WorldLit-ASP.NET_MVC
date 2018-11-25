@@ -40,12 +40,19 @@ namespace WorldLib.Services
 
         public void Delete(Func<T, bool> predicate)
         {
-             var model = _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
+            var model = _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
             if (model == null) return;
             _context.Entry(model).State = EntityState.Deleted;
             _dbSet.Remove(model);
         }
 
+        public void Delete(int id)
+        {
+            var model = _dbSet.Find(id);
+            if (model == null) return;
+            _context.Entry(model).State = EntityState.Deleted;
+            _dbSet.Remove(model);
+        }
 
         public IEnumerable<T> Get()
         {

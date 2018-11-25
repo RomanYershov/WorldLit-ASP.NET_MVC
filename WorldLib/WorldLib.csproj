@@ -309,6 +309,7 @@
     <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Models\DiscussionCreateModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\FoodCategoryViewModel.cs" />
     <Compile Include="Models\ForumViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IModelBuilder.cs" />

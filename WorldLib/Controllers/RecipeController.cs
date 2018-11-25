@@ -17,7 +17,7 @@ namespace WorldLib.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetRecipes()
+        public ActionResult GetCategories()     
         {
             var model = RecipeViewModel.Load();
             return Json(model, JsonRequestBehavior.AllowGet);
