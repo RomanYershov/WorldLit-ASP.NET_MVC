@@ -29,9 +29,13 @@
 
             <!--ko foreach: foodCategories-->
             <tr>
-                <td data-bind="text:name"></td>
                 <td>
-                    <a href="#" data-bind="click: $parent.editCategory">Edit</a> |
+                    <input type="text" data-bind="value:name, enable: isEdit"/>
+                    <a href="#" class="btn btn-sm glyphicon glyphicon-check"  data-bind="visible:isEdit, click: $parent.editCategory"/>
+                </td>
+                <td>
+                    <a href="#" data-bind="click: $parent.editCategory, visible: !isEdit()">Edit</a>
+                    <a href="#" data-bind="click: $parent.editCancel, visible: isEdit">Cancel</a> |
                     <a href="#" data-bind="click:$parent.deleteCategory">Delete</a>
                 </td>
             </tr>
