@@ -13,6 +13,34 @@
         <p>
             <a href="#" class="btn btn-success glyphicon glyphicon-plus" value="" data-bind=""></a>
         </p>
+        <div class="well">
+            <!--ko with: NewRecipeModel-->
+            <div class="row">
+                <form class="form-group col-md-6" data-bind="visible: true">
+                    <div class="label" style="color: #455a64">Название:</div>
+                    <input type="text" class="form-control" data-bind="value: newRecipeName" />
+                    <div class="label" style="color: #455a64">Категория:</div>
+                    <select class="form-control" data-bind="options: foodCategories, optionsText: 'name', optionsValue:'id', value: categoryId"></select>
+                    <div class="label" style="color: #455a64">Фото:</div>
+                    <input type="file" class="form-control" data-bind="value: image" />
+                    <input type="button" data-bind="click: createRecipe" style="margin-top: 10px;" class="form-control btn btn-success" value="Send" />
+                </form>
+                <div class="col-md-6">
+                    <div class="form-group" data-bind="foreach:descriptionSteps">
+                        <div class="label" style="color: #455a64" data-bind="text: ($index() + 1 + stepNubmerText)"></div>
+                        <div class="form-inline">
+                            <textarea class="form-control " rows="6" cols="20" data-bind="value: text"></textarea>
+                            <a href="#" class="glyphicon glyphicon-minus" data-bind="click: removeStep"> удалить</a>
+                        </div>
+                    </div>
+                    <a href="#" class="glyphicon glyphicon-paperclip" data-bind="click: addStep">Добавить шаг</a>
+                </div>
+            </div>
+            <!--/ko-->
+        </div>
+        <div class="well">
+           
+        </div>
         <table class="table">
             <tr>
                 <th>

@@ -56,6 +56,19 @@ namespace WorldLib.Controllers.Forum
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult CreateRecipe(CreateRecipeModel recipe)
+        {
+            if (ModelState.IsValid)
+            {
+                var rep = new Repository<Recipe>();
+                var newRecipe = recipe.RecipeBuild();
+                rep.Create(newRecipe);
+                rep.Commit();
+                return Json(newRecipe, JsonRequestBehavior.AllowGet);
+            }
+            return Json("error", JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

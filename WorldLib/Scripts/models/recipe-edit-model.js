@@ -8,6 +8,48 @@ function RecipeEditModel() {
     self.recipes = ko.observableArray([]);
     self.foodCategories = ko.observableArray([]);
 
+    self.NewRecipeModel = function() {
+        this.descriptionSteps = ko.observableArray([]);
+        this.stepNubmerText = ' ШАГ';
+        this.Step = function () {
+            this.text = ko.observable("");
+        }
+        this.descriptionSteps.push({text:ko.observable()});
+        this.addStep = function () {
+            self.descriptionSteps.push({ text: ko.observable() });
+        }
+        this.removeStep = function (step) {
+            self.descriptionSteps.remove(step);
+        }
+        this.newRecipeName = ko.observable();
+        this.categoryId = ko.observable();
+        this.image = ko.observable();
+        this.image.subscribe(function (newValue) {
+            debugger;
+        });
+
+        self.createRecipe = function (params) {
+            debugger;
+            var dstep = descriptionSteps();
+            var arr = [];
+            $.each(dstep, function() {
+                arr.push(this.text());
+            });
+            $.post("/Admin/createRecipe",
+                {
+                    newRecipeName:newRecipeName,
+                    categoryId: categoryId,
+                    descriptionSteps: arr
+                },
+                function (result) {
+                    debugger;
+                });
+        } 
+    }
+    
+
+
+   
 
     self.getCategories = function () {
         $.get("/recipe/getCategories",
@@ -32,8 +74,9 @@ function RecipeEditModel() {
                 });
             }
         });
-
     }
+
+
     self.getCategories();
 }
 
