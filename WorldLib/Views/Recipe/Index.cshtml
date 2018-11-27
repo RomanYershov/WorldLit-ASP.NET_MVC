@@ -150,7 +150,11 @@
                         <p data-bind="text:text"></p>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <div class="well-sm"><textarea class="form-control" data-bind=""></textarea></div>
+                            <div class="well-sm">
+                                <textarea class="form-control" data-bind="value: newComment, valueUpdate : 'afterkeydown'"></textarea>
+                                <p data-bind="visible:isSuccess, text: textInfo"></p>
+                                <input type="button" data-bind="click: createComment, visible:isEmptyComment" class="btn btn-sm btn-info" value="Отправить" />
+                            </div>
                         }
                         <div data-bind="foreach: recipeComments">
                             <recipe-comment params="comment:{text:Text, author: User.NikName, createDateTime: CreateDateTime, status: Status}"></recipe-comment>

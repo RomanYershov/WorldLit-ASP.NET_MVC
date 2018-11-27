@@ -12,9 +12,7 @@
         target.subscribe(validate);
         return target;
     }
-    var Recipe = function() {
-
-    }
+    
     var Category = function (id, name, recipes) {
         this.id = id;
         this.name = ko.observable(name);
@@ -55,7 +53,7 @@
     };
 
 
-    self.editCategory = function (category) { 
+    self.editCategory = function (category) {
         if (category.isEdit()) {
             $.post("/Admin/editCategory",
                 { id: category.id, name: category.name },
@@ -65,7 +63,7 @@
         }
         category.isEdit(true);
     };
-    self.editCancel = function(category) {
+    self.editCancel = function (category) {
         category.isEdit(false);
     }
 
@@ -92,19 +90,49 @@
             });
         }
     }
+
+    var Recipe = function (id, name, text, image, recipeComments) {
+        var that = this;
+        this.id = id;
+        this.name = name;
+        this.text = text;
+        this.image = image;
+        this.isClickRecipe = ko.observable(false);
+        this.recipeComments = recipeComments;
+        this.newComment = ko.observable("");
+        this.isEmptyComment = ko.observable(false);
+        this.newComment.subscribe(function (newValue) {
+            debugger;
+            that.isEmptyComment(newValue.length > 0);
+        });
+        this.isSuccess = ko.observable(false);
+        this.textInfo = ko.observable();
+        this.createComment = function () {
+            debugger;
+            if (that.newComment().length == 0) return false;
+            $.post("/Recipe/CreateComment",
+                { recipeId: that.id, text: that.newComment() },
+                function (data) {
+                    that.newComment("");
+                    that.isSuccess(true);
+                    that.textInfo(data);
+                });
+        }
+
+    }
+
     self.getAllRecipes = function () {
         self.recipes([]);
         $.each(self.foodCategories(), function (index, value) {
             debugger;
             for (var i = 0; i < value.recipes.length; i++) {
-                self.recipes.push({
-                    id: value.recipes[i].Id,
-                    name: value.recipes[i].Name,
-                    text: value.recipes[i].Description,
-                    image: value.recipes[i].ImageUrl,
-                    isClickRecipe: ko.observable(false),
-                    recipeComments: value.recipes[i].RecipeComments
-                });
+                self.recipes.push(new Recipe(
+                    value.recipes[i].Id,
+                    value.recipes[i].Name,
+                    value.recipes[i].Description,
+                    value.recipes[i].ImageUrl,
+                    value.recipes[i].RecipeComments
+                    ));
             }
         });
 
@@ -136,6 +164,12 @@
     self.removeBlock = function (data) {
         data.isClickRecipe(false);
     }
+
+
+    
+
+    
+
 }
 
 ko.components.register('category',

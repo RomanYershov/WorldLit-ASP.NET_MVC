@@ -22,6 +22,9 @@
         debugger;
     }
 
+    self.createComment = function(recipe) {
+        debugger;
+    }
    
 }
 
