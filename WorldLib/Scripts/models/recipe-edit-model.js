@@ -8,6 +8,8 @@ function RecipeEditModel() {
     self.recipes = ko.observableArray([]);
     self.foodCategories = ko.observableArray([]);
 
+
+
     self.NewRecipeModel = function() {
         this.descriptionSteps = ko.observableArray([]);
         this.stepNubmerText = ' ШАГ';
@@ -23,14 +25,35 @@ function RecipeEditModel() {
         }
         this.newRecipeName = ko.observable();
         this.categoryId = ko.observable();
-        this.image = ko.observable();
-        this.image.subscribe(function (newValue) {
-            debugger;
-        });
 
+
+        self.selectedFile = ko.observable();
+        self.fileUploadChange = function(data, evt) {
+            self.selectedFile(null);
+            self.selectedFile(evt.target.files[0]);
+        }
+
+        
+       
         self.createRecipe = function (params) {
-            debugger;
             var dstep = descriptionSteps();
+            var file = self.selectedFile();
+            var formData = new FormData();
+            formData.append("file", file);
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/Admin/UploadFile",
+                data: formData,
+                cache: false,
+                dataType: 'json',
+                processData: false, // Не обрабатываем файлы (Don't process the files)
+                contentType: false, // Так jQuery скажет серверу что это строковой запрос
+                success: function (result) {
+                    debugger;
+                    alert(result);
+                }
+            });
             var arr = [];
             $.each(dstep, function() {
                 arr.push(this.text());
@@ -39,16 +62,40 @@ function RecipeEditModel() {
                 {
                     newRecipeName:newRecipeName,
                     categoryId: categoryId,
-                    descriptionSteps: arr
+                    descriptionSteps: arr,
+                    image: file.name
                 },
                 function (result) {
                     debugger;
+                    self.recipes.unshift({
+                        id: result.Id,
+                        name: result.Name,
+                        text: result.Description,
+                        image: result.ImageUrl,
+                        categoryName:""
+                    });
+                    self.isVisibleForm(false);
+                    newRecipeName(null);
+                    descriptionSteps([]);
+                    image(null);
+                    self.selectedFile(null);
                 });
         } 
     }
     
+    self.isVisibleForm = ko.observable(false);
+    self.showFormRecipe = function () {
+        self.isVisibleForm(!self.isVisibleForm());
+    }
 
-
+    self.removeRecipe = function(recipe) {
+        $.post("/Admin/RemoveRecipe", { id: recipe.id },
+            function(res) {
+                if (res === "success") {
+                    self.recipes.remove(recipe);
+                }
+            });
+    }
    
 
     self.getCategories = function () {

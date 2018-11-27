@@ -11,19 +11,21 @@
 <template id="recipe-edit-template">
     <div class="well">
         <p>
-            <a href="#" class="btn btn-success glyphicon glyphicon-plus" value="" data-bind=""></a>
+            <a href="#" class="btn btn-success glyphicon glyphicon-plus" value="" data-bind="click: showFormRecipe"></a>
         </p>
-        <div class="well">
+        <div class="well" data-bind="visible:isVisibleForm">
             <!--ko with: NewRecipeModel-->
             <div class="row">
                 <form class="form-group col-md-6" data-bind="visible: true">
                     <div class="label" style="color: #455a64">Название:</div>
-                    <input type="text" class="form-control" data-bind="value: newRecipeName" />
+                    <input type="text" class="form-control" data-bind="value: newRecipeName"/>
                     <div class="label" style="color: #455a64">Категория:</div>
                     <select class="form-control" data-bind="options: foodCategories, optionsText: 'name', optionsValue:'id', value: categoryId"></select>
                     <div class="label" style="color: #455a64">Фото:</div>
-                    <input type="file" class="form-control" data-bind="value: image" />
-                    <input type="button" data-bind="click: createRecipe" style="margin-top: 10px;" class="form-control btn btn-success" value="Send" />
+
+                    <input type="file" class="form-control" data-bind="event: { change: fileUploadChange }"/>
+                    
+                    <input type="button" data-bind="click: createRecipe" style="margin-top: 10px;" class="form-control btn btn-success" value="Send"/>
                 </form>
                 <div class="col-md-6">
                     <div class="form-group" data-bind="foreach:descriptionSteps">
@@ -37,9 +39,6 @@
                 </div>
             </div>
             <!--/ko-->
-        </div>
-        <div class="well">
-           
         </div>
         <table class="table">
             <tr>
@@ -69,8 +68,7 @@
             <td data-bind="text: categoryName"></td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { }) |
-                @Html.ActionLink("Details", "Details", new { }) |
-                @Html.ActionLink("Delete", "Delete", new { })
+                <a href="#" data-bind="click: removeRecipe">Delete</a>
             </td>
             </tr>
             <!--/ko-->
@@ -94,4 +92,6 @@
             ko.applyBindings();
         });
     </script>
+    
+   
 }

@@ -59,6 +59,7 @@ namespace WorldLib.Controllers.Forum
         [HttpPost]
         public ActionResult CreateRecipe(CreateRecipeModel recipe)
         {
+            
             if (ModelState.IsValid)
             {
                 var rep = new Repository<Recipe>();
@@ -68,6 +69,28 @@ namespace WorldLib.Controllers.Forum
                 return Json(newRecipe, JsonRequestBehavior.AllowGet);
             }
             return Json("error", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UploadFile()
+        {
+            foreach (string file in Request.Files)
+            {
+                var upload = Request.Files[file];
+                if (upload != null)
+                {
+                    upload.SaveAs(Server.MapPath("~/Content/Images/"+upload.FileName));
+                }
+            }
+            return Json("file is uploaded");
+        }
+
+        [HttpPost]
+        public ActionResult RemoveRecipe(int id)
+        {
+            var rep = new Repository<Recipe>();
+            rep.Delete(id);
+            rep.Commit();
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
 
     }
