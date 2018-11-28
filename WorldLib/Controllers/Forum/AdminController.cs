@@ -63,10 +63,20 @@ namespace WorldLib.Controllers.Forum
             if (ModelState.IsValid)
             {
                 var rep = new Repository<Recipe>();
+                var repCtegory = new Repository<FoodCategory>();
                 var newRecipe = recipe.RecipeBuild();
                 rep.Create(newRecipe);
                 rep.Commit();
-                return Json(newRecipe, JsonRequestBehavior.AllowGet);
+                var categoryName = repCtegory.Get(x => x.Id == newRecipe.FoodCategoryId).FirstOrDefault();
+                if (categoryName != null)
+                    return Json(new
+                    {
+                        Id = newRecipe.Id,
+                        Name = newRecipe.Name,
+                        Description = newRecipe.Description,
+                        ImageUrl = newRecipe.ImageUrl,
+                        CategoryName = categoryName.Name
+                    }, JsonRequestBehavior.AllowGet);
             }
             return Json("error", JsonRequestBehavior.AllowGet);
         }

@@ -50,8 +50,7 @@ function RecipeEditModel() {
                 processData: false, // Не обрабатываем файлы (Don't process the files)
                 contentType: false, // Так jQuery скажет серверу что это строковой запрос
                 success: function (result) {
-                    debugger;
-                    alert(result);
+                   
                 }
             });
             var arr = [];
@@ -72,7 +71,7 @@ function RecipeEditModel() {
                         name: result.Name,
                         text: result.Description,
                         image: result.ImageUrl,
-                        categoryName:""
+                        categoryName: result.CategoryName
                     });
                     self.isVisibleForm(false);
                     newRecipeName(null);

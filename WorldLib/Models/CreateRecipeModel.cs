@@ -11,7 +11,7 @@ namespace WorldLib.Models
         public string NewRecipeName { get; set; }   
         public List<string> DescriptionSteps { get; set; }
         public int CategoryId { get; set; }
-        public string Image { get; set; }       
+        public string Image { get; set; } 
 
         public Recipe RecipeBuild()
         {
