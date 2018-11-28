@@ -12,21 +12,21 @@
         target.subscribe(validate);
         return target;
     }
-    
+
     var Category = function (id, name, recipes) {
         this.id = id;
         this.name = ko.observable(name);
         this.recipes = recipes;
         this.isEdit = ko.observable(false);
     }
-    var Recipe = function (id, name, text, image, recipeComments) {
+    var Recipe = function (data) {
         var that = this;
-        this.id = id;
-        this.name = name;
-        this.text = text;
-        this.image = image;
+        this.id = data.Id;
+        this.name = data.Name;
+        this.text = data.Description;
+        this.image = data.ImageUrl;
+        this.recipeComments = data.RecipeComments;
         this.isClickRecipe = ko.observable(false);
-        this.recipeComments = recipeComments;
         this.newComment = ko.observable("");
         this.isEmptyComment = ko.observable(false);
         this.newComment.subscribe(function (newValue) {
@@ -109,38 +109,18 @@
     self.getRecipesByCategoryId = function (data) {
         self.recipes([]);
         for (var i = 0; i < data.recipes.length; i++) {
-            self.recipes.push(new Recipe(
-                data.recipes[i].Id,
-                data.recipes[i].Name,
-                data.recipes[i].Description,
-                data.recipes[i].ImageUrl,
-                data.recipes[i].RecipeComments
-            ));
-            //self.recipes.push({
-            //    id: data.recipes[i].Id,
-            //    name: data.recipes[i].Name,
-            //    text: data.recipes[i].Description,
-            //    image: data.recipes[i].ImageUrl,
-            //    isClickRecipe: ko.observable(false),
-            //    recipeComments: data.recipes[i].RecipeComments
-            //});
+            self.recipes.push(new Recipe(data.recipes[i]));
         }
     }
 
-    
+
 
     self.getAllRecipes = function () {
         self.recipes([]);
         $.each(self.foodCategories(), function (index, value) {
             debugger;
             for (var i = 0; i < value.recipes.length; i++) {
-                self.recipes.push(new Recipe(
-                    value.recipes[i].Id,
-                    value.recipes[i].Name,
-                    value.recipes[i].Description,
-                    value.recipes[i].ImageUrl,
-                    value.recipes[i].RecipeComments
-                    ));
+                self.recipes.push(new Recipe(value.recipes[i]));
             }
         });
 
@@ -156,13 +136,7 @@
             for (var i = 0; i < value.recipes.length; i++) {
                 var nameToUpperCase = value.recipes[i].Name.toUpperCase();
                 if (nameToUpperCase.indexOf(newValue.toUpperCase()) != -1) {
-                    self.recipes.push(new Recipe(
-                        value.recipes[i].Id,
-                        value.recipes[i].Name,
-                        value.recipes[i].Description,
-                        value.recipes[i].ImageUrl,
-                        value.recipes[i].RecipeComments
-                    ));
+                    self.recipes.push(new Recipe(value.recipes[i]));
                 }
             }
         });
@@ -173,9 +147,9 @@
     }
 
 
-    
 
-    
+
+
 
 }
 
