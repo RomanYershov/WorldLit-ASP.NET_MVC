@@ -1,5 +1,5 @@
 ﻿@using WorldLib.Enums
-@model List<WorldLib.Models.Comment>
+@model List<WorldLib.Models.RecipeComment>
 
 
 <div class="container">
@@ -14,7 +14,7 @@
                     <td><strong>Текст комментария</strong></td>
                     <td><strong>Автор</strong></td>
                     <td><strong>Дата/время</strong></td>
-                    <td><strong>Тема обсуждения</strong></td>
+                    @*<td><strong>Тема обсуждения</strong></td>*@
 
                     @*@Html.EnumDropDownListFor(x => x.FirstOrDefault(s => s.Status == CommentStatusEnum.Moderation).Status, new { @class = "form-control", @onchange = "SelectedValue(this)" })*@
                     @Html.DropDownList("status", new SelectList(Enum.GetValues(typeof(WorldLib.Enums.CommentStatusEnum))),
@@ -35,8 +35,8 @@
                         <td class="text-danger">@item.Text</td>
                     }
                     <td>@item.User.Email</td>
-                    <td>@item.CreationDateTime.ToShortDateString() @item.CreationDateTime.ToShortTimeString()</td>
-                    <td>@item.Discussion.Name</td>
+                    <td>@item.CreateDateTime.ToShortDateString() @item.CreateDateTime.ToShortTimeString()</td>
+                    @*<td>@item.RecipeId.Name</td>*@
                     <td><a class="item-edit" href="~/Comments/Edit/@item.Id"><span class="glyphicon glyphicon-edit"></span></a></td>
                     <td><a href="~/Comments/Delete/?id=@item.Id&email=@item.User.Email"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
                     @if (item.Status == WorldLib.Enums.CommentStatusEnum.Moderation)
@@ -76,6 +76,7 @@
                 url: "/Comments/SelectedStatus/",
                 data: { status: value },
                 success: function (data) {
+                    console.log(data);
                     $('#results').html(data);
                 },
                 error: function () {

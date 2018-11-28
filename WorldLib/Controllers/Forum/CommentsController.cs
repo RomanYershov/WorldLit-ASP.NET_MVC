@@ -19,17 +19,18 @@ namespace WorldLib.Controllers.Forum
         {
             if (Request.IsAjaxRequest())
             {
-                List<Comment> commentsAjax;
-                var repCommentAjax = new Repository<Comment>();
-                commentsAjax = repCommentAjax.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, d => d.Discussion, u => u.User)
-                    .OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList();
+                List<RecipeComment> commentsAjax;
+                var repCommentAjax = new Repository<RecipeComment>();
+                commentsAjax = repCommentAjax.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, u => u.User)
+                    .OrderBy(x => x.Status).ThenByDescending(x => x.CreateDateTime).ToList();
 
                 return PartialView("SelectedStatus", commentsAjax);
             }
-            List<Comment> comments;
-            var repComment = new Repository<Comment>();
-            comments = repComment.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, d => d.Discussion, u => u.User)
-                .OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList();
+
+            List<RecipeComment> comments;
+            var repComment = new Repository<RecipeComment>();
+            comments = repComment.GetWithInclude(x => x.Status == CommentStatusEnum.Moderation, u => u.User)
+                .OrderBy(x => x.Status).ThenByDescending(x => x.CreateDateTime).ToList();
             return View(comments);
         }
 
@@ -37,7 +38,7 @@ namespace WorldLib.Controllers.Forum
         {
             if (Request.IsAjaxRequest())
             {
-                using (var rep = new Repository<Comment>())
+                using (var rep = new Repository<RecipeComment>())
                 {
                     var comment = rep.Get(x => x.Id == id).SingleOrDefault();
                     if (comment != null)
@@ -45,13 +46,15 @@ namespace WorldLib.Controllers.Forum
                         comment.Status = CommentStatusEnum.Published;
                         rep.Update(comment);
                     }
+
                     rep.Commit();
                     return Json($"Комментарий опубликован. ID: {comment.Id}", JsonRequestBehavior.AllowGet);
                 }
+
                 //  return RedirectToAction("Index");
-               
             }
-            using (var rep = new Repository<Comment>())
+
+            using (var rep = new Repository<RecipeComment>())
             {
                 var comment = rep.Get(x => x.Id == id).SingleOrDefault();
                 if (comment != null)
@@ -59,19 +62,21 @@ namespace WorldLib.Controllers.Forum
                     comment.Status = CommentStatusEnum.Published;
                     rep.Update(comment);
                 }
+
                 rep.Commit();
             }
+
             return RedirectToAction("Index");
         }
 
         public ActionResult SelectedStatus(CommentStatusEnum status)
         {
-            IEnumerable<Comment> comments;
-            var repComment = new Repository<Comment>();
+            IEnumerable<RecipeComment> comments;
+            var repComment = new Repository<RecipeComment>();
             comments = status == CommentStatusEnum.All
-                ? repComment.GetWithInclude(x => true, d => d.Discussion, u => u.User)
-                : repComment.GetWithInclude(x => x.Status == status, d => d.Discussion, u => u.User);
-            return PartialView(comments.OrderBy(x => x.Status).ThenByDescending(x => x.CreationDateTime).ToList());
+                ? repComment.GetWithInclude(x => true, u => u.User)
+                : repComment.GetWithInclude(x => x.Status == status, u => u.User);
+            return PartialView(comments.OrderBy(x => x.Status).ThenByDescending(x => x.CreateDateTime).ToList());
         }
 
         [AllowAnonymous]
@@ -82,6 +87,7 @@ namespace WorldLib.Controllers.Forum
             {
                 return Json("exists", JsonRequestBehavior.AllowGet);
             }
+
             var like = new Like
             {
                 UserId = User.Identity.GetUserId(),
@@ -124,25 +130,27 @@ namespace WorldLib.Controllers.Forum
         // GET: Commens/Edit/5
         public ActionResult Edit(int id)
         {
-            Comment comment;
-            using (var rep = new Repository<Comment>())
+            RecipeComment comment;
+            using (var rep = new Repository<RecipeComment>())
             {
                 comment = rep.Get(x => x.Id == id).SingleOrDefault();
             }
-            return PartialView(comment);
+
+            return PartialView(comment); 
         }
 
         // POST: Commens/Edit/5
         [HttpPost]
-        public ActionResult Edit( Comment model)
+        public ActionResult Edit(RecipeComment model)
         {
             try
             {
-               using(var rep = new Repository<Comment>())
+                using (var rep = new Repository<RecipeComment>())
                 {
                     rep.Update(model);
                     rep.Commit();
                 }
+
                 return RedirectToAction("Index");
             }
             catch
@@ -152,10 +160,10 @@ namespace WorldLib.Controllers.Forum
         }
 
         // GET: Commens/Delete/5
-        public  ActionResult Delete(int id, string email)
+        public ActionResult Delete(int id, string email)
         {
-            var commentRep = new Repository<Comment>();
-            commentRep.Delete(x => x.Id == id);
+            var commentRep = new Repository<RecipeComment>();
+            commentRep.Delete(id);
             commentRep.Commit();
             var emailModel = new EmailModel
             {
@@ -167,12 +175,12 @@ namespace WorldLib.Controllers.Forum
             try
             {
                 new EmailController().SendEmail(emailModel).Deliver();
-                
             }
             catch (Exception e)
             {
-                return  new HttpStatusCodeResult(404);
-             }
+                return new HttpStatusCodeResult(404);
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -193,9 +201,6 @@ namespace WorldLib.Controllers.Forum
 
             return Json(comments, JsonRequestBehavior.AllowGet);
         }
-
-
-       
     }
 
     public class CommentViewModel
@@ -203,7 +208,6 @@ namespace WorldLib.Controllers.Forum
         public int CommentId { get; set; }
         public string Text { get; set; }
         public int DiscussionId { get; set; }
-        public string Avtor { get; set; }   
-
+        public string Avtor { get; set; }
     }
 }

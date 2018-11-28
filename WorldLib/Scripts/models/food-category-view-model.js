@@ -19,6 +19,35 @@
         this.recipes = recipes;
         this.isEdit = ko.observable(false);
     }
+    var Recipe = function (id, name, text, image, recipeComments) {
+        var that = this;
+        this.id = id;
+        this.name = name;
+        this.text = text;
+        this.image = image;
+        this.isClickRecipe = ko.observable(false);
+        this.recipeComments = recipeComments;
+        this.newComment = ko.observable("");
+        this.isEmptyComment = ko.observable(false);
+        this.newComment.subscribe(function (newValue) {
+            debugger;
+            that.isEmptyComment(newValue.length > 0);
+        });
+        this.isSuccess = ko.observable(false);
+        this.textInfo = ko.observable();
+        this.createComment = function () {
+            debugger;
+            if (that.newComment().length == 0) return false;
+            $.post("/Recipe/CreateComment",
+                { recipeId: that.id, text: that.newComment() },
+                function (data) {
+                    that.newComment("");
+                    that.isSuccess(true);
+                    that.textInfo(data);
+                });
+        }
+
+    }
     self.recipes = ko.observableArray([]);
     self.foodCategories = ko.observableArray([]);
 
@@ -80,46 +109,25 @@
     self.getRecipesByCategoryId = function (data) {
         self.recipes([]);
         for (var i = 0; i < data.recipes.length; i++) {
-            self.recipes.push({
-                id: data.recipes[i].Id,
-                name: data.recipes[i].Name,
-                text: data.recipes[i].Description,
-                image: data.recipes[i].ImageUrl,
-                isClickRecipe: ko.observable(false),
-                recipeComments: data.recipes[i].RecipeComments
-            });
+            self.recipes.push(new Recipe(
+                data.recipes[i].Id,
+                data.recipes[i].Name,
+                data.recipes[i].Description,
+                data.recipes[i].ImageUrl,
+                data.recipes[i].RecipeComments
+            ));
+            //self.recipes.push({
+            //    id: data.recipes[i].Id,
+            //    name: data.recipes[i].Name,
+            //    text: data.recipes[i].Description,
+            //    image: data.recipes[i].ImageUrl,
+            //    isClickRecipe: ko.observable(false),
+            //    recipeComments: data.recipes[i].RecipeComments
+            //});
         }
     }
 
-    var Recipe = function (id, name, text, image, recipeComments) {
-        var that = this;
-        this.id = id;
-        this.name = name;
-        this.text = text;
-        this.image = image;
-        this.isClickRecipe = ko.observable(false);
-        this.recipeComments = recipeComments;
-        this.newComment = ko.observable("");
-        this.isEmptyComment = ko.observable(false);
-        this.newComment.subscribe(function (newValue) {
-            debugger;
-            that.isEmptyComment(newValue.length > 0);
-        });
-        this.isSuccess = ko.observable(false);
-        this.textInfo = ko.observable();
-        this.createComment = function () {
-            debugger;
-            if (that.newComment().length == 0) return false;
-            $.post("/Recipe/CreateComment",
-                { recipeId: that.id, text: that.newComment() },
-                function (data) {
-                    that.newComment("");
-                    that.isSuccess(true);
-                    that.textInfo(data);
-                });
-        }
-
-    }
+    
 
     self.getAllRecipes = function () {
         self.recipes([]);
@@ -148,14 +156,13 @@
             for (var i = 0; i < value.recipes.length; i++) {
                 var nameToUpperCase = value.recipes[i].Name.toUpperCase();
                 if (nameToUpperCase.indexOf(newValue.toUpperCase()) != -1) {
-                    self.recipes.push({
-                        id: value.recipes[i].Id,
-                        name: value.recipes[i].Name,
-                        text: value.recipes[i].Description,
-                        image: value.recipes[i].ImageUrl,
-                        isClickRecipe: ko.observable(false),
-                        recipeComments: value.recipes[i].RecipeComments
-                    });
+                    self.recipes.push(new Recipe(
+                        value.recipes[i].Id,
+                        value.recipes[i].Name,
+                        value.recipes[i].Description,
+                        value.recipes[i].ImageUrl,
+                        value.recipes[i].RecipeComments
+                    ));
                 }
             }
         });

@@ -1,6 +1,6 @@
 ﻿@using WorldLib.Enums
 @using WorldLib.Models
-@model Comment
+@model RecipeComment
 
 
 <div class="modal-content">
@@ -17,9 +17,9 @@
                 @Html.LabelFor(x => x.Text, "Текст")
                 @Html.TextAreaFor(x => x.Text, 7, 50,  new {@class = "form-control"})
                 @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.RecipeId)
                 @Html.HiddenFor(x => x.UserId)
-                @Html.HiddenFor(x => x.DiscussionId)
-                @Html.HiddenFor(x => x.CreationDateTime)
+                @Html.HiddenFor(x => x.CreateDateTime)
             </div>
             <button type="submit" class="btn btn-primary">Обновить</button>
         </form>
