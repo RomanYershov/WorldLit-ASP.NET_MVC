@@ -30,7 +30,6 @@
         this.newComment = ko.observable("");
         this.isEmptyComment = ko.observable(false);
         this.newComment.subscribe(function (newValue) {
-            debugger;
             that.isEmptyComment(newValue.length > 0);
         });
         this.isSuccess = ko.observable(false);
@@ -46,6 +45,8 @@
                     that.textInfo(data);
                 });
         }
+
+       
 
     }
     self.recipes = ko.observableArray([]);
@@ -118,7 +119,6 @@
     self.getAllRecipes = function () {
         self.recipes([]);
         $.each(self.foodCategories(), function (index, value) {
-            debugger;
             for (var i = 0; i < value.recipes.length; i++) {
                 self.recipes.push(new Recipe(value.recipes[i]));
             }

@@ -11,7 +11,8 @@
     
 
 </head>
-<body style="background-color: #78909c; background-image: url(/Content/Images/derevyannyj_poverkhnost_tekstura_doski_118443_1280x960.jpg); background-size: auto;">
+<body style="background-color: #78909c; background-image: url(/Content/Images/moloko_kuvshin_hleb_bulochki_korzina_pomidory_luk_pshenica_pole_nebo_76706_1280x960.jpg); background-size: auto;">
+    @*background-attachment:fixed;*@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -24,7 +25,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                   
+
                     @if (User.IsInRole("admin"))
                     {
                         <li>@Html.ActionLink("Администрирование", "Index", "Admin")</li>
@@ -34,20 +35,20 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container-fluid body-content" style="padding-top: 30px;">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
         </footer>
     </div>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/knockout-3.4.2.js")
-@*<script data-main="~/Scripts/config.js" src="~/Scripts/require.js"></script>*@
+    @*<script data-main="~/Scripts/config.js" src="~/Scripts/require.js"></script>*@
     @RenderSection("scripts", required: false)
-@*@RenderSection("require", required: true)*@
+    @*@RenderSection("require", required: true)*@
 
 </body>
 </html>

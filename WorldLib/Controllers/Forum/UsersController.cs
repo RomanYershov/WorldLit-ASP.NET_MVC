@@ -34,6 +34,10 @@ namespace WorldLib.Controllers.Forum
         [HttpPost]
         public ActionResult Create(CreateUserViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
             var user = new ApplicationUser
             {
                 NikName = model.Name,
@@ -46,7 +50,7 @@ namespace WorldLib.Controllers.Forum
                 UserManager.AddToRole(user.Id, model.Role);
             }
 
-            return Json(result);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

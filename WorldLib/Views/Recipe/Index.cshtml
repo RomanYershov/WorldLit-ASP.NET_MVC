@@ -18,9 +18,10 @@
         }
 
     .comment {
-        margin-bottom: 10px;
-        background-color: #ffffff; /*#424242;*/
-        color: darkcyan;
+        margin-bottom: 2px;
+        background-color: rgba(0, 0, 0, 0.03); /*#424242;*/
+        color: #466e77;
+        font-family: cursive;
     }
 
 
@@ -81,7 +82,7 @@
             margin: 10% auto;
             padding: 20px 20px 13px 20px;
             border-radius: 4px;
-            background: #fff689;
+            background: #90ff92; /*#fff689;*/
             /*background: -moz-linear-gradient(#fff, orange);
             background: -webkit-linear-gradient(#fff, orange);
             background: -o-linear-gradient(#fff, orange);*/
@@ -149,7 +150,7 @@
                         <a data-bind="click:$parent.removeBlock" title="Close" class="close">X</a>
                         <img width="100%" data-bind="attr:{src:image}" alt="Card image cap">
                         <h2 data-bind="text:name"></h2>
-                        <p data-bind="text:text"></p>
+                        <strong data-bind="text:text" style="white-space:pre-wrap"></strong>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div class="well-sm">
@@ -181,13 +182,13 @@
 
 <template id="recipe-template">
 
-        <div class="col-lg-3">
-                <div class="card-demo" data-bind="click: getRecipContent">
-                    <div class="thumbnail">
-                        <img style="width: 100%;" data-bind="attr:{src:image}" alt="Card image cap">
+        <div class="col-lg-3" style="padding-bottom: 20px;">
+                <div class="card-demo"  data-bind="click: getRecipContent">
+                    <div class="" style="">
+                        <img style="width: 100%; height: 150px;" data-bind="attr:{src:image}" alt="Card image cap">
                     </div>
-                    <div class="caption" style="background: orange;padding: 5px">
-                        <h5 class="" data-bind="text:name"></h5>
+                    <div class="caption" style="background: #568e57; padding: 5px; height: 80px;">
+                        <h5 class=""><span style="font-weight: bolder; font-style: italic;color: wheat" data-bind="text:name"></span></h5>
                         <p class=""><small class="text-muted">demo</small></p>
                     </div>
                 </div>
@@ -195,7 +196,7 @@
 </template>
 
 <template id="recipe-comment-template">
-    <div class="alert-success alert comment">
+    <div class="alert comment">
         <span class="glyphicon glyphicon-leaf"></span>
         <span data-bind="text: text"></span>
         <span class="glyphicon glyphicon-leaf"></span>

@@ -1,70 +1,73 @@
 ﻿@model WorldLib.Models.CreateUserViewModel
 
-<form data-bind="submit:save">
+<div class="well">
+    <form data-bind="submit:save">
 
 
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Создание нового пользователя</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <input type="text" name="Name" class="form-control" data-bind="value: name" /> 
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <input type="email" class="form-control" name="Email" data-bind="value:email" />
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
+        <div class="form-horizontal">
+            <h4>Создание нового пользователя</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <input type="text" name="Password" data-bind="value:password" class="form-control"/>
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-
-
-
-        <div class="form-group">
-            @Html.Label("Администратор", new { @class = "control-label col-md-2" })
-
-            <input type="checkbox" name="for-admin" data-bind="checked: isAdmin" />
-        </div>
-
-        <div data-bind="visible: isAdmin">
             <div class="form-group">
-                @Html.Label("Работа с пользователями", new { @class = "control-label col-md-2" })
-                <input type="checkbox" data-bind="checked:isWorkWithUsers" />
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <input type="text" name="Name" class="form-control" data-bind="value: name" />
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
-                <label for="user-moderator" class="control-label col-md-2">Модерация</label>
-                <input id="user-moderator" type="checkbox" data-bind="checked:isModeration" />
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <input type="email" class="form-control" name="Email" data-bind="value:email" />
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <input type="text" name="Password" data-bind="value:password" class="form-control" />
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.Label("Администратор", new { @class = "control-label col-md-2" })
+
+                <input type="checkbox" name="for-admin" data-bind="checked: isAdmin" />
+            </div>
+
+            <div data-bind="visible: isAdmin">
+                <div class="form-group">
+                    @Html.Label("Работа с пользователями", new { @class = "control-label col-md-2" })
+                    <input type="checkbox" data-bind="checked:isWorkWithUsers" />
+                </div>
+                <div class="form-group">
+                    <label for="user-moderator" class="control-label col-md-2">Модерация</label>
+                    <input id="user-moderator" type="checkbox" data-bind="checked:isModeration" />
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-4 col-md-10">
-            <input type="submit" value="Create" class="btn btn-success" />
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
         </div>
+    </form>
+    <div>
+        <a class="alert alert-link" style="color: chocolate" href="Index">Back to List</a>
     </div>
-</form>
-
-
-
-
-<div>
-    <a class="alert alert-link" style="color: antiquewhite" href="Index">Back to List</a>
 </div>
+
+
+
+
+
 
 @section scripts{
 

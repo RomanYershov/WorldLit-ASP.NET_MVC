@@ -55,7 +55,7 @@
                     Category
                 </th>
             </tr>
-
+             
 
             <!--ko foreach: recipes-->
             <tr>
@@ -63,11 +63,11 @@
                 <td><img width="40" height="40" data-bind="attr: {src: image }" /></td>
             <td>
                 <div class="glyphicon glyphicon-book" style="padding: 7px;border-bottom:1px solid #455A64" data-toggle="collapse" data-bind="attr: { 'data-target': '#Yes' + $index() }"></div>
-                <div class="collapse" data-bind="attr: { id: 'Yes' + $index() }, text: text"></div>
+                <div class="collapse" style="white-space:pre-wrap" data-bind="attr: { id: 'Yes' + $index() }, text: text"></div>
             </td>
             <td data-bind="text: categoryName"></td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { }) |
+                @Html.ActionLink("Edit", "Edit", new { }) | 
                 <a href="#" data-bind="click: removeRecipe">Delete</a>
             </td>
             </tr>
