@@ -30,7 +30,7 @@
             <div class="alert alert-info" style="background:  #455A64">
                 <input style="background: #fff8e1 " type="button" class="btn btn-default" data-bind="value: isCreateProductClick.text, click: createProductForm" />
                 <input type="text" class="input-lg" data-bind="visible:isCreateProductClick, value: newProductName" placeholder="название" />
-                <div class="" style="float: right"> @Html.ActionLink("Рецепты", "Index", "Recipe")</div>
+                <div class="" style="float: right"><a href="~/Recipe/Index" style="color: antiquewhite">Рецепты</a></div>
             </div>
 
             <div data-bind="foreach: products">

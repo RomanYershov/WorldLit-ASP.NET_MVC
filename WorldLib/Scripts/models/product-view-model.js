@@ -1,5 +1,5 @@
 ﻿
-function ProductModel(params) {
+function ProductModel() {
     var self = this;
 
     self.proceses = {
@@ -198,9 +198,9 @@ function ProductModel(params) {
         //переделать
         $.post("/product/RemoveProduct",
             { id: product.id },
-            function (data) {
+            function () {
                 self.products.remove(product);
-                swal({
+                window.swal({
                     title: "Продукт удален",
                     text: product.name,
                     icon: "success",
