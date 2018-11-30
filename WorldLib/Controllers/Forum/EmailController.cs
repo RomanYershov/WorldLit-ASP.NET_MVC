@@ -20,9 +20,20 @@ namespace WorldLib.Controllers.Forum
             To.Add(model.To);
             From = model.From;
             Subject = model.Subject;
-           
-            
             return  Email("SendEmail" ,model);
+        }
+
+        public EmailResult SendEmail(IEnumerable<EmailModel> emails)
+        {
+            foreach (var email in emails)
+            {
+                To.Add(email.To);
+                From = email.From;
+                Subject = email.Subject;
+                return Email("", email);
+            }
+
+            return null;
         }
 
        
