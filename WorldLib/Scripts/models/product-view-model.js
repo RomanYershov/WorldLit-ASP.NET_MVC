@@ -96,6 +96,8 @@ function ProductModel(params) {
         debugger;
         if (product.total.hasError())++count;
         for (var i = 0; i < product.ingridients().length; i++) {
+            if (product.ingridients()[i].ProcessFlag() == self.proceses.remove)
+                continue;
             if (product.ingridients()[i].Cost.hasError())++count;
             if (product.ingridients()[i].Weight.hasError())++count;
         }
@@ -104,6 +106,7 @@ function ProductModel(params) {
 
     
     self.calcSum = function (product) {
+        debugger;
         if (self.validationProduct(product) > 0) {
           //  product.isValidProduct(false);
             return false;
@@ -111,6 +114,7 @@ function ProductModel(params) {
        // product.isValidProduct(true);
         var result = 0;
         $.each(product.ingridients(), function () {
+            debugger;
             if (this.ProcessFlag() !== self.proceses.remove) {
                 if (this.InputType() === "text") {
                     var nWeightProc = parseInt(this.Weight()) / 10;
