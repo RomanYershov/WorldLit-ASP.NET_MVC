@@ -170,9 +170,9 @@
                             </div>
                         }
                         <div data-bind="foreach: recipeComments">
-                            <!--ko if: Status == 1-->
-                            <recipe-comment params="comment:{text:Text, author: User.NikName, createDateTime: CreateDateTime, status: Status}"></recipe-comment>
-                            <!--/ko-->
+                            
+                            <recipe-comment params="comment:{text:text, author: author, createDateTime: createDateTime, status: status}"></recipe-comment>
+                          
                         </div>
                     </div>
                 </div>

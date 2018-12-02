@@ -1,6 +1,6 @@
 ﻿var RecipeComment = function(params) {
     var self = this;
-
+    debugger;
    
 
     return  function() {

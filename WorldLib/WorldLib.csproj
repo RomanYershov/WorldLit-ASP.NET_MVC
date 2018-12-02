@@ -317,6 +317,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Recipe.cs" />
+    <Compile Include="Models\RecipeCommentViewModel.cs" />
     <Compile Include="Models\RecipeViewModel.cs" />
     <Compile Include="Models\SaveProductModel.cs" />
     <Compile Include="Models\ViewProductModel.cs" />

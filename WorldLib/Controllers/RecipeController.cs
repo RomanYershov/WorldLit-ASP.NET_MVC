@@ -41,5 +41,12 @@ namespace WorldLib.Controllers
             rep.Commit();
             return Json("Комментарий будет добавлен после успешной модерации", JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult GetCommentsByRecipeId(int recipeId)
+        {
+            var model = RecipeCommentViewModel.Load(recipeId);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
     }
 }

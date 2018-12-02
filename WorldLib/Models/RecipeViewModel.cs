@@ -17,7 +17,7 @@ namespace WorldLib.Models
         {
             var model = new List<RecipeViewModel>();
             var rep = new Repository<FoodCategory>();
-            var categories = rep.GetWithInclude(x => x.Id != 0, x => x.Recipes, x => x.Recipes.Select(r => r.RecipeComments));
+            var categories = rep.GetWithInclude(x => x.Id != 0, x => x.Recipes);
             foreach (var foodCategory in categories)    
             {
                 model.Add(new RecipeViewModel

@@ -25,7 +25,7 @@
         this.name = data.Name;
         this.text = data.Description;
         this.image = data.ImageUrl;
-        this.recipeComments = data.RecipeComments;
+        this.recipeComments = ko.observableArray();
         this.isClickRecipe = ko.observable(false);
         this.newComment = ko.observable("");
         this.isEmptyComment = ko.observable(false);
