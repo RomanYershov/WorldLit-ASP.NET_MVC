@@ -10,16 +10,18 @@
     self.recipeComments = params.recipe.recipeComments;
     self.isClickRecipe = params.recipe.isClickRecipe;
     
-
-    //ko.extenders.resipe = function(target, param) {
-    //    target.isClickRecipe = ko.observable(param);
-    //}
+    self.getCommentByRecipeId = function (recipeId) {
+        $.post("/Recipe/GetCommentsByRecipeId", { recipeId: recipeId },
+            function (data) {
+                //  // //
+            });
+    }
+    
    
-    self.getRecipContent = function(recipe) {
-        var value = params;
+    self.getRecipContent = function (recipe) {
         debugger;
+        self.getCommentByRecipeId(recipe.id());
         params.recipe.isClickRecipe(true);
-        debugger;
     }
 
     self.createComment = function(recipe) {

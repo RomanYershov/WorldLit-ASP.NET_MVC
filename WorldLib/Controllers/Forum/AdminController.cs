@@ -68,22 +68,19 @@ namespace WorldLib.Controllers.Forum
                 rep.Create(newRecipe);
                 rep.Commit();
 
-                var repUser = new Repository<ApplicationUser>();
-                var users = repUser.Get();
-                var models = new List<EmailModel>();
-                foreach (var user in users)
-                {
-                    models.Add(new EmailModel("energy26622662@gmail.com", user.Email, "test add recipe") );
-                }
+                //var repUser = new Repository<ApplicationUser>();
+                //var users = repUser.Get();
+                //var models = new List<EmailModel>();
+                //foreach (var user in users)
+                //{
+                //    models.Add(new EmailModel("energy26622662@gmail.com", user.Email, "test add recipe") );
+                //}
 
-                try
-                {
-                    new EmailController().SendEmail(models).Deliver();
-                }
-                catch (Exception e)
-                {
-                    
-                }
+                //try
+                //{
+                //    new EmailController().SendEmail(models).Deliver();
+                //}
+               
                 var categoryName = repCtegory.Get(x => x.Id == newRecipe.FoodCategoryId).FirstOrDefault();
                 if (categoryName != null)
                     return Json(new
