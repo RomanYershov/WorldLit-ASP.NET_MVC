@@ -22,12 +22,12 @@
                         status: data[i].Status
                     });
                 }
-                params.recipe.isClickRecipe(true);
             });
     }
     
    
     self.getRecipContent = function (recipe) {
+        params.recipe.isClickRecipe(true);
         self.getCommentByRecipeId(recipe.id());
     }
 
